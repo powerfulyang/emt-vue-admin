@@ -1,0 +1,31 @@
+{
+  "name": "ee",
+  "version": "1.0.0",
+  "framework": "vue",
+  "js-types-syntax": "typescript",
+  "description-markup": "markdown",
+  "framework-config": {
+    "enable-when": {
+      "file-extensions": ["vue"]
+    }
+  },
+  "contributions": {
+    "html": {
+      "vue-directives": [
+        {
+          "name": "copy",
+          "description": "指令基于 clipboard.js 实现",
+          "doc-url": "",
+          "attribute-value": {
+            "type": "string",
+            "required": true
+          },
+          "source": {
+            "file": "./src/directives/modules/copy/index.ts",
+            "offset": 0
+          }
+        }
+      ]
+    }
+  }
+}

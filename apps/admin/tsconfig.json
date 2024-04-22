@@ -1,36 +1,47 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-    "types": ["vite/client", "node", "naive-ui/volar"],
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitThis": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "useDefineForClassFields": true,
+    "baseUrl": "./",
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["src/*"],
-      "~types/*": ["src/types/*"]
+      "@root/*": ["./*"]
     },
-    "baseUrl": "./"
+    "resolveJsonModule": true,
+    "types": [
+      "vite/client",
+      "unplugin-icons/types/vue",
+      "naive-ui/volar",
+      "unplugin-vue-router/client",
+      "vite-plugin-vue-layouts/client"
+    ],
+    "allowImportingTsExtensions": true,
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "mocks/**/*.ts"
   ]
 }

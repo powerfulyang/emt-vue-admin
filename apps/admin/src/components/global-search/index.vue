@@ -1,62 +1,64 @@
 <script setup lang="ts">
-  import { useThemeSetting } from '@/hooks/setting/useThemeSetting.ts';
-  import { useAsyncRouteStore } from '@/store/modules/asyncRoute.ts';
-  import { iconMap } from '@/utils/arrayToTree.ts';
-  import { EnterOutlined, SearchOutlined } from '@vicons/antd';
-  import { ArrowDownOutline, ArrowUpOutline } from '@vicons/ionicons5';
-  import { useEventListener } from '@vueuse/core';
-  import { pinyin } from 'pinyin-pro';
-  import { computed, ref, watch } from 'vue';
-  import { useRouter } from 'vue-router';
+import { EnterOutlined, SearchOutlined } from '@vicons/antd'
+import { ArrowDownOutline, ArrowUpOutline } from '@vicons/ionicons5'
+import { useEventListener } from '@vueuse/core'
+import { pinyin } from 'pinyin-pro'
+import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { iconMap } from '@/utils/arrayToTree.ts'
+import { useAsyncRouteStore } from '@/store/modules/asyncRoute.ts'
+import { useThemeSetting } from '@/hooks/setting/useThemeSetting.ts'
 
-  const show = defineModel('show', {
-    type: Boolean,
-    default: false,
-  });
+defineOptions({
+  name: 'GlobalSearch',
+})
 
-  defineOptions({
-    name: 'GlobalSearch',
-  });
+const show = defineModel('show', {
+  type: Boolean,
+  default: false,
+})
 
-  const searchValue = ref('');
+const searchValue = ref('')
 
-  const asyncRouteStore = useAsyncRouteStore();
+const asyncRouteStore = useAsyncRouteStore()
 
-  const filterMenus = computed(() => {
-    return asyncRouteStore.menus.filter((menu) => {
-      const trimKeyword = searchValue.value.toLocaleLowerCase().trim();
-      const title = menu.title.toLocaleLowerCase();
-      const pinyinTitle = pinyin(title, { toneType: 'none', separator: '' });
-      return trimKeyword && (title.includes(trimKeyword) || pinyinTitle.includes(trimKeyword));
-    });
-  });
+const filterMenus = computed(() => {
+  return asyncRouteStore.menus.filter((menu) => {
+    const trimKeyword = searchValue.value.toLocaleLowerCase().trim()
+    const title = menu.title.toLocaleLowerCase()
+    const pinyinTitle = pinyin(title, { toneType: 'none', separator: '' })
+    return trimKeyword && (title.includes(trimKeyword) || pinyinTitle.includes(trimKeyword))
+  })
+})
 
-  const activeItem = ref(0);
+const activeItem = ref(0)
 
-  watch(filterMenus, () => {
-    activeItem.value = 0;
-  });
+watch(filterMenus, () => {
+  activeItem.value = 0
+})
 
-  const { getAppTheme } = useThemeSetting();
+const { getAppTheme } = useThemeSetting()
 
-  const router = useRouter();
+const router = useRouter()
 
-  useEventListener('keydown', (e) => {
-    const { key } = e;
-    if (key === 'ArrowDown') {
-      e.preventDefault();
-      activeItem.value = Math.min(activeItem.value + 1, filterMenus.value.length - 1);
-    } else if (key === 'ArrowUp') {
-      e.preventDefault();
-      activeItem.value = Math.max(activeItem.value - 1, 0);
-    } else if (key === 'Enter') {
-      e.preventDefault();
-      if (filterMenus.value[activeItem.value]) {
-        router.push(filterMenus.value[activeItem.value]!.path);
-        show.value = false;
-      }
+useEventListener('keydown', (e) => {
+  const { key } = e
+  if (key === 'ArrowDown') {
+    e.preventDefault()
+    activeItem.value = Math.min(activeItem.value + 1, filterMenus.value.length - 1)
+  }
+  else if (key === 'ArrowUp') {
+    e.preventDefault()
+    activeItem.value = Math.max(activeItem.value - 1, 0)
+  }
+  else if (key === 'Enter') {
+    e.preventDefault()
+    if (filterMenus.value[activeItem.value]) {
+      router.push(filterMenus.value[activeItem.value]!.path)
+      show.value = false
     }
-  });
+  }
+})
 </script>
 
 <template>
@@ -69,14 +71,14 @@
     <div class="bg-white">
       <n-card title="">
         <n-input
-          size="large"
           v-model:value="searchValue"
+          size="large"
           placeholder="请输入关键字或拼音搜索菜单"
           clearable
         >
           <template #prefix>
             <n-icon size="18">
-              <search-outlined />
+              <SearchOutlined />
             </n-icon>
           </template>
         </n-input>
@@ -109,16 +111,16 @@
       <div class="h-[44px] flex items-center gap-5 whitespace-nowrap p-4">
         <div class="flex items-center gap-1">
           <n-icon size="18">
-            <enter-outlined />
+            <EnterOutlined />
           </n-icon>
           <span>确认</span>
         </div>
         <div class="flex items-center gap-1">
           <n-icon size="18">
-            <arrow-up-outline />
+            <ArrowUpOutline />
           </n-icon>
           <n-icon size="18">
-            <arrow-down-outline />
+            <ArrowDownOutline />
           </n-icon>
           <span>切换</span>
         </div>

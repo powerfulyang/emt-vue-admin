@@ -16,7 +16,7 @@ function generateConfig({ command }: ConfigEnv): UserConfig {
     plugins: createVitePlugins(isBuild),
     optimizeDeps: {
       // 已经是生产环境了，不需要再优化
-      exclude: ['docx-templates'],
+      exclude: [],
     },
     resolve: {
       dedupe: ['vue'],
@@ -24,6 +24,10 @@ function generateConfig({ command }: ConfigEnv): UserConfig {
         {
           find: '@',
           replacement: `${pathResolve('src')}/`,
+        },
+        {
+          find: '@root',
+          replacement: process.cwd(),
         },
       ],
     },

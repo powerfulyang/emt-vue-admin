@@ -1,19 +1,24 @@
-import routes from '@/router/routes';
-import { createRouterGuards } from '@/router/guards.ts';
-import type { App } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import { setupLayouts } from 'virtual:generated-layouts'
+import type { App } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router/auto'
+import { createRouterGuards } from '@/router/guards.ts'
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  strict: true,
-  scrollBehavior: () => ({ left: 0, top: 0 }),
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  extendRoutes: (routes) => {
+    routes.push({
+      path: '/',
+      redirect: '/login',
+    })
+
+    return setupLayouts(routes)
+  },
+})
 
 export function setupRouter(app: App) {
-  app.use(router);
+  app.use(router)
 
-  createRouterGuards(router);
+  createRouterGuards(router as any)
 }
 
-export default router;
+export default router

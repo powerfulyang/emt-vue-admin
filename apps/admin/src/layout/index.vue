@@ -1,3 +1,105 @@
+<script lang="ts" setup>
+import { computed, onMounted, ref, unref } from 'vue'
+import { useRoute } from 'vue-router'
+import PageHeader from '@/layout/components/header/index.vue'
+import Logo from '@/layout/components/logo/index.vue'
+import MainView from '@/layout/components/main/index.vue'
+import AsideMenu from '@/layout/components/menu/index.vue'
+import TabsView from '@/layout/components/tabs-view/index.vue'
+import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+import { useThemeSetting } from '@/hooks/setting/useThemeSetting.ts'
+import { useProjectSettingStore } from '@/store/modules/projectSetting'
+
+const { getDarkTheme } = useThemeSetting()
+const {
+  // showFooter,
+  navMode,
+  navTheme,
+  headerSetting,
+  menuSetting,
+  multiTabsSetting,
+} = useProjectSetting()
+
+const settingStore = useProjectSettingStore()
+
+const collapsed = ref<boolean>(false)
+
+const { mobileWidth, menuWidth } = unref(menuSetting)
+
+const isMobile = computed<boolean>({
+  get: () => settingStore.getIsMobile,
+  set: val => settingStore.setIsMobile(val),
+})
+
+const fixedHeader = computed(() => {
+  const { fixed } = unref(headerSetting)
+  return fixed ? 'absolute' : 'static'
+})
+
+const isMixMenuNoneSub = computed(() => {
+  const mixMenu = unref(menuSetting).mixMenu
+  const currentRoute = useRoute()
+  if (unref(navMode) !== 'horizontal-mix') {
+    return true
+  }
+  return !(unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot)
+})
+
+const fixedMenu = computed(() => {
+  const { fixed } = unref(headerSetting)
+  return fixed ? 'absolute' : 'static'
+})
+
+const isMultiTabs = computed(() => {
+  return unref(multiTabsSetting).show
+})
+
+const fixedMulti = computed(() => {
+  return unref(multiTabsSetting).fixed
+})
+
+const inverted = computed(() => {
+  return ['dark', 'header-dark'].includes(unref(navTheme))
+})
+
+const getHeaderInverted = computed(() => {
+  return ['light', 'header-dark'].includes(unref(navTheme)) ? unref(inverted) : !unref(inverted)
+})
+
+const leftMenuWidth = computed(() => {
+  const { minMenuWidth, menuWidth } = unref(menuSetting)
+  return collapsed.value ? minMenuWidth : menuWidth
+})
+
+const getMenuLocation = computed(() => {
+  return 'left'
+})
+
+// 控制显示或隐藏移动端侧边栏
+const showSideDrawer = computed({
+  get: () => isMobile.value && collapsed.value,
+  set: val => (collapsed.value = val),
+})
+
+// 判断是否触发移动端模式
+function checkMobileMode() {
+  isMobile.value = document.body.clientWidth <= mobileWidth
+  collapsed.value = false
+}
+
+function watchWidth() {
+  const Width = document.body.clientWidth
+  collapsed.value = Width <= 950
+
+  checkMobileMode()
+}
+
+onMounted(() => {
+  checkMobileMode()
+  window.addEventListener('resize', watchWidth)
+})
+</script>
+
 <template>
   <n-layout class="layout" :position="fixedMenu" has-sider>
     <n-layout-sider
@@ -5,9 +107,7 @@
         !isMobile && isMixMenuNoneSub && (navMode === 'vertical' || navMode === 'horizontal-mix')
       "
       show-trigger="bar"
-      @collapse="collapsed = true"
       :position="fixedMenu"
-      @expand="collapsed = false"
       :collapsed="collapsed"
       collapse-mode="width"
       :collapsed-width="64"
@@ -15,15 +115,17 @@
       :native-scrollbar="false"
       :inverted="inverted"
       class="layout-sider"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
     >
-      <logo :collapsed="collapsed" />
-      <aside-menu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
+      <Logo :collapsed="collapsed" />
+      <AsideMenu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
     </n-layout-sider>
 
     <n-drawer
       v-model:show="showSideDrawer"
       :width="menuWidth"
-      :placement="'left'"
+      placement="left"
       class="layout-side-drawer"
     >
       <n-layout-sider
@@ -34,14 +136,14 @@
         :inverted="inverted"
         class="layout-sider"
       >
-        <logo :collapsed="collapsed" />
-        <aside-menu v-model:location="getMenuLocation" />
+        <Logo :collapsed="collapsed" />
+        <AsideMenu v-model:location="getMenuLocation" />
       </n-layout-sider>
     </n-drawer>
 
     <n-layout :inverted="inverted">
       <n-layout-header :inverted="getHeaderInverted" :position="fixedHeader">
-        <page-header v-model:collapsed="collapsed" :inverted="inverted" />
+        <PageHeader v-model:collapsed="collapsed" :inverted="inverted" />
       </n-layout-header>
 
       <n-layout-content
@@ -55,16 +157,16 @@
             'fluid-header': fixedHeader === 'static',
           }"
         >
-          <tabs-view v-if="isMultiTabs" :collapsed="collapsed" />
+          <TabsView v-if="isMultiTabs" :collapsed="collapsed" />
           <div
             class="main-view"
             :class="{
               'main-view-fix': fixedMulti,
-              noMultiTabs: !isMultiTabs,
+              'noMultiTabs': !isMultiTabs,
               'mt-3': !isMultiTabs,
             }"
           >
-            <main-view />
+            <MainView />
           </div>
         </div>
       </n-layout-content>
@@ -72,106 +174,6 @@
     </n-layout>
   </n-layout>
 </template>
-
-<script lang="ts" setup>
-  import PageHeader from '@/layout/components/header/index.vue';
-  import Logo from '@/layout/components/logo/index.vue';
-  import MainView from '@/layout/components/main/index.vue';
-  import AsideMenu from '@/layout/components/menu/index.vue';
-  import TabsView from '@/layout/components/tabs-view/index.vue';
-  import { ref, unref, computed, onMounted } from 'vue';
-  import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
-  import { useThemeSetting } from '@/hooks/setting/useThemeSetting.ts';
-  import { useRoute } from 'vue-router';
-  import { useProjectSettingStore } from '@/store/modules/projectSetting';
-
-  const { getDarkTheme } = useThemeSetting();
-  const {
-    // showFooter,
-    navMode,
-    navTheme,
-    headerSetting,
-    menuSetting,
-    multiTabsSetting,
-  } = useProjectSetting();
-
-  const settingStore = useProjectSettingStore();
-
-  const collapsed = ref<boolean>(false);
-
-  const { mobileWidth, menuWidth } = unref(menuSetting);
-
-  const isMobile = computed<boolean>({
-    get: () => settingStore.getIsMobile,
-    set: (val) => settingStore.setIsMobile(val),
-  });
-
-  const fixedHeader = computed(() => {
-    const { fixed } = unref(headerSetting);
-    return fixed ? 'absolute' : 'static';
-  });
-
-  const isMixMenuNoneSub = computed(() => {
-    const mixMenu = unref(menuSetting).mixMenu;
-    const currentRoute = useRoute();
-    if (unref(navMode) != 'horizontal-mix') return true;
-    return !(unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot);
-  });
-
-  const fixedMenu = computed(() => {
-    const { fixed } = unref(headerSetting);
-    return fixed ? 'absolute' : 'static';
-  });
-
-  const isMultiTabs = computed(() => {
-    return unref(multiTabsSetting).show;
-  });
-
-  const fixedMulti = computed(() => {
-    return unref(multiTabsSetting).fixed;
-  });
-
-  const inverted = computed(() => {
-    return ['dark', 'header-dark'].includes(unref(navTheme));
-  });
-
-  const getHeaderInverted = computed(() => {
-    return ['light', 'header-dark'].includes(unref(navTheme)) ? unref(inverted) : !unref(inverted);
-  });
-
-  const leftMenuWidth = computed(() => {
-    const { minMenuWidth, menuWidth } = unref(menuSetting);
-    return collapsed.value ? minMenuWidth : menuWidth;
-  });
-
-  const getMenuLocation = computed(() => {
-    return 'left';
-  });
-
-  // 控制显示或隐藏移动端侧边栏
-  const showSideDrawer = computed({
-    get: () => isMobile.value && collapsed.value,
-    set: (val) => (collapsed.value = val),
-  });
-
-  //判断是否触发移动端模式
-  const checkMobileMode = () => {
-    isMobile.value = document.body.clientWidth <= mobileWidth;
-    collapsed.value = false;
-  };
-
-  const watchWidth = () => {
-    const Width = document.body.clientWidth;
-    collapsed.value = Width <= 950;
-
-    checkMobileMode();
-  };
-
-  onMounted(() => {
-    checkMobileMode();
-    window.addEventListener('resize', watchWidth);
-  });
-</script>
 
 <style lang="scss">
   .layout-side-drawer {
@@ -186,6 +188,7 @@
     }
   }
 </style>
+
 <style lang="scss" scoped>
   .layout {
     display: flex;

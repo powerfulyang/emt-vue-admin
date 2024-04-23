@@ -23,7 +23,7 @@ function generateConfig({ command }: ConfigEnv): UserConfig {
       alias: [
         {
           find: '@',
-          replacement: `${pathResolve('src')}/`,
+          replacement: pathResolve('src'),
         },
         {
           find: '@root',

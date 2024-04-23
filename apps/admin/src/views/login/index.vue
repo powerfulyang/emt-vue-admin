@@ -1,12 +1,59 @@
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import type { FormInst } from 'naive-ui'
+import { useMessage } from 'naive-ui'
+import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
+import { websiteConfig } from '@/config/website.config.ts'
+
+const formRef = ref<FormInst>(null!)
+const message = useMessage()
+const loading = ref(false)
+const keepPass = ref(true)
+
+const formInline = reactive({
+  username: 'admin',
+  password: '123456',
+  isCaptcha: true,
+})
+
+const rules = {
+  username: { required: true, message: '请输入用户名', trigger: 'blur' },
+  password: { required: true, message: '请输入密码', trigger: 'blur' },
+}
+
+function handleSubmit(e: Event) {
+  e.preventDefault()
+  formRef.value.validate(async (errors) => {
+    if (!errors) {
+      message.loading('登录中...')
+      loading.value = true
+
+      try {
+        message.destroyAll()
+        message.success('登录成功，即将进入系统')
+      }
+      finally {
+        loading.value = false
+      }
+    }
+    else {
+      message.error('请填写完整信息，并且进行验证码校验')
+    }
+  })
+}
+</script>
+
 <template>
   <div class="view-account">
-    <div class="view-account-header"></div>
+    <div class="view-account-header" />
     <div class="view-account-container">
       <div class="view-account-top">
         <div class="view-account-top-logo">
-          <img :src="websiteConfig.loginImage" alt="" />
+          <img :src="websiteConfig.loginImage" alt="">
         </div>
-        <div class="view-account-top-desc">{{ websiteConfig.loginDesc }}</div>
+        <div class="view-account-top-desc">
+          {{ websiteConfig.loginDesc }}
+        </div>
       </div>
       <div class="view-account-form">
         <n-form
@@ -29,7 +76,7 @@
             <n-input
               v-model:value="formInline.password"
               type="password"
-              showPasswordOn="click"
+              show-password-on="click"
               placeholder="请输入密码"
             >
               <template #prefix>
@@ -42,12 +89,14 @@
           <n-form-item class="default-color">
             <div class="flex justify-between">
               <div class="flex-initial">
-                <n-checkbox v-model:checked="keepPass">记住密码</n-checkbox>
+                <n-checkbox v-model:checked="keepPass">
+                  记住密码
+                </n-checkbox>
               </div>
             </div>
           </n-form-item>
           <n-form-item>
-            <n-button type="primary" @click="handleSubmit" size="large" :loading="loading" block>
+            <n-button type="primary" size="large" :loading="loading" block @click="handleSubmit">
               登录
             </n-button>
           </n-form-item>
@@ -82,49 +131,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-  import { websiteConfig } from '@/config/website.config.ts';
-  import { reactive, ref } from 'vue';
-  import type { FormInst } from 'naive-ui';
-  import { useMessage } from 'naive-ui';
-  import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
-
-  const formRef = ref<FormInst>(null!);
-  const message = useMessage();
-  const loading = ref(false);
-  const keepPass = ref(true);
-
-  const formInline = reactive({
-    username: 'admin',
-    password: '123456',
-    isCaptcha: true,
-  });
-
-  const rules = {
-    username: { required: true, message: '请输入用户名', trigger: 'blur' },
-    password: { required: true, message: '请输入密码', trigger: 'blur' },
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    formRef.value.validate(async (errors) => {
-      if (!errors) {
-        message.loading('登录中...');
-        loading.value = true;
-
-        try {
-          message.destroyAll();
-          message.success('登录成功，即将进入系统');
-        } finally {
-          loading.value = false;
-        }
-      } else {
-        message.error('请填写完整信息，并且进行验证码校验');
-      }
-    });
-  };
-</script>
 
 <style lang="scss" scoped>
   .view-account {
@@ -166,7 +172,7 @@
 
   @media (min-width: 768px) {
     .view-account {
-      background-image: url('../../assets/images/login.svg');
+      background-image: url('@/assets/images/login.svg');
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 100%;

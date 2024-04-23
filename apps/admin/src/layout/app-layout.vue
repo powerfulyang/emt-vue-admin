@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, unref } from 'vue'
-import { useRoute } from 'vue-router'
 import PageHeader from '@/layout/components/header/index.vue'
 import Logo from '@/layout/components/logo/index.vue'
 import MainView from '@/layout/components/main/index.vue'
 import AsideMenu from '@/layout/components/menu/index.vue'
 import TabsView from '@/layout/components/tabs-view/index.vue'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { useThemeSetting } from '@/hooks/setting/useThemeSetting.ts'
+import { useProjectSetting } from '@/hooks/useProjectSetting.ts'
+import { useThemeSetting } from '@/hooks/useThemeSetting.ts'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 
 const { getDarkTheme } = useThemeSetting()

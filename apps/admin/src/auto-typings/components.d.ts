@@ -7,7 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AppLayout: typeof import('./../layout/app-layout.vue')['default']
     AppProvider: typeof import('./../application/app-provider.vue')['default']
+    Default: typeof import('./../layout/default.vue')['default']
     GlobalSearch: typeof import('./../components/global-search/index.vue')['default']
     Header: typeof import('./../layout/components/header/index.vue')['default']
     IconSelect: typeof import('./../components/icon-select/index.vue')['default']
@@ -48,6 +50,7 @@ declare module 'vue' {
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
+    NP: typeof import('naive-ui')['NP']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
     NScrollbar: typeof import('naive-ui')['NScrollbar']

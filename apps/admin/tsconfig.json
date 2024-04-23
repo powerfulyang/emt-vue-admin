@@ -11,7 +11,8 @@
     "moduleResolution": "bundler",
     "paths": {
       "@/*": ["src/*"],
-      "@root/*": ["./*"]
+      "@root/*": ["./*"],
+      "apps/*": ["../*"]
     },
     "resolveJsonModule": true,
     "types": [
@@ -25,6 +26,7 @@
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,

@@ -1,6 +1,16 @@
-import type { Menu } from '@powerfulyang/server'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { arrayToMap } from '@/utils/arrayToTree.ts'
+
+export interface Menu {
+  id: number
+  title: string
+  icon: string | null
+  order: number
+  path: string
+  openType: number
+  parentId: number | null
+  children?: Menu[]
+}
 
 export interface IAsyncRouteState {
   menus: Menu[]
@@ -49,24 +59,6 @@ export const useAsyncRouteStore = defineStore({
           openType: 1,
           parentId: 1,
         },
-        {
-          id: 3,
-          title: '会议纪要生成',
-          icon: 'dashboard',
-          order: 0,
-          path: '/meeting/summary',
-          openType: 1,
-          parentId: null,
-        },
-        {
-          id: 4,
-          title: '计划辅助查重系统',
-          icon: 'dashboard',
-          order: 0,
-          path: '/pro-check',
-          openType: 1,
-          parentId: null,
-        },
       ]
     },
     getMenuMapItem(field?: number | string) {
@@ -88,3 +80,9 @@ export const useAsyncRouteStore = defineStore({
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useAsyncRouteStore, import.meta.hot),
+  )
+}

@@ -1,23 +1,22 @@
-import { defineStore } from 'pinia';
-import { store } from '@/store';
-import { ACCESS_TOKEN, CURRENT_USER, IS_SCREENLOCKED } from '@/store/mutation-types';
-import { ResultEnum } from '@/enums/httpEnum';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { ACCESS_TOKEN, CURRENT_USER, IS_SCREENLOCKED } from '@/store/mutation-types'
+import { ResultEnum } from '@/enums/httpEnum'
 
-import { storage } from '@/utils/Storage';
+import { storage } from '@/utils/Storage'
 
-export type UserInfoType = {
+export interface UserInfoType {
   // TODO: add your own data
-  name: string;
-  email: string;
-};
+  name: string
+  email: string
+}
 
 export interface IUserState {
-  token: string;
-  username: string;
-  welcome: string;
-  avatar: string;
-  permissions: any[];
-  info: UserInfoType;
+  token: string
+  username: string
+  welcome: string
+  avatar: string
+  permissions: any[]
+  info: UserInfoType
 }
 
 export const useUserStore = defineStore({
@@ -32,75 +31,77 @@ export const useUserStore = defineStore({
   }),
   getters: {
     getToken(): string {
-      return this.token;
+      return this.token
     },
     getAvatar(): string {
-      return this.avatar;
+      return this.avatar
     },
     getNickname(): string {
-      return this.username;
+      return this.username
     },
     getPermissions(): [any][] {
-      return this.permissions;
+      return this.permissions
     },
     getUserInfo(): UserInfoType {
-      return this.info;
+      return this.info
     },
   },
   actions: {
     setToken(token: string) {
-      this.token = token;
+      this.token = token
     },
     setAvatar(avatar: string) {
-      this.avatar = avatar;
+      this.avatar = avatar
     },
     setPermissions(permissions: any) {
-      this.permissions = permissions;
+      this.permissions = permissions
     },
     setUserInfo(info: UserInfoType) {
-      this.info = info;
+      this.info = info
     },
     // 登录
     async login() {
-      const response = { result: { token: '1' }, code: 200 };
-      const { result, code } = response;
+      const response = { result: { token: '1' }, code: 200 }
+      const { result, code } = response
       if (code === ResultEnum.SUCCESS) {
-        const ex = 7 * 24 * 60 * 60;
-        storage.set(ACCESS_TOKEN, result.token, ex);
-        storage.set(CURRENT_USER, result, ex);
-        storage.set(IS_SCREENLOCKED, false);
-        this.setToken(result.token);
-        // @ts-ignore
-        this.setUserInfo(result);
+        const ex = 7 * 24 * 60 * 60
+        storage.set(ACCESS_TOKEN, result.token, ex)
+        storage.set(CURRENT_USER, result, ex)
+        storage.set(IS_SCREENLOCKED, false)
+        this.setToken(result.token)
+        // @ts-expect-error
+        this.setUserInfo(result)
       }
-      return response;
+      return response
     },
 
     // 获取用户信息
     async getInfo() {
-      const result = { permissions: ['admin'], name: 'admin', email: '', avatar: '' };
+      const result = { permissions: ['admin'], name: 'admin', email: '', avatar: '' }
       if (result.permissions && result.permissions.length) {
-        const permissionsList = result.permissions;
-        this.setPermissions(permissionsList);
-        this.setUserInfo(result);
-      } else {
-        throw new Error('getInfo: permissionsList must be a non-null array !');
+        const permissionsList = result.permissions
+        this.setPermissions(permissionsList)
+        this.setUserInfo(result)
       }
-      this.setAvatar(result.avatar);
-      return result;
+      else {
+        throw new Error('getInfo: permissionsList must be a non-null array !')
+      }
+      this.setAvatar(result.avatar)
+      return result
     },
 
     // 登出
     async logout() {
-      this.setPermissions([]);
-      this.setUserInfo({ name: '', email: '' });
-      storage.remove(ACCESS_TOKEN);
-      storage.remove(CURRENT_USER);
+      this.setPermissions([])
+      this.setUserInfo({ name: '', email: '' })
+      storage.remove(ACCESS_TOKEN)
+      storage.remove(CURRENT_USER)
     },
   },
-});
+})
 
-// Need to be used outside the setup
-export function useUser() {
-  return useUserStore(store);
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useUserStore, import.meta.hot),
+  )
 }

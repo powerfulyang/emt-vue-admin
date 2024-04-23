@@ -3,14 +3,6 @@ import { renderIcon } from '@/utils/renderIcon.ts'
 import DashboardOutlined from '~icons/ant-design/DashboardOutlined'
 import OptionsSharp from '~icons/ion/OptionsSharp'
 
-interface Menu {
-  id: number
-  parentId: number
-  title: string
-  path: string
-  icon: string
-}
-
 export const iconMap = new Map([
   ['dashboard', renderIcon(DashboardOutlined)],
   ['setting', renderIcon(OptionsSharp)],

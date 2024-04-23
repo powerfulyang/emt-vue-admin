@@ -7,17 +7,21 @@ export function RoutesPlugin() {
       root: '.',
       // Add your own custom pages here. Just add it to the array. Example: 'src/welcome/pages'
       routesFolder: [
-        { src: 'src/views', path: '/' },
+        {
+          src: 'src/views',
+          path: '/',
+        },
       ],
       dts: 'src/auto-typings/typed-router.d.ts',
       extensions: ['.vue'],
+      exclude: ['**/components/**'],
     }),
     Layouts({
       layoutsDirs: 'src/layout',
       pagesDirs: [
         'src/views',
       ],
-      defaultLayout: 'default',
+      defaultLayout: 'app-layout',
     }),
   ]
 }

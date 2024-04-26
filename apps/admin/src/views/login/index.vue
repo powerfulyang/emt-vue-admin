@@ -1,19 +1,38 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { useMutation } from '@tanstack/vue-query'
 import type { FormInst } from 'naive-ui'
 import { useMessage } from 'naive-ui'
 import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
+import { useUserStore } from '@/store/modules/user.ts'
 import { websiteConfig } from '@/config/website.config.ts'
+
+definePage({
+  name: 'Login',
+})
 
 const formRef = ref<FormInst>(null!)
 const message = useMessage()
-const loading = ref(false)
-const keepPass = ref(true)
 
-const formInline = reactive({
+const formInline = shallowReactive({
   username: 'admin',
-  password: '123456',
-  isCaptcha: true,
+  password: 'admin',
+  remember: true,
+})
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const { mutate: login, isPending: loading } = useMutation({
+  mutationFn: async () => {
+    return userStore.login(formInline.username, formInline.password)
+  },
+  onSettled() {
+    message.destroyAll()
+  },
+  onSuccess(data) {
+    message.success('登录成功')
+    router.push(data.homePath)
+  },
 })
 
 const rules = {
@@ -26,15 +45,7 @@ function handleSubmit(e: Event) {
   formRef.value.validate(async (errors) => {
     if (!errors) {
       message.loading('登录中...')
-      loading.value = true
-
-      try {
-        message.destroyAll()
-        message.success('登录成功，即将进入系统')
-      }
-      finally {
-        loading.value = false
-      }
+      login()
     }
     else {
       message.error('请填写完整信息，并且进行验证码校验')
@@ -89,7 +100,7 @@ function handleSubmit(e: Event) {
           <n-form-item class="default-color">
             <div class="flex justify-between">
               <div class="flex-initial">
-                <n-checkbox v-model:checked="keepPass">
+                <n-checkbox v-model:checked="formInline.remember">
                   记住密码
                 </n-checkbox>
               </div>

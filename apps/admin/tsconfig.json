@@ -33,9 +33,10 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "isolatedModules": true,
-    "skipLibCheck": true
-  },
-  "references": [
+    "skipLibCheck": true,
+		"useUnknownInCatchVariables": false
+	},
+	"references": [
     {
       "path": "./tsconfig.node.json"
     }

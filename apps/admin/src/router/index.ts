@@ -6,11 +6,6 @@ import { createRouterGuards } from '@/router/guards.ts'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   extendRoutes: (routes) => {
-    routes.push({
-      path: '/',
-      redirect: '/login',
-    })
-
     return setupLayouts(routes)
   },
 })

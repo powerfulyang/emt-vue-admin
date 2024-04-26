@@ -1,74 +1,82 @@
-import { PageEnum } from '@/enums/pageEnum';
-import { ErrorPageRoute } from '@/router/routes/app/base.ts';
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute';
-import type { Router, RouteRecordRaw } from 'vue-router';
-import { isNavigationFailure } from 'vue-router';
+import type { RouteRecordRaw, Router } from 'vue-router/auto'
+import { isNavigationFailure } from 'vue-router/auto'
+import { Pages } from '@/enums/Pages.ts'
+import { useUserStore } from '@/store/modules/user.ts'
+import { PageEnum } from '@/enums/pageEnum'
+import { ErrorPageRoute } from '@/router/routes/app/base.ts'
+import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
 
-const LOGIN_PATH = PageEnum.BASE_LOGIN;
+const LOGIN_PATH = PageEnum.BASE_LOGIN
 
-const whitePathList = [LOGIN_PATH]; // no redirect whitelist
+const whitePathList: string[] = [LOGIN_PATH] // no redirect whitelist
 
 export function createRouterGuards(router: Router) {
-  const asyncRouteStore = useAsyncRouteStore();
+  const asyncRouteStore = useAsyncRouteStore()
+  const userStore = useUserStore()
 
   router.beforeEach(async (to, from, next) => {
-    const Loading = window.$loading || null;
-    Loading && Loading.start();
-    if (from.path === LOGIN_PATH && to.name === 'errorPage') {
-      next(PageEnum.BASE_HOME);
-      return;
+    const Loading = window.$loading || null
+    Loading && Loading.start()
+
+    if (!userStore.userInfo) {
+      if (whitePathList.includes(to.path)) {
+        next()
+        return
+      }
+      next({ name: Pages.Login })
+      return
     }
 
-    // Whitelist can be directly entered
-    if (whitePathList.includes(to.path as PageEnum)) {
-      next();
-      return;
+    if (to.path === '/') {
+      next({ path: userStore.userInfo.homePath })
+      return
     }
 
     if (asyncRouteStore.getIsDynamicRouteAdded) {
-      next();
-      return;
+      next()
+      return
     }
 
-    //添加404
-    const isErrorPage = router.getRoutes().findIndex((item) => item.name === ErrorPageRoute.name);
+    // 添加404
+    const isErrorPage = router.getRoutes().findIndex(item => item.name === ErrorPageRoute.name)
     if (isErrorPage === -1) {
-      router.addRoute(ErrorPageRoute as unknown as RouteRecordRaw);
+      router.addRoute(ErrorPageRoute as unknown as RouteRecordRaw)
     }
 
-    const redirectPath = (from.query.redirect || to.path) as string;
-    const redirect = decodeURIComponent(redirectPath);
-    const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-    asyncRouteStore.setDynamicRouteAdded(true);
-    next(nextData);
-    Loading && Loading.finish();
-  });
+    const redirectPath = (from.query.redirect || to.path) as string
+    const redirect = decodeURIComponent(redirectPath)
+    const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
+    asyncRouteStore.setDynamicRouteAdded(true)
+    next(nextData)
+    Loading && Loading.finish()
+  })
 
   router.afterEach((to, _, failure) => {
-    document.title = (to?.meta?.title as string) || document.title;
+    document.title = (to?.meta?.title as string) || document.title
     if (isNavigationFailure(failure)) {
-      console.log('failed navigation', failure);
+      console.log('failed navigation', failure)
     }
-    const asyncRouteStore = useAsyncRouteStore();
+    const asyncRouteStore = useAsyncRouteStore()
     // 在这里设置需要缓存的组件名称
-    const keepAliveComponents = asyncRouteStore.keepAliveComponents;
-    const currentComName: any = to.matched.find((item) => item.name == to.name)?.name;
+    const keepAliveComponents = asyncRouteStore.keepAliveComponents
+    const currentComName: any = to.matched.find(item => item.name == to.name)?.name
     if (currentComName && !keepAliveComponents.includes(currentComName) && to.meta?.keepAlive) {
       // 需要缓存的组件
-      keepAliveComponents.push(currentComName);
-    } else if (!to.meta?.keepAlive || to.name == 'Redirect') {
+      keepAliveComponents.push(currentComName)
+    }
+    else if (!to.meta?.keepAlive || to.name == 'Redirect') {
       // 不需要缓存的组件
-      const index = asyncRouteStore.keepAliveComponents.findIndex((name) => name == currentComName);
+      const index = asyncRouteStore.keepAliveComponents.findIndex(name => name == currentComName)
       if (index != -1) {
-        keepAliveComponents.splice(index, 1);
+        keepAliveComponents.splice(index, 1)
       }
     }
-    asyncRouteStore.setKeepAliveComponents(keepAliveComponents);
-    const Loading = window.$loading || null;
-    Loading && Loading.finish();
-  });
+    asyncRouteStore.setKeepAliveComponents(keepAliveComponents)
+    const Loading = window.$loading || null
+    Loading && Loading.finish()
+  })
 
   router.onError((error) => {
-    console.log(error, '路由错误');
-  });
+    console.log(error, '路由错误')
+  })
 }

@@ -12,6 +12,13 @@ import type { Menu } from '@/store/modules/asyncRoute.ts'
 import { useAsyncRouteStore } from '@/store/modules/asyncRoute.ts'
 import IconSelect from '@/components/icon-select/index.vue'
 
+definePage({
+  name: 'SystemMenu',
+  meta: {
+    layout: 'app-layout',
+  },
+})
+
 const rules = {
   label: {
     required: true,

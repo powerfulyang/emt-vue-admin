@@ -21,7 +21,6 @@ export function RoutesPlugin() {
       pagesDirs: [
         'src/views',
       ],
-      defaultLayout: 'app-layout',
     }),
   ]
 }

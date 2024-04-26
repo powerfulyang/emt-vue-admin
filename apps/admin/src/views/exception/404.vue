@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 
+definePage({
+  name: 'NotFound',
+})
+
 const router = useRouter()
 function goHome() {
   router.push('/')

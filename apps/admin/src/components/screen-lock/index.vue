@@ -1,3 +1,87 @@
+<script lang="ts" setup>
+import {
+  ApiOutlined,
+  ArrowRightOutlined,
+  LoadingOutlined,
+  LockOutlined,
+  UserOutlined,
+  WifiOutlined,
+} from '@vicons/antd'
+import { reactive, toRefs } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import recharge from './recharge.vue'
+import { ResultEnum } from '@/enums/httpEnum'
+import { useBattery } from '@/hooks/useBattery'
+import { useOnline } from '@/hooks/useOnline'
+import { useTime } from '@/hooks/useTime'
+import { useScreenLockStore } from '@/store/modules/screenLock'
+import type { UserInfoType } from '@/store/modules/user'
+import { useUserStore } from '@/store/modules/user'
+
+defineOptions({
+  name: 'ScreenLock',
+})
+
+const useScreenLock = useScreenLockStore()
+const userStore = useUserStore()
+
+// 获取时间
+const { month, day, hour, minute, week } = useTime()
+const { online } = useOnline()
+
+const router = useRouter()
+const route = useRoute()
+
+const { battery, batteryStatus, calcDischargingTime, calcChargingTime } = useBattery()
+const userInfo: UserInfoType = userStore.getUserInfo || {}
+const username = userInfo.name || ''
+const state = reactive({
+  showLogin: false,
+  loginLoading: false, // 正在登录
+  isLoginError: false, // 密码错误
+  errorMsg: '密码错误',
+  loginParams: {
+    username: username || '',
+    password: '',
+  },
+})
+
+const { showLogin, isLoginError, loginLoading, loginParams, errorMsg } = toRefs(state)
+
+// 解锁登录
+const onLockLogin = (value: boolean) => (state.showLogin = value)
+
+// 登录
+async function onLogin() {
+  if (!state.loginParams.password.trim()) {
+    return
+  }
+  state.loginLoading = true
+  const { code, result } = await userStore.login()
+  if (code === ResultEnum.SUCCESS) {
+    onLockLogin(false)
+    useScreenLock.setLock(false)
+  }
+  else {
+    state.errorMsg = result.token
+    state.isLoginError = true
+  }
+  state.loginLoading = false
+}
+
+// 重新登录
+function goLogin() {
+  onLockLogin(false)
+  useScreenLock.setLock(false)
+  router.replace({
+    path: '/login',
+    query: {
+      redirect: route.fullPath,
+    },
+  })
+}
+</script>
+
 <template>
   <div
     :class="{ onLockLogin: showLogin }"
@@ -11,12 +95,12 @@
         <div class="lock">
           <span class="lock-icon" title="解锁屏幕" @click="onLockLogin(true)">
             <n-icon>
-              <lock-outlined />
+              <LockOutlined />
             </n-icon>
           </span>
         </div>
       </div>
-      <!--充电-->
+      <!-- 充电 -->
       <recharge
         :battery="battery"
         :battery-status="batteryStatus"
@@ -25,42 +109,48 @@
       />
 
       <div class="local-time">
-        <div class="time">{{ hour }}:{{ minute }}</div>
-        <div class="date">{{ month }}月{{ day }}号，星期{{ week }}</div>
+        <div class="time">
+          {{ hour }}:{{ minute }}
+        </div>
+        <div class="date">
+          {{ month }}月{{ day }}号，星期{{ week }}
+        </div>
       </div>
       <div class="computer-status">
         <span :class="{ offline: !online }" class="network">
-          <wifi-outlined class="network" />
+          <WifiOutlined class="network" />
         </span>
-        <api-outlined />
+        <ApiOutlined />
       </div>
     </template>
 
-    <!--登录-->
+    <!-- 登录 -->
     <template v-if="showLogin">
       <div class="login-box">
         <n-avatar :size="128">
           <n-icon>
-            <user-outlined />
+            <UserOutlined />
           </n-icon>
         </n-avatar>
-        <div class="username">{{ loginParams.username }}</div>
+        <div class="username">
+          {{ loginParams.username }}
+        </div>
         <n-input
+          v-model:value="loginParams.password"
           type="password"
           autofocus
-          v-model:value="loginParams.password"
-          @keyup.enter="onLogin"
           placeholder="请输入登录密码"
+          @keyup.enter="onLogin"
         >
           <template #suffix>
-            <n-icon @click="onLogin" style="cursor: pointer">
+            <n-icon style="cursor: pointer" @click="onLogin">
               <LoadingOutlined v-if="loginLoading" />
-              <arrow-right-outlined v-else />
+              <ArrowRightOutlined v-else />
             </n-icon>
           </template>
         </n-input>
 
-        <div class="flex w-full" v-if="isLoginError">
+        <div v-if="isLoginError" class="flex w-full">
           <span class="text-red-500">{{ errorMsg }}</span>
         </div>
 
@@ -73,90 +163,6 @@
     </template>
   </div>
 </template>
-
-<script lang="ts" setup>
-  import { ResultEnum } from '@/enums/httpEnum';
-  import { useBattery } from '@/hooks/useBattery';
-  import { useOnline } from '@/hooks/useOnline';
-  import { useTime } from '@/hooks/useTime';
-  import { useScreenLockStore } from '@/store/modules/screenLock';
-  import type { UserInfoType } from '@/store/modules/user';
-  import { useUserStore } from '@/store/modules/user';
-  import {
-    ApiOutlined,
-    ArrowRightOutlined,
-    LoadingOutlined,
-    LockOutlined,
-    UserOutlined,
-    WifiOutlined,
-  } from '@vicons/antd';
-  import { reactive, toRefs } from 'vue';
-
-  import { useRoute, useRouter } from 'vue-router';
-  import recharge from './recharge.vue';
-
-  defineOptions({
-    name: 'ScreenLock',
-  });
-
-  const useScreenLock = useScreenLockStore();
-  const userStore = useUserStore();
-
-  // 获取时间
-  const { month, day, hour, minute, week } = useTime();
-  const { online } = useOnline();
-
-  const router = useRouter();
-  const route = useRoute();
-
-  const { battery, batteryStatus, calcDischargingTime, calcChargingTime } = useBattery();
-  const userInfo: UserInfoType = userStore.getUserInfo || {};
-  const username = userInfo['name'] || '';
-  const state = reactive({
-    showLogin: false,
-    loginLoading: false, // 正在登录
-    isLoginError: false, //密码错误
-    errorMsg: '密码错误',
-    loginParams: {
-      username: username || '',
-      password: '',
-    },
-  });
-
-  const { showLogin, isLoginError, loginLoading, loginParams, errorMsg } = toRefs(state);
-
-  // 解锁登录
-  const onLockLogin = (value: boolean) => (state.showLogin = value);
-
-  // 登录
-  const onLogin = async () => {
-    if (!state.loginParams.password.trim()) {
-      return;
-    }
-    state.loginLoading = true;
-    const { code, result } = await userStore.login();
-    if (code === ResultEnum.SUCCESS) {
-      onLockLogin(false);
-      useScreenLock.setLock(false);
-    } else {
-      state.errorMsg = result.token;
-      state.isLoginError = true;
-    }
-    state.loginLoading = false;
-  };
-
-  //重新登录
-  const goLogin = () => {
-    onLockLogin(false);
-    useScreenLock.setLock(false);
-    router.replace({
-      path: '/login',
-      query: {
-        redirect: route.fullPath,
-      },
-    });
-  };
-</script>
 
 <style lang="scss" scoped>
   .lockscreen {

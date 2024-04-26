@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { VNode } from 'vue'
 import { computed, unref } from 'vue'
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
 import { useProjectSetting } from '@/hooks/useProjectSetting.ts'
 
@@ -33,13 +31,15 @@ const getTransitionName = computed(() => {
 <template>
   <router-view>
     <template
-      #default="{ Component, route }: { Component: VNode; route: RouteLocationNormalizedLoaded }"
+      #default="{ Component, route }"
     >
       <transition :name="getTransitionName" mode="out-in" appear>
-        <keep-alive v-if="keepAliveComponents.length" :include="keepAliveComponents">
-          <component :is="Component" :key="route.fullPath" />
-        </keep-alive>
-        <component :is="Component" v-else :key="route.fullPath" />
+        <div>
+          <keep-alive v-if="keepAliveComponents.length" :include="keepAliveComponents">
+            <component :is="Component" :key="route.fullPath" />
+          </keep-alive>
+          <component :is="Component" v-else :key="route.fullPath" />
+        </div>
       </transition>
     </template>
   </router-view>

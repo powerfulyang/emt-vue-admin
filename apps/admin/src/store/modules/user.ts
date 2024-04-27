@@ -16,7 +16,9 @@ export const useUserStore = defineStore({
     userInfo: undefined,
   }),
   getters: {
-
+    getUserInfo(): UserInfoType {
+      return this.userInfo!
+    },
   },
   actions: {
     // 登录
@@ -44,6 +46,13 @@ export const useUserStore = defineStore({
         this.userInfo = undefined
         return undefined
       }
+    },
+    // 退出登录
+    async logout() {
+      await request('/api/logout', {
+        method: 'POST',
+      })
+      this.userInfo = undefined
     },
   },
 })

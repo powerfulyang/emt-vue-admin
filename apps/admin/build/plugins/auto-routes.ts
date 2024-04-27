@@ -1,7 +1,6 @@
 import VueRouter from 'unplugin-vue-router/vite'
-import Layouts from 'vite-plugin-vue-layouts'
 
-export function RoutesPlugin() {
+export function AutoRoutesPlugin() {
   return [
     VueRouter({
       root: '.',
@@ -16,11 +15,12 @@ export function RoutesPlugin() {
       extensions: ['.vue'],
       exclude: ['**/components/**'],
     }),
-    Layouts({
-      layoutsDirs: 'src/layout',
-      pagesDirs: [
-        'src/views',
-      ],
-    }),
+    // 会导致 HMR 无法正常工作
+    // Layouts({
+    //   layoutsDirs: 'src/layout',
+    //   pagesDirs: [
+    //     'src/views',
+    //   ],
+    // }),
   ]
 }

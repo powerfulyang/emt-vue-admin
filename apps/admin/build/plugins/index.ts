@@ -1,17 +1,17 @@
 import { createHtmlPlugin } from 'vite-plugin-html'
 import nodePolyfill from 'rollup-plugin-polyfill-node'
-import { IconsPlugin } from './icons'
-import { RoutesPlugin } from './routes'
-import { UnoCSSPlugin } from './unocss'
+import { IconPlugin } from './icon-plugin'
+import { AutoRoutesPlugin } from './auto-routes'
+import { UnoPlugin } from './uno-plugin'
+import { VuePlugin } from './vue-plugin'
 import { AutoImportPlugin } from './auto-import'
-import { VuePlugin } from './vue'
 
 export function createVitePlugins(isBuild: boolean) {
   return [
     ...AutoImportPlugin(),
-    ...IconsPlugin(),
-    ...RoutesPlugin(),
-    ...UnoCSSPlugin(),
+    ...IconPlugin(),
+    ...AutoRoutesPlugin(),
+    ...UnoPlugin(),
     ...VuePlugin(),
     nodePolyfill(),
     createHtmlPlugin({

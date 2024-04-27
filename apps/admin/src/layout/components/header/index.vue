@@ -12,11 +12,12 @@ import {
   UserOutlined,
 } from '@vicons/antd'
 import { useMagicKeys, whenever } from '@vueuse/core'
-import { useDialog, useMessage } from 'naive-ui'
-import { computed, markRaw, reactive, ref, toRefs, unref } from 'vue'
+import { useDialog } from 'naive-ui'
+import { computed, markRaw, ref, toRefs, unref } from 'vue'
 import type { RouteLocationMatched, RouteRecordRaw } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
 import { logicOr } from '@vueuse/math'
+import { Pages } from '@/enums/Pages.ts'
 import { websiteConfig } from '@/config/website.config'
 import { useProjectSetting } from '@/hooks/useProjectSetting.ts'
 import AsideMenu from '@/layout/components/menu/index.vue'
@@ -42,24 +43,22 @@ const collapsed = defineModel('collapsed', {
 
 const userStore = useUserStore()
 const useLockscreen = useScreenLockStore()
-const message = useMessage()
 const dialog = useDialog()
 const { navMode, navTheme, headerSetting, menuSetting, crumbsSetting } = useProjectSetting()
 
-const { name } = userStore?.info || {}
+const { avatar } = userStore.getUserInfo
 
 const drawerSetting = ref()
 
-const state = reactive({
-  username: name ?? '',
-  fullscreenIcon: markRaw(FullscreenOutlined),
+const state = shallowReactive({
+  fullscreenIcon: FullscreenOutlined,
   navMode,
   navTheme,
   headerSetting,
   crumbsSetting,
 })
 
-const { fullscreenIcon, username } = toRefs(state)
+const { fullscreenIcon } = toRefs(state)
 
 const getInverted = computed(() => {
   return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
@@ -115,21 +114,17 @@ function reloadPage() {
   })
 }
 
-// 退出登录
 function doLogout() {
   dialog.info({
     title: '提示',
     content: '您确定要退出登录吗',
-    positiveText: '确定',
-    negativeText: '取消',
     onPositiveClick: () => {
       userStore.logout().then(() => {
-        message.success('成功退出登录')
         // 移除标签页
         localStorage.removeItem(TABS_ROUTES)
         router
           .replace({
-            name: 'Login',
+            name: Pages.Login,
             query: {
               redirect: route.fullPath,
             },
@@ -137,7 +132,6 @@ function doLogout() {
           .finally(() => location.reload())
       })
     },
-    onNegativeClick: () => {},
   })
 }
 
@@ -315,8 +309,8 @@ whenever(logicOr(ctrlK, cmdK), (v) => {
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
           <template #trigger>
-            <n-icon size="18">
-              <component :is="fullscreenIcon" @click="toggleFullScreen" />
+            <n-icon size="18" @click="toggleFullScreen">
+              <component :is="fullscreenIcon" />
             </n-icon>
           </template>
           <span>全屏</span>
@@ -326,10 +320,11 @@ whenever(logicOr(ctrlK, cmdK), (v) => {
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
           <div class="avatar">
-            <n-avatar round>
-              {{ username }}
-              <template #icon>
-                <UserOutlined />
+            <n-avatar round :src="avatar">
+              <template #placeholder>
+                <n-icon size="18">
+                  <UserOutlined />
+                </n-icon>
               </template>
             </n-avatar>
           </div>

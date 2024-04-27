@@ -115,4 +115,11 @@ export default [
       })
     }
   }),
+  http.post('/api/logout', async () => {
+    return HttpResponse.json(null, {
+      headers: {
+        'set-cookie': 'token=clear; max-age=0; path=/;',
+      },
+    })
+  }),
 ]

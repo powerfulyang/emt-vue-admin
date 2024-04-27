@@ -1,6 +1,6 @@
 import Icons from 'unplugin-icons/vite'
 
-export function IconsPlugin() {
+export function IconPlugin() {
   return [
     Icons({
       compiler: 'vue3',

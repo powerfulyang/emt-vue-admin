@@ -1,5 +1,5 @@
 import UnoCSS from 'unocss/vite'
 
-export function UnoCSSPlugin() {
+export function UnoPlugin() {
   return [UnoCSS()]
 }

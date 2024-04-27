@@ -1,13 +1,12 @@
-import { Layout } from '@/router/layout.ts';
-import { BaseRoute } from '@/router/routes/app/base.ts';
-import { MeetingRoutes } from '@/router/routes/app/meeting.ts';
-import { SystemRoute } from '@/router/routes/app/system.ts';
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router'
+import AppLayout from '@/layout/app-layout.vue'
+import { BaseRoute } from '@/router/routes/app/base.ts'
+import { SystemRoute } from '@/router/routes/app/system.ts'
 
 export const AppRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: Layout,
-    children: [...BaseRoute, ...SystemRoute, ...MeetingRoutes],
+    component: AppLayout,
+    children: [...BaseRoute, ...SystemRoute],
   },
-];
+]

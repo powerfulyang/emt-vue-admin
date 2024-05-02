@@ -1,42 +1,31 @@
-<template>
-  <n-dropdown :options="options" @select="handleDropdown">
-    <hover-container class="px-12px" :inverted="theme.header.inverted">
-      <icon-avatar class="text-32px" />
-      <span class="pl-8px text-16px font-medium">
-        {{ authStore.userInfo?.userName }}
-      </span>
-    </hover-container>
-  </n-dropdown>
-</template>
-
 <script setup lang="ts">
 import { computed, h } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { DropdownOption } from 'naive-ui'
-import { useAuthStore, useThemeStore } from '@/store'
-import { HoverContainer } from '@/components'
-import IconAvatar from './icon-avatar.vue'
 import IconUserAvatar from './icon-user-avatar.vue'
 import IconLogout from './icon-logout.vue'
+import { useUserStore } from '@/store/modules/user.ts'
+import { useAuthStore, useThemeStore } from '@/store'
 
 const authStore = useAuthStore()
+const userStore = useUserStore()
 const { theme } = storeToRefs(useThemeStore())
 
 const options = computed<DropdownOption[]>(() => [
   {
     label: $translate('layout.header.user.dropdown.userCenter'),
     key: 'user-center',
-    icon: () => h(IconUserAvatar)
+    icon: () => h(IconUserAvatar),
   },
   { type: 'divider', key: 'divider' },
   {
     label: $translate('layout.header.user.dropdown.logout'),
     key: 'logout',
-    icon: () => h(IconLogout)
-  }
+    icon: () => h(IconLogout),
+  },
 ])
 
-const handleDropdown = (optionKey: string) => {
+function handleDropdown(optionKey: string) {
   if (optionKey === 'logout') {
     window.$dialog.info({
       title: $translate('layout.header.user.logoutDialog.title'),
@@ -45,8 +34,19 @@ const handleDropdown = (optionKey: string) => {
       negativeText: $translate('layout.header.user.logoutDialog.action.cancel'),
       onPositiveClick: () => {
         authStore.logout()
-      }
+      },
     })
   }
 }
 </script>
+
+<template>
+  <n-dropdown :options="options" @select="handleDropdown">
+    <hover-container class="px-2 ml-4" :inverted="theme.header.inverted">
+      <n-avatar :src="userStore.getUserInfo.avatar" />
+      <span class="pl-2">
+        {{ userStore.getUserInfo?.realName }}
+      </span>
+    </hover-container>
+  </n-dropdown>
+</template>

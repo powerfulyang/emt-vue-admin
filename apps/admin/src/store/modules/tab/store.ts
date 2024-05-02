@@ -1,23 +1,23 @@
 import { ref } from 'vue'
-import { useRoute, useRouter, type RouteLocationNormalizedLoaded } from 'vue-router'
+import { type RouteLocationNormalizedLoaded, useRoute, useRouter } from 'vue-router'
 import { defineStore, storeToRefs } from 'pinia'
-import { localStg } from '@/utils'
-import { useRouteStore } from '../route'
-import { useThemeStore } from '../theme'
 import { getTabByRoute, hasTab } from './utils'
-import type { MultiTab } from './typings'
+import { useRouteStore, useThemeStore } from '@/store'
+import type { MultiTab } from '@/store'
+import { localStg } from '@/utils'
 
 export const useTabStore = defineStore('tab-store', () => {
   const route = useRoute()
   const router = useRouter()
   const routeStore = useRouteStore()
   const { theme } = storeToRefs(useThemeStore())
+  const activeTab = ref<MultiTab>()
 
   const tabs = ref<MultiTab[]>([])
 
   const pushLastTab = () => {
     const lastTab = tabs.value[tabs.value.length - 1]
-    router.push(lastTab.routePath)
+    router.push(lastTab!.routePath)
   }
 
   const addTab = (route: RouteLocationNormalizedLoaded) => {
@@ -73,11 +73,13 @@ export const useTabStore = defineStore('tab-store', () => {
     router.push(rootTab.routePath)
   }
 
-  const activeTab = ref<MultiTab>()
-
   const setActiveTab = (tab: MultiTab) => {
     activeTab.value = tab
   }
+
+  const activeIndex = computed(() => {
+    return unref(tabs).findIndex(({ key }) => key === unref(activeTab)?.key)
+  })
 
   const setScrollPosition = (tab: MultiTab, scrollPosition: MultiTab['scrollPosition']) => {
     tab.scrollPosition = scrollPosition
@@ -96,12 +98,14 @@ export const useTabStore = defineStore('tab-store', () => {
       }
       setActiveTab(currentTab)
       tabs.value = _tabs
-    } else {
+    }
+    else {
       const _tabs = [rootTab]
       if (currentTab.key !== rootTab.key) {
         _tabs.push(currentTab)
         setActiveTab(currentTab)
-      } else {
+      }
+      else {
         setActiveTab(rootTab)
       }
       tabs.value = _tabs
@@ -123,12 +127,13 @@ export const useTabStore = defineStore('tab-store', () => {
     clearAllTabs,
 
     activeTab,
+    activeIndex,
     setActiveTab,
 
     setScrollPosition,
 
     init,
 
-    reset
+    reset,
   }
 })

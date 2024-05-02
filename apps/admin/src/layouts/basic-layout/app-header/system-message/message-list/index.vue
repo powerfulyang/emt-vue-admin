@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import type { Component } from 'vue'
+import { useThemeVars } from 'naive-ui'
+import type { MessageList } from '../typings'
+import IconAvatar from './icon-avatar.vue'
+import IconMessage from './icon-message.vue'
+import IconTodo from './icon-todo.vue'
+
+interface Props {
+  list?: MessageList[]
+}
+
+withDefaults(defineProps<Props>(), {
+  list: () => [],
+})
+
+const emit = defineEmits<Emits>()
+
+interface Emits {
+  (e: 'read', val: number): void
+}
+
+const themeVars = useThemeVars()
+
+type Components = Record<string, Component>
+
+const iconComponents: Components = {
+  avatar: IconAvatar,
+  message: IconMessage,
+  todo: IconTodo,
+}
+
+function handleRead(index: number) {
+  emit('read', index)
+}
+</script>
+
 <template>
   <n-scrollbar class="max-h-360px" :style="{ '--primary-color': themeVars.primaryColor }">
     <n-list>
@@ -7,11 +44,11 @@
         class="hover:bg-#f6f6f6 dark:hover:bg-dark cursor-pointer"
         @click="handleRead(index)"
       >
-        <n-thing :class="['px-15px', { 'opacity-30': item.isRead }]">
+        <n-thing class="px-15px" :class="[{ 'opacity-30': item.isRead }]">
           <template #avatar>
             <component
-              v-if="item.icon"
               :is="iconComponents[item.icon]"
+              v-if="item.icon"
               class="text-34px text-[var(--primary-color)]"
             />
           </template>
@@ -39,39 +76,3 @@
     </n-list>
   </n-scrollbar>
 </template>
-<script setup lang="ts">
-import type { Component } from 'vue'
-import { useThemeVars } from 'naive-ui'
-import type { MessageList } from '../typings'
-import IconAvatar from './icon-avatar.vue'
-import IconMessage from './icon-message.vue'
-import IconTodo from './icon-todo.vue'
-
-interface Props {
-  list?: MessageList[]
-}
-
-withDefaults(defineProps<Props>(), {
-  list: () => []
-})
-
-interface Emits {
-  (e: 'read', val: number): void
-}
-
-const emit = defineEmits<Emits>()
-
-const themeVars = useThemeVars()
-
-type Components = Record<string, Component>
-
-const iconComponents: Components = {
-  avatar: IconAvatar,
-  message: IconMessage,
-  todo: IconTodo
-}
-
-const handleRead = (index: number) => {
-  emit('read', index)
-}
-</script>

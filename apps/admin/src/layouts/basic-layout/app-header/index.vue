@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import Logo from '../components/logo.vue'
 import { useMobile } from '../hooks'
 import MenuCollapse from './menu-collapse/index.vue'

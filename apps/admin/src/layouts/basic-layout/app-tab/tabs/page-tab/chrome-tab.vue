@@ -19,7 +19,7 @@ interface Slots {
 
 <template>
   <div
-    class="relative inline-flex -mr-4 justify-center items-center px-5 py-4px whitespace-nowrap cursor-pointer chrome-tab"
+    class="relative inline-flex justify-center items-center px-5 py-4px whitespace-nowrap cursor-pointer chrome-tab"
     :class="[
       {
         'chrome-tab_dark': darkMode,
@@ -56,7 +56,6 @@ interface Slots {
       <slot />
       <slot name="close" />
     </div>
-    <div class="absolute right-1 w-1px h-16px bg-#1f2225 chrome-tab-divider" />
   </div>
 </template>
 

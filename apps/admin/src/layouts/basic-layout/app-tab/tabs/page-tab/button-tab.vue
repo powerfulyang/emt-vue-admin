@@ -18,7 +18,7 @@ interface Slots {
 
 <template>
   <div
-    class="relative inline-flex justify-center items-center gap-12px border-1px border-solid rounded-4px px-12px py-4px whitespace-nowrap cursor-pointer button-tab" :class="[
+    class="relative inline-flex justify-center items-center gap-2 border-1px border-solid rounded px-4 py-1 whitespace-nowrap cursor-pointer button-tab" :class="[
       {
         'button-tab_dark': darkMode,
         'button-tab_active': active,

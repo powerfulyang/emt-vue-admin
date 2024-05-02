@@ -1,23 +1,20 @@
+<script setup lang="ts">
+import { useThemeStore } from '@/store'
+
+const { theme } = storeToRefs(useThemeStore())
+
+function handleClickLink() {
+  window.open('https://github.com/powerfulyang/emt-vue-admin', '_blank')
+}
+</script>
+
 <template>
   <hover-container
-    class="w-40px h-full"
+    class="w-10 h-full text-xl"
     :tooltip-content="$translate('layout.header.githubSite.tooltip')"
     :inverted="theme.header.inverted"
     @click="handleClickLink"
   >
-    <icon-github class="text-20px" />
+    <i-mdi-github />
   </hover-container>
 </template>
-
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useThemeStore } from '@/store'
-import { HoverContainer } from '@/components'
-import IconGithub from './icon-github.vue'
-
-const { theme } = storeToRefs(useThemeStore())
-
-const handleClickLink = () => {
-  window.open('https://github.com/yp910108/vue-naive-admin', '_blank')
-}
-</script>

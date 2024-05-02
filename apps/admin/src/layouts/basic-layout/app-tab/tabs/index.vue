@@ -68,24 +68,35 @@ watch(
     })
   },
 )
+
+// 前后一个 divider 隐藏
+function shouldHidden(i: number) {
+  return i === tabStore.tabs.length - 1 || tabStore.activeIndex === i || tabStore.activeIndex === i + 1
+}
 </script>
 
 <template>
-  <div class="flex h-full" :class="[isChromeMode ? 'items-end' : 'items-center gap-2 px-4']">
-    <PageTab
-      v-for="tab in tabStore.tabs"
-      ref="tabRef"
+  <div class="flex h-full" :class="[isChromeMode ? 'items-end px-6' : 'items-center gap-2 px-4']">
+    <div
+      v-for="(tab, index) in tabStore.tabs"
       :key="tab.key"
-      :mode="theme.tab.mode"
-      :dark-mode="theme.darkMode"
-      :icon="tab.icon"
-      :title="tab.title"
-      :active="tabStore.activeTab?.key === tab.key"
-      :closeable="closeable(tab)"
-      @click="handleClick(tab)"
-      @close="handleClose(tab)"
-      @contextmenu.prevent="handleContextMenu($event, tab)"
-    />
+      class="flex items-center relative"
+      :class="[isChromeMode ? '-ml-4' : '']"
+    >
+      <PageTab
+        ref="tabRef"
+        :mode="theme.tab.mode"
+        :dark-mode="theme.darkMode"
+        :icon="tab.icon"
+        :title="tab.title"
+        :active="tabStore.activeTab?.key === tab.key"
+        :closeable="closeable(tab)"
+        @click="handleClick(tab)"
+        @close="handleClose(tab)"
+        @contextmenu.prevent="handleContextMenu($event, tab)"
+      />
+      <n-divider v-if="isChromeMode && !shouldHidden(index)" vertical class="absolute right-0" />
+    </div>
   </div>
   <ContextMenu v-bind="contextMenuProps" @update:visible="handleDropdownVisible" />
 </template>

@@ -5,7 +5,7 @@ import type { BackendModel, FetchListParams, Model, Row } from './typings'
 import { addressOptions, deptOptions } from './constants'
 import { add, edit, fetchDetail, fetchUserList } from './service'
 import { removeInvalidValues, transformOptionToKeyValue } from '@/utils'
-import { useDict } from '@/hooks'
+import { useDict } from '@/hooks/dict.ts'
 import { ListSelect, type ProTableColumn, type ProTableRequestParams } from '@/components'
 
 interface Emits {

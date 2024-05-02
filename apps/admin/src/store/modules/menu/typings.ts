@@ -12,7 +12,7 @@ export type MenuOption = import('naive-ui').MenuOption & {
 /**
  * 搜索菜单
  */
-export type SearchMenuOption = {
+export interface SearchMenuOption {
   key: string
   label: string
   routePath: string

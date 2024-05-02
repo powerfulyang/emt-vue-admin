@@ -10,7 +10,7 @@ const icons: Icons = {}
 
 for (const key in modules) {
   const iconName = key.slice(2, -4)
-  icons[iconName] = modules[key].default
+  icons[iconName] = modules[key]!.default
 }
 
 export default icons

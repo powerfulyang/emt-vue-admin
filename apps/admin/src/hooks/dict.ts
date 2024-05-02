@@ -1,5 +1,5 @@
 import { ref, toRef } from 'vue'
-import { mockRequest } from '@/utils'
+import { mockRequest } from '@/utils/service'
 
 function fetchDict(type: keyof Dict.Type) {
   return mockRequest.get<Dict.Item[]>(`/dict`, { params: { type } })

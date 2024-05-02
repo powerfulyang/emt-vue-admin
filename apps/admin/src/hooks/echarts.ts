@@ -35,7 +35,7 @@ import {
 } from 'echarts/components'
 import { LabelLayout, UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
-import { useThemeStore } from '@/store'
+import { useThemeStore } from '@/store/modules/theme/index.ts'
 
 export type ECOption = echarts.ComposeOption<
   | BarSeriesOption

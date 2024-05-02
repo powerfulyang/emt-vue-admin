@@ -20,7 +20,7 @@ function handleDropdownSelect(key: string) {
 </script>
 
 <template>
-  <n-breadcrumb class="px-12px">
+  <n-breadcrumb class="px-4">
     <n-breadcrumb-item v-for="breadcrumb of breadcrumbs" :key="breadcrumb.key">
       <n-dropdown
         v-if="breadcrumb.children && breadcrumb.children.length"

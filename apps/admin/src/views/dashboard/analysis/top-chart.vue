@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import CountTo from './components/count-to/index.vue'
-import { type ECOption, useEcharts } from '@/hooks'
+import { type ECOption, useEcharts } from '@/hooks/echarts.ts'
 
 const lineOptions = ref<ECOption>({
   tooltip: {

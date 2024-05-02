@@ -5,7 +5,7 @@ import type { MenuOption } from '@/store'
  * @param routeName
  * @param menus
  */
-export function getBreadcrumbsNyRouteName(routeName: string, menus: MenuOption[]) {
+export function getBreadcrumbsNyRouteName(routeName: string, menus: MenuOption[]): MenuOption[] {
   const breadcrumbs: MenuOption[] = []
   for (const menu of menus) {
     const { key, children } = menu

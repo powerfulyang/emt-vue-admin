@@ -1,35 +1,9 @@
-<template>
-  <dark-mode-container
-    class="app-tab flex items-center w-full pl-16px"
-    :style="{ height: `${theme.tab.height}px` }"
-  >
-    <div ref="bsWrapper" class="flex-1 h-full overflow-hidden">
-      <better-scroll
-        ref="bsScroll"
-        :options="{
-          scrollX: true,
-          scrollY: false,
-          click: !!deviceInfo.device.type
-        }"
-      >
-        <tabs @scroll="handleTabsScroll" />
-      </better-scroll>
-    </div>
-    <reload-button />
-  </dark-mode-container>
-</template>
-
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useElementBounding } from '@vueuse/core'
 import type { BScrollInstance } from '@better-scroll/core'
-import { useTabStore, useThemeStore } from '@/store'
-import { BetterScroll, DarkModeContainer } from '@/components'
 import { useDeviceInfo } from './hooks'
 import Tabs from './tabs/index.vue'
 import ReloadButton from './reload-button/index.vue'
+import { useTabStore, useThemeStore } from '@/store'
 
 defineOptions({ name: 'AppTab' })
 
@@ -44,7 +18,7 @@ const bsScroll = ref<BScrollInstance>()
 
 const { theme } = storeToRefs(useThemeStore())
 
-const handleTabsScroll = (clientX: number) => {
+function handleTabsScroll(clientX: number) {
   setTimeout(() => {
     const currentX = clientX - bsWrapperLeft.value
     const deltaX = currentX - bsWrapperWidth.value / 2
@@ -64,6 +38,27 @@ watch(route, (newVal) => {
 
 onMounted(tabStore.init)
 </script>
+
+<template>
+  <dark-mode-container
+    class="app-tab flex items-center w-full"
+    :style="{ height: `${theme.tab.height}px` }"
+  >
+    <div ref="bsWrapper" class="flex-1 h-full overflow-hidden">
+      <better-scroll
+        ref="bsScroll"
+        :options="{
+          scrollX: true,
+          scrollY: false,
+          click: !!deviceInfo.device.type,
+        }"
+      >
+        <Tabs @scroll="handleTabsScroll" />
+      </better-scroll>
+    </div>
+    <ReloadButton />
+  </dark-mode-container>
+</template>
 
 <style scoped>
 .app-tab {

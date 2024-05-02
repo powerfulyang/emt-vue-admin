@@ -12,6 +12,7 @@ export function AutoImportPlugin() {
         VueRouterAutoImports,
         'vue/macros',
         '@vueuse/core',
+        'pinia',
       ],
       dts: 'src/auto-typings/auto-imports.d.ts',
       dirs: ['src/composables'],

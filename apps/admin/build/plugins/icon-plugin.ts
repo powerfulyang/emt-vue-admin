@@ -4,7 +4,7 @@ export function IconPlugin() {
   return [
     Icons({
       compiler: 'vue3',
-      scale: 1.5,
+      scale: 1,
     }),
   ]
 }

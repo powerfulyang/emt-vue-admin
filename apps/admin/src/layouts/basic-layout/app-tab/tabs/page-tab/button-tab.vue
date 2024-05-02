@@ -1,20 +1,3 @@
-<template>
-  <div
-    :class="[
-      'relative inline-flex justify-center items-center gap-12px border-1px border-solid rounded-4px px-12px py-4px whitespace-nowrap cursor-pointer button-tab',
-      {
-        'button-tab_dark': darkMode,
-        'button-tab_active': active,
-        'button-tab_active_dark': darkMode && active
-      }
-    ]"
-  >
-    <slot name="icon"></slot>
-    <slot></slot>
-    <slot name="close"></slot>
-  </div>
-</template>
-
 <script setup lang="ts">
 export interface Props {
   darkMode?: boolean
@@ -23,16 +6,31 @@ export interface Props {
 
 defineProps<Props>()
 
+defineSlots<Slots>()
 type SlotFn = () => any
-type Slots = {
+interface Slots {
   icon?: SlotFn
   default?: SlotFn
   close?: SlotFn
 }
-defineSlots<Slots>()
-
 // comment: hack for highlight
 </script>
+
+<template>
+  <div
+    class="relative inline-flex justify-center items-center gap-12px border-1px border-solid rounded-4px px-12px py-4px whitespace-nowrap cursor-pointer button-tab" :class="[
+      {
+        'button-tab_dark': darkMode,
+        'button-tab_active': active,
+        'button-tab_active_dark': darkMode && active,
+      },
+    ]"
+  >
+    <slot name="icon" />
+    <slot />
+    <slot name="close" />
+  </div>
+</template>
 
 <style scoped lang="scss">
 .button-tab {

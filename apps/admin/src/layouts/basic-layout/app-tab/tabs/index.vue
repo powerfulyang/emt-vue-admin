@@ -1,30 +1,7 @@
-<template>
-  <div class="flex h-full pr-18px" :class="[isChromeMode ? 'items-end' : 'items-center gap-12px']">
-    <PageTab
-      ref="tabRef"
-      v-for="tab in tabStore.tabs"
-      :key="tab.key"
-      :mode="theme.tab.mode"
-      :dark-mode="theme.darkMode"
-      :icon="tab.icon"
-      :title="tab.title"
-      :active="tabStore.activeTab?.key === tab.key"
-      :closeable="closeable(tab)"
-      @click="handleClick(tab)"
-      @close="handleClose(tab)"
-      @contextmenu.prevent="handleContextMenu($event, tab)"
-    />
-  </div>
-  <context-menu v-bind="contextMenuProps" @update:visible="handleDropdownVisible" />
-</template>
-
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useRouteStore, useTabStore, useThemeStore, type MultiTab } from '@/store'
 import PageTab from './page-tab/index.vue'
 import ContextMenu from './context-menu/index.vue'
+import { type MultiTab, useRouteStore, useTabStore, useThemeStore } from '@/store'
 
 interface Emits {
   (e: 'scroll', clientX: number): void
@@ -39,7 +16,7 @@ const tabStore = useTabStore()
 
 const isChromeMode = computed(() => theme.value.tab.mode === 'chrome')
 
-const closeable = (tab: MultiTab) => {
+function closeable(tab: MultiTab) {
   return tab.key !== routeStore.rootRoute.name
 }
 
@@ -52,15 +29,15 @@ interface ContextMenuProps {
 }
 const contextMenuProps = ref<ContextMenuProps>({})
 
-const handleClick = (tab: MultiTab) => {
+function handleClick(tab: MultiTab) {
   router.push(tab.routePath)
 }
 
-const handleClose = (tab: MultiTab) => {
+function handleClose(tab: MultiTab) {
   tabStore.removeTab(tab)
 }
 
-const handleContextMenu = (e: MouseEvent, tab: MultiTab) => {
+function handleContextMenu(e: MouseEvent, tab: MultiTab) {
   const duration = contextMenuProps.value.visible ? 150 : 0
   setTimeout(() => {
     contextMenuProps.value.visible = true
@@ -71,7 +48,7 @@ const handleContextMenu = (e: MouseEvent, tab: MultiTab) => {
   }, duration)
 }
 
-const handleDropdownVisible = (visible: boolean) => {
+function handleDropdownVisible(visible: boolean) {
   contextMenuProps.value.visible = visible
 }
 
@@ -83,12 +60,32 @@ watch(
     nextTick(() => {
       const activeTabIndex = tabStore.tabs.findIndex(({ key }) => key === activeTab?.key)
       if (tabRef.value && tabRef.value.length) {
-        const activeEl = tabRef.value[activeTabIndex].$el as HTMLDivElement
+        const activeEl = tabRef.value[activeTabIndex]!.$el as HTMLDivElement
         const { x, width } = activeEl.getBoundingClientRect()
         const clientX = x + width / 2
         emit('scroll', clientX)
       }
     })
-  }
+  },
 )
 </script>
+
+<template>
+  <div class="flex h-full" :class="[isChromeMode ? 'items-end' : 'items-center gap-2 px-4']">
+    <PageTab
+      v-for="tab in tabStore.tabs"
+      ref="tabRef"
+      :key="tab.key"
+      :mode="theme.tab.mode"
+      :dark-mode="theme.darkMode"
+      :icon="tab.icon"
+      :title="tab.title"
+      :active="tabStore.activeTab?.key === tab.key"
+      :closeable="closeable(tab)"
+      @click="handleClick(tab)"
+      @close="handleClose(tab)"
+      @contextmenu.prevent="handleContextMenu($event, tab)"
+    />
+  </div>
+  <ContextMenu v-bind="contextMenuProps" @update:visible="handleDropdownVisible" />
+</template>

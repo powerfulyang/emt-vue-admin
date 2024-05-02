@@ -22,7 +22,8 @@ const {
 } = projectSetting
 
 interface ProjectSettingState {
-  navMode: string // 导航模式
+  // 左侧菜单模式 顶部菜单模式 左侧分级菜单模式 顶部混合菜单模式
+  navMode: 'vertical' | 'horizontal' | 'vertical-step' | 'mix' // 导航模式
   navTheme: string // 导航风格
   headerSetting: IHeaderSetting // 顶部设置
   showFooter: boolean // 页脚

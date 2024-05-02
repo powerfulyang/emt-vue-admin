@@ -1,19 +1,23 @@
 import type { App } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from '@/router/layout.ts'
-import { createRouterGuards } from '@/router/guards.ts'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { routeData } from './route-data'
+import { scrollBehavior } from './scroll-behavior'
+import { createRouterGuard } from './guard'
+import { transformRoutes } from '@/utils'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  extendRoutes: (routes) => {
-    return setupLayouts(routes)
-  },
+const { VITE_HASH_ROUTE = 'N', VITE_BASE_URL } = import.meta.env
+
+export const router = createRouter({
+  history:
+    VITE_HASH_ROUTE === 'Y' ? createWebHashHistory(VITE_BASE_URL) : createWebHistory(VITE_BASE_URL),
+  routes: transformRoutes(routeData),
+  scrollBehavior,
 })
 
-export function setupRouter(app: App) {
+export async function setupRouter(app: App) {
   app.use(router)
-
-  createRouterGuards(router)
+  createRouterGuard(router)
+  await router.isReady()
 }
 
-export default router
+export { routeData as constantRouteData }

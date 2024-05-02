@@ -2,14 +2,13 @@ import { createWorker } from '@root/mocks/start.ts'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp } from 'vue'
 import App from './App.vue'
+import { setupI18n } from '@/locales'
 import { useUserStore } from '@/store/modules/user.ts'
 import { useAsyncRouteStore } from '@/store/modules/asyncRoute.ts'
 import { setupDirectives } from '@/directives'
-import { setupNaiveDiscreteApi } from '@/plugins/naiveDiscreteApi.ts'
-import router, { setupRouter } from '@/router'
+import { setupAssets, setupNaiveDiscreteApi } from '@/plugins'
+import { setupRouter } from '@/router'
 import { setupStore, store } from '@/store'
-import '@/styles/index.scss'
-import 'virtual:uno.css'
 
 async function bootstrap() {
   await createWorker()
@@ -28,18 +27,13 @@ async function bootstrap() {
   setupDirectives(app)
 
   setupNaiveDiscreteApi()
+  setupAssets()
 
   // 挂载路由
-  setupRouter(app)
+  await setupRouter(app)
 
-  // 路由准备就绪后挂载 APP 实例
-  // https://router.vuejs.org/api/interfaces/router.html#isready
-  await router.isReady()
-
-  // https://www.naiveui.com/en-US/os-theme/docs/style-conflict#About-Tailwind's-Preflight-Style-Override
-  const meta = document.createElement('meta')
-  meta.name = 'naive-ui-style'
-  document.head.appendChild(meta)
+  // i18n
+  setupI18n(app)
 
   app.mount('#app', true)
 }

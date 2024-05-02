@@ -1,16 +1,13 @@
-<script setup lang="ts">
-definePage({
-  name: 'DashboardAnalysis',
-  meta: {
-    layout: 'app-layout',
-  },
-})
-</script>
-
 <template>
-  123
+  <n-space vertical :size="16">
+    <top-chart />
+    <data-card />
+    <bottom-part />
+  </n-space>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<script lang="ts" setup>
+import TopChart from './top-chart.vue'
+import DataCard from './data-card/index.vue'
+import BottomPart from './bottom-part.vue'
+</script>

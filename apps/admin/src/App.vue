@@ -2,7 +2,6 @@
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import AppProvider from '@/application/app-provider.vue'
 import ScreenLock from '@/components/screen-lock/index.vue'
 import { useThemeSettingStore } from '@/store/modules/themeSetting.ts'
 import { useScreenLockStore } from '@/store/modules/screenLock.ts'
@@ -66,14 +65,16 @@ onUnmounted(() => {
 
 <template>
   <n-config-provider
+    abstract
     :locale="zhCN"
     :date-locale="dateZhCN"
     :theme="getDarkTheme"
     :theme-overrides="getThemeOverrides"
   >
-    <AppProvider>
+    <n-global-style />
+    <app-provider>
       <router-view />
-    </AppProvider>
+    </app-provider>
   </n-config-provider>
 
   <transition v-if="isLock && $route.name !== '//login/'" name="slide-up">

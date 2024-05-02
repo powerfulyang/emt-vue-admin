@@ -10,7 +10,6 @@ import {
 import { reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import recharge from './recharge.vue'
-import { ResultEnum } from '@/enums/httpEnum'
 import { useBattery } from '@/hooks/useBattery'
 import { useOnline } from '@/hooks/useOnline'
 import { useTime } from '@/hooks/useTime'
@@ -58,7 +57,7 @@ async function onLogin() {
   }
   state.loginLoading = true
   const { code, result } = await userStore.login()
-  if (code === ResultEnum.SUCCESS) {
+  if (code === 200) {
     onLockLogin(false)
     useScreenLock.setLock(false)
   }

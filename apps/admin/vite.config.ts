@@ -31,6 +31,13 @@ function generateConfig({ command }: ConfigEnv): UserConfig {
         },
       ],
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "./src/styles/scrollbar.scss" as *;`,
+        },
+      },
+    },
     server: {
       proxy: {
         '/trpc': {

@@ -3,7 +3,6 @@ import { type Component, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import ChromeTab from './chrome-tab.vue'
 import ButtonTab from './button-tab.vue'
-import IconClose from './icon-close.vue'
 import { Icons } from '@/constants'
 import type { Settings } from '@/settings'
 import { addColorAlpha, transformColorWithOpacity } from '@/utils'
@@ -76,7 +75,7 @@ const cssVars = computed(() => {
         class="relative inline-flex justify-center items-center w-16px h-16px text-14px rd-50% icon-close"
         @click.stop="emit('close')"
       >
-        <IconClose />
+        <i-mdi-close />
       </div>
     </template>
   </component>

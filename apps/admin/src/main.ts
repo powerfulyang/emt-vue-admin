@@ -4,11 +4,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupI18n } from '@/locales'
 import { useUserStore } from '@/store/modules/user.ts'
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute.ts'
 import { setupDirectives } from '@/directives'
 import { setupAssets, setupNaiveDiscreteApi } from '@/plugins'
 import { setupRouter } from '@/router'
-import { setupStore, store } from '@/store'
+import { setupStore } from '@/store'
 
 async function bootstrap() {
   await createWorker()
@@ -20,7 +19,6 @@ async function bootstrap() {
   // 挂载状态管理
   setupStore(app)
 
-  await useAsyncRouteStore(store).fetchMenus()
   await useUserStore().fetchUserInfo()
 
   // 注册全局自定义指令，如：v-permission权限指令

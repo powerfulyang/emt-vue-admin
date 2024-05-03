@@ -64,10 +64,6 @@ interface Slots {
   .chrome-tab__bg {
     color: transparent;
   }
-	.chrome-tab__main:hover {
-		background-color: var(--primary-color-1);
-		@apply rounded-lg;
-	}
   :deep(.icon-close):hover {
     font-size: 12px;
     background-color: #9ca3af;
@@ -89,25 +85,25 @@ interface Slots {
       opacity: 0;
     }
   }
+	.chrome-tab__main:hover {
+		color: var(--primary-color);
+	}
   &.chrome-tab_dark {
-    &:not(.chrome-tab_active_dark) {
-      &:hover {
-        .chrome-tab__bg {
-          color: #333;
-        }
-      }
-    }
     :deep(.icon-close):hover {
       color: #000;
     }
+		.chrome-tab__main:hover {
+			color: white;
+		}
     .chrome-tab-divider {
       background-color: rgba(255, 255, 255, 0.9);
     }
   }
 
   &.chrome-tab_active_dark {
+		color: white;
     .chrome-tab__bg {
-      color: var(--primary-color-2);
+      color: var(--primary-color);
     }
   }
 }

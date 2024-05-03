@@ -101,7 +101,7 @@ function handleClickMask() {
 </script>
 
 <template>
-  <div class="relative h-full transition-all-300" :style="cssVars">
+  <n-layout class="relative h-full transition-all-300" :style="cssVars">
     <div
       :id="isWrapperScroll ? scrollElId : undefined"
       class="flex flex-col h-full transition-all-300" :class="[
@@ -194,7 +194,7 @@ function handleClickMask() {
         />
       </template>
     </div>
-  </div>
+  </n-layout>
 </template>
 
 <style scoped lang="scss">

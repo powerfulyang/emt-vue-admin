@@ -3,7 +3,6 @@ import { getColorPalette, localStg, sessionStg } from '@/utils'
 
 /**
  * 初始化主题配置
- * @returns
  */
 export function initTheme() {
   const _settings = sessionStg.get('settings') ?? settings
@@ -15,7 +14,7 @@ export function initTheme() {
     ..._settings,
     darkMode: theme ? theme === 'dark' : settings.darkMode,
     primaryColor,
-    otherColor
+    otherColor,
   }
 }
 
@@ -37,14 +36,14 @@ export function getThemeColors(colors: Record<ColorType, string>) {
     ['info', info],
     ['success', success],
     ['warning', warning],
-    ['error', error]
+    ['error', error],
   ]
 
   const colorActions: ColorAction[] = [
-    { scene: '', handler: (color) => color },
-    { scene: 'Hover', handler: (color) => getColorPalette(color, 5) },
-    { scene: 'Pressed', handler: (color) => getColorPalette(color, 7) },
-    { scene: 'Suppl', handler: (color) => getColorPalette(color, 5) }
+    { scene: '', handler: color => color },
+    { scene: 'Hover', handler: color => getColorPalette(color, 5) },
+    { scene: 'Pressed', handler: color => getColorPalette(color, 7) },
+    { scene: 'Suppl', handler: color => getColorPalette(color, 5) },
   ]
 
   const themeColors: ThemeColors = {}

@@ -26,7 +26,7 @@ function createLocalStorage<T extends LocalStorage>() {
   function set<K extends keyof T>(key: K, value: T[K], expire?: number) {
     const storageData: StorageData<T[K]> = {
       value,
-      expire: expire ?? Date.now() + DEFAULT_EXPIRE * 1000
+      expire: expire ?? Date.now() + DEFAULT_EXPIRE * 1000,
     }
     const json = encrypto(storageData)
     localStorage.setItem(key as string, json)
@@ -43,7 +43,8 @@ function createLocalStorage<T extends LocalStorage>() {
             return value
           }
         }
-      } catch (e) {
+      }
+      catch (e) {
         // do nothing
       }
     }

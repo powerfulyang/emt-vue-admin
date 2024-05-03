@@ -45,7 +45,7 @@ const headerProps = computed(() => LAYOUT_HEADER_PROPS[theme.value.layout.mode])
 </script>
 
 <template>
-  <dark-mode-container
+  <n-layout-header
     class="app-header flex items-center h-full"
     :inverted="theme.header.inverted"
   >
@@ -55,12 +55,12 @@ const headerProps = computed(() => LAYOUT_HEADER_PROPS[theme.value.layout.mode])
       class="h-full"
       :style="{ width: `${theme.sider.width}px` }"
     />
-    <div v-if="!headerProps.showHeaderMenu" class="flex items-center flex-1 h-full overflow-hidden">
+    <div v-if="!headerProps.showHeaderMenu" class="flex items-center h-full">
       <MenuCollapse v-if="headerProps.showMenuCollapse || isMobile" />
       <Breadcrumb v-if="theme.header.crumb.visible && !isMobile" />
     </div>
     <HeaderMenu v-else />
-    <div class="flex justify-end h-full">
+    <div class="flex ml-auto h-full">
       <Search />
       <GitHubSite />
       <FullScreen />
@@ -69,7 +69,7 @@ const headerProps = computed(() => LAYOUT_HEADER_PROPS[theme.value.layout.mode])
       <SystemMessage />
       <UserAvatar />
     </div>
-  </dark-mode-container>
+  </n-layout-header>
 </template>
 
 <style scoped>

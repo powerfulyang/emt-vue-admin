@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useCacheStore } from '@/store'
 import { scrollTo } from '@/utils'
-import { useCacheStore } from '../cache'
 
 export const useAppStore = defineStore('app-store', () => {
   const cacheStore = useCacheStore()
@@ -91,6 +91,6 @@ export const useAppStore = defineStore('app-store', () => {
     getScrollInfo,
 
     reloadFlag,
-    reloadPage
+    reloadPage,
   }
 })

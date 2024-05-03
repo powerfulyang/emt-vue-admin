@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
-import { computed, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
-import ScreenLock from '@/components/screen-lock/index.vue'
+import type { WritableComputedRef } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { Lang } from '@/locales'
+import { subscribeStore, useThemeStore } from '@/store'
 import { useThemeSettingStore } from '@/store/modules/themeSetting.ts'
-import { useScreenLockStore } from '@/store/modules/screenLock.ts'
 import { lighten } from '@/utils/lignten.ts'
 
 const themeStore = useThemeSettingStore()
+
+const { locale } = useI18n()
+
+const naiveLocale = computed(() => {
+  return (locale as WritableComputedRef<Lang>).value === 'zhCN' ? zhCN : null
+})
+
+const naiveDateLocale = computed(() => {
+  return (locale as WritableComputedRef<Lang>).value === 'zhCN' ? dateZhCN : null
+})
+
+const { naiveTheme, naiveThemeOverrides } = storeToRefs(useThemeStore())
+
+subscribeStore()
 
 const getThemeOverrides = computed(() => {
   const appTheme = themeStore.appTheme
@@ -26,60 +41,22 @@ const getThemeOverrides = computed(() => {
 })
 
 const getDarkTheme = computed(() => (themeStore.darkTheme ? darkTheme : undefined))
-
-const useScreenLock = useScreenLockStore()
-
-const isLock = computed(() => useScreenLock.isLocked)
-const lockTime = computed(() => useScreenLock.lockTime)
-
-let timer: number
-const route = useRoute()
-function timekeeping() {
-  clearInterval(timer)
-  if (route.name === 'login' || isLock.value) {
-    return
-  }
-  // 设置不锁屏
-  useScreenLock.setLock(false)
-  // 重置锁屏时间
-  useScreenLock.setLockTime()
-  timer = window.setInterval(() => {
-    // 锁屏倒计时递减
-    useScreenLock.setLockTime(lockTime.value - 1)
-    if (lockTime.value <= 0) {
-      // 设置锁屏
-      useScreenLock.setLock(true)
-      return clearInterval(timer)
-    }
-  }, 1000)
-}
-
-onMounted(() => {
-  document.addEventListener('mousedown', timekeeping)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('mousedown', timekeeping)
-})
 </script>
 
 <template>
   <n-config-provider
     abstract
-    :locale="zhCN"
-    :date-locale="dateZhCN"
-    :theme="getDarkTheme"
-    :theme-overrides="getThemeOverrides"
+    inline-theme-disabled
+    :locale="naiveLocale"
+    :date-locale="naiveDateLocale"
+    :theme="naiveTheme"
+    :theme-overrides="naiveThemeOverrides"
   >
     <n-global-style />
     <app-provider>
       <router-view />
     </app-provider>
   </n-config-provider>
-
-  <transition v-if="isLock && $route.name !== '//login/'" name="slide-up">
-    <ScreenLock />
-  </transition>
 </template>
 
 <style scoped></style>

@@ -42,11 +42,11 @@ function handleDropdown(optionKey: string) {
 
 <template>
   <n-dropdown :options="options" @select="handleDropdown">
-    <hover-container class="px-2 ml-4" :inverted="theme.header.inverted">
+    <hover-container class="ml-4 px-2 gap-2" :inverted="theme.header.inverted">
       <n-avatar :src="userStore.getUserInfo.avatar" />
-      <n-text class="ml-2">
+      <n-ellipsis line-clamp="1" class="flex-1">
         {{ userStore.getUserInfo?.realName }}
-      </n-text>
+      </n-ellipsis>
     </hover-container>
   </n-dropdown>
 </template>

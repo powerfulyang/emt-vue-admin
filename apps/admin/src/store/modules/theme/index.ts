@@ -24,6 +24,9 @@ export const useThemeStore = defineStore('theme-store', () => {
         borderRadius: BORDER_RADIUS,
         ...themeColors,
       },
+      Button: {
+        textColorPrimary: 'white',
+      },
     }
   })
 

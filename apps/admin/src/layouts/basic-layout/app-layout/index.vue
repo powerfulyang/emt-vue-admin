@@ -101,10 +101,10 @@ function handleClickMask() {
 </script>
 
 <template>
-  <n-layout class="relative h-full transition-all-300" :style="cssVars">
+  <n-layout class="relative h-full transition-all-300" :style="cssVars" has-sider>
     <div
       :id="isWrapperScroll ? scrollElId : undefined"
-      class="flex flex-col h-full transition-all-300" :class="[
+      class="flex flex-col h-full transition-all-300 w-full" :class="[
         {
           'overflow-y-auto': isWrapperScroll,
         },

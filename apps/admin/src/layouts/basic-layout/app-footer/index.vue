@@ -12,10 +12,10 @@ const { theme } = storeToRefs(useThemeStore())
 </script>
 
 <template>
-  <n-layout-footer
+  <dark-mode-container
     class="flex justify-center items-center h-full"
     :inverted="theme.footer.inverted"
   >
-    <span>Copyright ©2023 Vue Naive Admin</span>
-  </n-layout-footer>
+    <span>Copyright ©{{ new Date().getFullYear() }} EMT Admin</span>
+  </dark-mode-container>
 </template>

@@ -1,5 +1,5 @@
 export const zhCN = {
   system: {
-    title: 'Vue Naive Admin',
+    title: 'EMT Admin',
   },
 }

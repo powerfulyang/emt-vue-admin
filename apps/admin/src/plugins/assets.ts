@@ -1,4 +1,3 @@
-import 'vfonts/Lato.css'
 import '@/styles/index.scss'
 import 'virtual:uno.css'
 

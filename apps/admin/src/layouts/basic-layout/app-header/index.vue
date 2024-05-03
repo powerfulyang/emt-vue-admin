@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import Logo from '../components/logo.vue'
 import { useMobile } from '../hooks'
-import MenuCollapse from './menu-collapse/index.vue'
 import Breadcrumb from './breadcrumb/index.vue'
 import HeaderMenu from './header-menu.vue'
 import Search from './search/index.vue'
-import GitHubSite from './github-site/index.vue'
-import FullScreen from './full-screen/index.vue'
 import ThemeMode from './theme-mode.vue'
-import SystemMessage from './system-message/index.vue'
-import UserAvatar from './user-avatar/index.vue'
+import GitHubSite from '@/layouts/basic-layout/app-header/github/index.vue'
+import Fullscreen from '@/layouts/basic-layout/app-header/fullscreen/index.vue'
+import MenuCollapse from '@/layouts/basic-layout/app-header/collapse/index.vue'
+import SystemMessage from '@/layouts/basic-layout/app-header/notifications/index.vue'
+import UserAvatar from '@/layouts/basic-layout/app-header/avatar/index.vue'
 import { useThemeStore } from '@/store'
 
 defineOptions({ name: 'AppHeader' })
@@ -63,7 +63,7 @@ const headerProps = computed(() => LAYOUT_HEADER_PROPS[theme.value.layout.mode])
     <div class="flex ml-auto h-full">
       <Search />
       <GitHubSite />
-      <FullScreen />
+      <Fullscreen />
       <ThemeMode />
       <LangSelect with-hover-container />
       <SystemMessage />

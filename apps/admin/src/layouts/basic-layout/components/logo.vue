@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useThemeVars } from 'naive-ui'
-import IconLogo from './icon-logo.vue'
+import { useThemeStore } from '@/store'
 
 interface Props {
   showTitle?: boolean
@@ -8,21 +7,22 @@ interface Props {
 
 defineProps<Props>()
 
-const themeVars = useThemeVars()
+const { theme } = storeToRefs(useThemeStore())
 </script>
 
 <template>
-  <router-link
-    to="/"
-    class="flex justify-center items-center w-full whitespace-nowrap overflow-hidden"
-    :style="{ '--primary-color': themeVars.primaryColor }"
-  >
-    <IconLogo class="text-22px text-[var(--primary-color)]" />
-    <h2
-      v-show="showTitle"
-      class="pl-8px text-16px font-bold text-[var(--primary-color)] transition duration-300 ease-in-out"
+  <dark-mode-container class="flex items-center" :inverted="theme.sider.inverted">
+    <router-link
+      to="/"
+      class="flex justify-center items-center w-full whitespace-nowrap overflow-hidden"
     >
-      {{ $translate('system.title') }}
-    </h2>
-  </router-link>
+      <i-fluent-emoji-smiling-cat-with-heart-eyes class="text-3rem pb-2" />
+      <h2
+        v-show="showTitle"
+        class="text-16px font-bold transition duration-300 ease-in-out"
+      >
+        {{ $translate('system.title') }}
+      </h2>
+    </router-link>
+  </dark-mode-container>
 </template>

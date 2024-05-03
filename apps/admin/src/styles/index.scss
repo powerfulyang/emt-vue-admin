@@ -1,3 +1,15 @@
 @import 'transition/index';
 @import '@unocss/reset/tailwind-compat.css';
 @import "global";
+
+@font-face {
+	font-family: "v-sans";
+	font-weight: 400;
+	src: url("/fonts/LatoLatin-Regular.woff2");
+}
+
+@font-face {
+	font-family: "v-sans";
+	font-weight: 600;
+	src: url("/fonts/LatoLatin-Semibold.woff2");
+}

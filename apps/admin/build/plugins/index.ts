@@ -19,7 +19,8 @@ export function createVitePlugins(isBuild: boolean) {
       inject: {
         // Inject data into ejs template
         data: {
-          title: '中央管理系统',
+          // title: '中央管理系统',
+          title: 'Loading...',
         },
         // Embed the generated app.config.js file
         tags: isBuild

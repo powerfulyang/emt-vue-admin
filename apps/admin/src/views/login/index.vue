@@ -2,9 +2,7 @@
 import { useMutation } from '@tanstack/vue-query'
 import type { FormInst } from 'naive-ui'
 import { useMessage } from 'naive-ui'
-import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
 import { useUserStore } from '@/store/modules/user.ts'
-import { websiteConfig } from '@/config/website.config.ts'
 
 definePage({
   name: 'Login',
@@ -22,51 +20,61 @@ const formInline = shallowReactive({
 const router = useRouter()
 const userStore = useUserStore()
 
-const { mutate: login, isPending: loading } = useMutation({
+const loading = ref(false)
+
+const { mutate: login } = useMutation({
+  onMutate() {
+    loading.value = true
+  },
+  onError() {
+    loading.value = false
+  },
   mutationFn: async () => {
     return userStore.login(formInline.username, formInline.password)
   },
-  onSettled() {
-    message.destroyAll()
-  },
   onSuccess(data) {
-    message.success('登录成功')
     router.push(data.homePath)
   },
 })
 
+onUnmounted(() => {
+  loading.value = false
+  message.destroyAll()
+})
+
 const rules = {
-  username: { required: true, message: '请输入用户名', trigger: 'blur' },
-  password: { required: true, message: '请输入密码', trigger: 'blur' },
+  username: { required: true, trigger: 'blur' },
+  password: { required: true, trigger: 'blur' },
 }
 
 function handleSubmit(e: Event) {
   e.preventDefault()
   formRef.value.validate(async (errors) => {
     if (!errors) {
-      message.loading('登录中...')
       login()
-    }
-    else {
-      message.error('请填写完整信息，并且进行验证码校验')
     }
   })
 }
 </script>
 
 <template>
-  <div class="view-account">
-    <div class="view-account-header" />
-    <div class="view-account-container">
-      <div class="view-account-top">
-        <div class="view-account-top-logo">
-          <img :src="websiteConfig.loginImage" alt="">
+  <div class="login-page">
+    <div class="flex justify-end h-10 pr-4">
+      <lang-select with-hover-container />
+    </div>
+    <div class="m-auto w-350px">
+      <div class="pt-4 sm:pt-16 pb-8">
+        <div class="text-3rem flex items-center gap-4 justify-center">
+          <i-fluent-emoji-smiling-cat-with-heart-eyes />
+          <span class="text-2xl pt-2">
+            EMT Admin
+          </span>
         </div>
-        <div class="view-account-top-desc">
-          {{ websiteConfig.loginDesc }}
-        </div>
+        <n-p depth="3" class="mt-4 text-center">
+          {{ $t('login.welcome') }}
+        </n-p>
       </div>
-      <div class="view-account-form">
+      <div>
         <n-form
           ref="formRef"
           label-placement="left"
@@ -75,10 +83,10 @@ function handleSubmit(e: Event) {
           :rules="rules"
         >
           <n-form-item path="username">
-            <n-input v-model:value="formInline.username" placeholder="请输入用户名">
+            <n-input v-model:value="formInline.username">
               <template #prefix>
                 <n-icon size="18" color="#808695">
-                  <PersonOutline />
+                  <i-mdi-person-outline />
                 </n-icon>
               </template>
             </n-input>
@@ -88,51 +96,39 @@ function handleSubmit(e: Event) {
               v-model:value="formInline.password"
               type="password"
               show-password-on="click"
-              placeholder="请输入密码"
             >
               <template #prefix>
                 <n-icon size="18" color="#808695">
-                  <LockClosedOutline />
+                  <i-mdi-lock-outline />
                 </n-icon>
               </template>
             </n-input>
           </n-form-item>
-          <n-form-item class="default-color">
+          <n-form-item>
             <div class="flex justify-between">
-              <div class="flex-initial">
+              <div>
                 <n-checkbox v-model:checked="formInline.remember">
-                  记住密码
+                  {{ $t('login.remember') }}
                 </n-checkbox>
               </div>
             </div>
           </n-form-item>
           <n-form-item>
             <n-button type="primary" size="large" :loading="loading" block @click="handleSubmit">
-              登录
+              {{ $t('login.login') }}
             </n-button>
           </n-form-item>
-          <n-form-item class="default-color">
-            <div class="flex view-account-other">
-              <div class="flex-initial">
-                <span>其它登录方式</span>
-              </div>
-              <div class="flex-initial mx-2">
-                <a href="javascript:">
-                  <n-icon size="24" color="#2d8cf0">
-                    <LogoGithub />
-                  </n-icon>
-                </a>
-              </div>
-              <div class="flex-initial mx-2">
-                <a href="javascript:">
-                  <n-icon size="24" color="#2d8cf0">
-                    <LogoFacebook />
-                  </n-icon>
-                </a>
-              </div>
-              <div class="flex-initial" style="margin-left: auto">
-                <a class="cursor-pointer" @click="message.info('请使用 SSO 登录, 将自动注册账号')">
-                  注册账号
+          <n-form-item>
+            <div class="flex w-full items-center gap-2">
+              <span>
+                {{ $t('login.otherLogin') }}
+              </span>
+              <n-icon size="24" class="cursor-pointer" @click="message.info($t('login.notImplemented'))">
+                <i-mdi-github />
+              </n-icon>
+              <div class="ml-auto">
+                <a class="cursor-pointer" @click="message.info($t('login.notImplemented'))">
+                  {{ $t('login.register') }}
                 </a>
               </div>
             </div>
@@ -144,53 +140,15 @@ function handleSubmit(e: Event) {
 </template>
 
 <style lang="scss" scoped>
-  .view-account {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: auto;
-
-    &-container {
-      flex: 1;
-      padding: 32px 12px;
-      max-width: 384px;
-      min-width: 320px;
-      margin: 0 auto;
-    }
-
-    &-top {
-      padding: 32px 0;
-      text-align: center;
-
-      &-desc {
-        font-size: 14px;
-        color: #808695;
-      }
-    }
-
-    &-other {
-      width: 100%;
-    }
-
-    .default-color {
-      color: #515a6e;
-
-      .ant-checkbox-wrapper {
-        color: #515a6e;
-      }
-    }
-  }
-
-  @media (min-width: 768px) {
-    .view-account {
+.login-page {
+	height: 100vh;
+}
+@media (min-width: 768px) {
+    .login-page {
       background-image: url('@/assets/images/login.svg');
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 100%;
-    }
-
-    .page-account-container {
-      padding: 32px 0 24px 0;
     }
   }
 </style>

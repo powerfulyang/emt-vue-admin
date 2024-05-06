@@ -1,10 +1,7 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { Component } from 'vue'
 import { useThemeVars } from 'naive-ui'
 import type { MessageList } from '../typings'
-import IconAvatar from './icon-avatar.vue'
-import IconMessage from './icon-message.vue'
-import IconTodo from './icon-todo.vue'
 
 interface Props {
   list?: MessageList[]
@@ -25,9 +22,9 @@ const themeVars = useThemeVars()
 type Components = Record<string, Component>
 
 const iconComponents: Components = {
-  avatar: IconAvatar,
-  message: IconMessage,
-  todo: IconTodo,
+  notification: <i-mdi-notifications-none />,
+  message: <i-mdi-message-processing-outline />,
+  todo: <i-mdi-todo-auto />,
 }
 
 function handleRead(index: number) {
@@ -36,24 +33,24 @@ function handleRead(index: number) {
 </script>
 
 <template>
-  <n-scrollbar class="max-h-360px" :style="{ '--primary-color': themeVars.primaryColor }">
-    <n-list>
+  <n-scrollbar class="max-h-360px">
+    <n-list hoverable clickable>
       <n-list-item
         v-for="(item, index) in list"
         :key="item.id"
-        class="hover:bg-#f6f6f6 dark:hover:bg-dark cursor-pointer"
+        class="cursor-pointer !rounded-none"
         @click="handleRead(index)"
       >
-        <n-thing class="px-15px" :class="[{ 'opacity-30': item.isRead }]">
+        <n-thing :class="[{ 'opacity-30': item.isRead }]">
           <template #avatar>
             <component
               :is="iconComponents[item.icon]"
               v-if="item.icon"
-              class="text-34px text-[var(--primary-color)]"
+              class="text-8 text-[var(--primary-color)]"
             />
           </template>
           <template #header>
-            <n-ellipsis :line-clamp="1">
+            <n-ellipsis v-if="item.title" :line-clamp="1">
               {{ item.title }}
               <template #tooltip>
                 {{ item.title }}

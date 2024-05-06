@@ -1,9 +1,5 @@
-<script setup lang="ts">
-import { computed, h } from 'vue'
-import { storeToRefs } from 'pinia'
+<script setup lang="tsx">
 import type { DropdownOption } from 'naive-ui'
-import IconUserAvatar from './icon-user-avatar.vue'
-import IconLogout from './icon-logout.vue'
 import { useUserStore } from '@/store/modules/user.ts'
 import { useAuthStore, useThemeStore } from '@/store'
 
@@ -13,15 +9,24 @@ const { theme } = storeToRefs(useThemeStore())
 
 const options = computed<DropdownOption[]>(() => [
   {
-    label: $translate('layout.header.user.dropdown.userCenter'),
+    label: $translate('layout.header.user.dropdown.accountSettings'),
     key: 'user-center',
-    icon: () => h(IconUserAvatar),
+    icon: () => (
+      <n-icon size="18">
+        <i-mdi-user-outline />
+      </n-icon>
+    ),
   },
   { type: 'divider', key: 'divider' },
   {
     label: $translate('layout.header.user.dropdown.logout'),
     key: 'logout',
-    icon: () => h(IconLogout),
+    icon: () => (
+      <n-icon size="18">
+        <i-mdi-logout />
+      </n-icon>
+    )
+    ,
   },
 ])
 

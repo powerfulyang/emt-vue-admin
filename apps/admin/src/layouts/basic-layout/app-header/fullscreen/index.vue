@@ -11,7 +11,7 @@ const { isFullscreen, toggle } = useFullscreen()
 <template>
   <hover-container
     class="w-10 h-full text-xl"
-    :tooltip-content="$translate('layout.header.fullSreen.tooltip')"
+    :tooltip-content="$t(isFullscreen ? 'layout.header.exit_fullscreen.tooltip' : 'layout.header.fullscreen.tooltip')"
     :inverted="theme.header.inverted"
     @click="toggle"
   >

@@ -15,11 +15,6 @@ defineProps<Props>()
 
 const { theme } = storeToRefs(useThemeStore())
 
-interface Option {
-  label: string
-  key: Lang
-}
-
 const language = ref<Lang>(localStg.get('lang') ?? 'zhCN')
 
 const options: DropdownMixedOption[] = [

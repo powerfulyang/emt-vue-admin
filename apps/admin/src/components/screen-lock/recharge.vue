@@ -1,10 +1,29 @@
+<script lang="ts" setup>
+defineOptions({
+  name: 'Charge',
+})
+
+defineProps<{
+  battery: {
+    level: number
+    chargingTime: number
+    dischargingTime: number
+  }
+  calcDischargingTime: string
+  calcChargingTime: string
+  batteryStatus: string
+}>()
+</script>
+
 <template>
   <div class="container">
-    <div class="number">{{ battery.level }}%</div>
+    <div class="number">
+      {{ battery.level }}%
+    </div>
     <div class="contrast">
-      <div class="circle"></div>
+      <div class="circle" />
       <ul class="bubbles">
-        <li v-for="i in 15" :key="i"></li>
+        <li v-for="i in 15" :key="i" />
       </ul>
     </div>
     <div class="charging">
@@ -18,23 +37,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-  defineOptions({
-    name: 'Charge',
-  });
-
-  defineProps<{
-    battery: {
-      level: number;
-      chargingTime: number;
-      dischargingTime: number;
-    };
-    calcDischargingTime: string;
-    calcChargingTime: string;
-    batteryStatus: string;
-  }>();
-</script>
 
 <style lang="scss" scoped>
   .container {

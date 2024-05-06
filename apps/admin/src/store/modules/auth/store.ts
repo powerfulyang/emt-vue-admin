@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
-import { useTabStore } from '../tab'
 import { fetchUserInfo, login as postLogin } from './service'
+import { useUserStore } from '@/store/modules/user.ts'
 import { useRouteStore } from '@/store'
 import { $translate } from '@/locales'
 import { localStg } from '@/utils'
@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth-store', () => {
   const router = useRouter()
   const route = useRoute()
   const routeStore = useRouteStore()
-  const tabStore = useTabStore()
+  const userStore = useUserStore()
 
   const token = ref(localStg.get('token'))
   const userInfo = ref(localStg.get('userInfo'))
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth-store', () => {
         }),
         duration: 3000,
       })
-      router.push(route.query.redirect ? (route.query.redirect as string) : { name: 'Root' })
+      await router.push(route.query.redirect ? (route.query.redirect as string) : { name: 'Root' })
     }
     catch (e) {
       console.warn(e)
@@ -57,15 +57,11 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
     const redirect = route.fullPath
     // 设置 500 毫秒延迟，避免页面出现空白
-    reset(500)
-    setTimeout(() => {
-      routeStore.reset()
-      tabStore.reset()
-    }, 500)
-    router.push({ name: 'Login', query: { redirect } })
+    await userStore.logout()
+    await router.push({ name: 'Login', query: { redirect } })
   }
 
   return {

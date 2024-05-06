@@ -31,20 +31,20 @@ function handleDropdownSelect(key: string) {
           <component
             :is="breadcrumb.icon"
             v-if="theme.header.crumb.showIcon && breadcrumb.icon"
-            class="inline-block align-text-bottom mr-4px text-16px"
+            class="inline-block mr-4px text-lg"
           />
-          {{ breadcrumb.label }}
+          <span class="align-bottom">{{ breadcrumb.label }}</span>
         </span>
       </n-dropdown>
       <template v-else>
         <component
           :is="breadcrumb.icon"
           v-if="theme.header.crumb.showIcon && breadcrumb.icon"
-          class="inline-block align-text-bottom mr-4px text-16px" :class="[
+          class="inline-block mr-4px text-lg" :class="[
             { 'text-#BBBBBB': theme.header.inverted },
           ]"
         />
-        <span :class="{ 'text-#BBBBBB': theme.header.inverted }">
+        <span class="align-bottom" :class="{ 'text-#BBBBBB': theme.header.inverted }">
           {{ breadcrumb.label }}
         </span>
       </template>

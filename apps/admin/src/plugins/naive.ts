@@ -1,6 +1,6 @@
 import * as NaiveUI from 'naive-ui'
 import { computed } from 'vue'
-import { useThemeSettingStore } from '@/store/modules/themeSetting.ts'
+import { useThemeStore } from '@/store'
 import { lighten } from '@/utils/lignten.ts'
 
 /**
@@ -10,18 +10,18 @@ import { lighten } from '@/utils/lignten.ts'
  */
 
 export function setupNaiveDiscreteApi() {
-  const themeStore = useThemeSettingStore()
+  const themeStore = useThemeStore()
 
   const configProviderPropsRef = computed(() => ({
-    theme: themeStore.darkTheme ? NaiveUI.darkTheme : undefined,
+    theme: themeStore.theme.darkMode ? NaiveUI.darkTheme : undefined,
     themeOverrides: {
       common: {
-        primaryColor: themeStore.appTheme,
-        primaryColorHover: lighten(themeStore.appTheme, 6),
-        primaryColorPressed: lighten(themeStore.appTheme, 6),
+        primaryColor: themeStore.theme.primaryColor,
+        primaryColorHover: lighten(themeStore.theme.primaryColor, 6),
+        primaryColorPressed: lighten(themeStore.theme.primaryColor, 6),
       },
       LoadingBar: {
-        colorLoading: themeStore.appTheme,
+        colorLoading: themeStore.theme.primaryColor,
       },
     },
   }))

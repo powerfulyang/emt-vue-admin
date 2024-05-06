@@ -1,5 +1,5 @@
-import { computed, defineComponent, inject, ref, watch, type PropType } from 'vue'
-import { NSelect, type DataTableRowKey, type SelectProps } from 'naive-ui'
+import { type PropType, computed, defineComponent, inject, ref, watch } from 'vue'
+import { type DataTableRowKey, NSelect, type SelectProps } from 'naive-ui'
 import { formItemInjectionKey } from 'naive-ui/es/_mixins/use-form-item'
 import type { ProTable } from '../pro-table'
 import ListSelectPane, { type ListSelectPaneRow as Row } from '../list-select-pane'
@@ -13,8 +13,8 @@ const ListSelect = defineComponent({
   inheritAttrs: false,
   props: {
     selectProps: {
-      type: Object as PropType<SelectProps>
-    }
+      type: Object as PropType<SelectProps>,
+    },
   },
   setup(props, { attrs, expose }) {
     const NFormItem = inject(formItemInjectionKey, null)
@@ -34,9 +34,11 @@ const ListSelect = defineComponent({
       const _rowKey = (attrs.rowKey ?? attrs['row-key']) as RowKey
       if (attrs.valueField) {
         return attrs.valueField as string
-      } else if (_rowKey) {
+      }
+      else if (_rowKey) {
         return _rowKey(row)
-      } else {
+      }
+      else {
         return 'id'
       }
     }
@@ -51,10 +53,12 @@ const ListSelect = defineComponent({
       if (value) {
         if (Array.isArray(value)) {
           return value.filter((row: Row) => row).map((row: Row) => row[rowKey(row)])
-        } else {
+        }
+        else {
           return value[rowKey(value)]
         }
-      } else {
+      }
+      else {
         return value
       }
     })
@@ -62,7 +66,7 @@ const ListSelect = defineComponent({
     const selectOptions = computed(() => {
       const _value = paneRef.value?.value
       const value = _value ? (Array.isArray(_value) ? _value : [_value]) : []
-      return value.map((item) => ({ value: item[rowKey(item)], label: item[labelField.value] }))
+      return value.map(item => ({ value: item[rowKey(item)], label: item[labelField.value] }))
     })
 
     // clear or multiple clear
@@ -86,12 +90,12 @@ const ListSelect = defineComponent({
       () => attrs.value,
       () => {
         NFormItem?.handleContentChange()
-      }
+      },
     )
 
     const exposed: Exposed = {
       paneRef: paneRef as unknown as InstanceType<typeof ListSelectPane>,
-      tableRef: tableRef as unknown as InstanceType<typeof ProTable>
+      tableRef: tableRef as unknown as InstanceType<typeof ProTable>,
     }
 
     expose(exposed)
@@ -115,7 +119,7 @@ const ListSelect = defineComponent({
         <ListSelectPane ref={paneRef} {...(attrs as any)} />
       </>
     )
-  }
+  },
 })
 
 export default ListSelect as typeof ListSelect & typeof ListSelectPane & { new (): Exposed }

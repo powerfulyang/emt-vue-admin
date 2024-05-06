@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { websiteConfig } from '@/config/website.config.ts'
 import { useThemeStore } from '@/store'
 
 defineOptions(
@@ -16,6 +17,6 @@ const { theme } = storeToRefs(useThemeStore())
     class="flex justify-center items-center h-full"
     :inverted="theme.footer.inverted"
   >
-    <span>Copyright ©{{ new Date().getFullYear() }} EMT Admin</span>
+    <span>Copyright ©{{ new Date().getFullYear() }} {{ websiteConfig.siteName }}</span>
   </dark-mode-container>
 </template>

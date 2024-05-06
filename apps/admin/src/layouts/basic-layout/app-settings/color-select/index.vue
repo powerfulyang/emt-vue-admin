@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import IconCheck from './icon-check.vue'
+import { colors } from '@/settings'
+import { useThemeStore } from '@/store'
+
+const themeStore = useThemeStore()
+const { theme } = storeToRefs(themeStore)
+</script>
+
 <template>
   <n-divider title-placement="center">
     {{ $translate('layout.settings.colorSelect.title') }}
@@ -9,7 +19,7 @@
         :style="{ backgroundColor: color }"
         @click="themeStore.setPrimaryColor(color)"
       >
-        <icon-check v-if="color === theme.primaryColor" class="text-white" />
+        <IconCheck v-if="color === theme.primaryColor" class="text-white" />
       </div>
     </n-grid-item>
   </n-grid>
@@ -21,13 +31,3 @@
     />
   </n-space>
 </template>
-
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { colors } from '@/settings'
-import { useThemeStore } from '@/store'
-import IconCheck from './icon-check.vue'
-
-const themeStore = useThemeStore()
-const { theme } = storeToRefs(themeStore)
-</script>

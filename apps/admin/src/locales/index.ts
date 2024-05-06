@@ -1,8 +1,9 @@
 import type { App } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { type Lang, messages } from './lang'
+import { localStg } from '@/utils'
 
-const locale: Lang = localStorage.getItem('lang') ?? 'zhCN'
+const locale: Lang = localStg.get('lang') ?? 'zhCN'
 const fallbackLocale: Lang = 'enUS'
 
 const i18n = createI18n({

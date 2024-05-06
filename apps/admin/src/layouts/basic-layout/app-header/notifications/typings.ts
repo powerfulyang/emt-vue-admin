@@ -14,7 +14,7 @@ export interface MessageList {
   /**
    * 消息标题
    */
-  title: string
+  title?: string
   /**
    * 消息发送时间
    */

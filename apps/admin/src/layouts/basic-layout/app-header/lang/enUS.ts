@@ -14,17 +14,20 @@ export const enUS = {
           },
         },
       },
-      githubSite: {
-        tooltip: 'github',
+      github: {
+        tooltip: 'GitHub Repository',
       },
-      fullSreen: {
-        tooltip: 'full screen',
+      fullscreen: {
+        tooltip: 'fullscreen',
+      },
+      exit_fullscreen: {
+        tooltip: 'exit fullscreen',
       },
       themeMode: {
         tooltip: 'theme mode',
       },
-      systemMessage: {
-        tooltip: 'system message',
+      notifications: {
+        tooltip: 'notifications',
         tabs: {
           title: {
             notice: 'notice',
@@ -40,8 +43,8 @@ export const enUS = {
       },
       user: {
         dropdown: {
-          userCenter: 'user center',
-          logout: 'logout',
+          accountSettings: 'Account Settings',
+          logout: 'Log out',
         },
         logoutDialog: {
           title: 'Tip',

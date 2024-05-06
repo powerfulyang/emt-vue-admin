@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { type PopoverPlacement, useThemeVars } from 'naive-ui'
+import { useMobile } from '@/layouts/basic-layout/hooks.ts'
 
 defineOptions({ name: 'HoverContainer' })
 
@@ -23,10 +24,12 @@ const contentClassName = computed(
       props.inverted ? 'hover:bg-[var(--primary-color)]' : 'hover:bg-#f6f6f6'
     }`,
 )
+
+const { isMobile } = useMobile()
 </script>
 
 <template>
-  <div v-if="tooltipContent">
+  <div v-if="tooltipContent && !isMobile">
     <n-tooltip :placement="placement" trigger="hover">
       <template #trigger>
         <div

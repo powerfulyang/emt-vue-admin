@@ -1,6 +1,6 @@
-import copyDirective from '@/directives/modules/copy';
-import type { App } from 'vue';
+import type { App } from 'vue'
+import copyDirective from '@/directives/modules/copy'
 
-export const setupDirectives = (app: App<Element>) => {
-  app.directive('copy', copyDirective());
-};
+export function setupDirectives(app: App<Element>) {
+  app.directive('copy', copyDirective())
+}

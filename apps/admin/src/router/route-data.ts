@@ -7,11 +7,4 @@ export const routeData: RouteData[] = [
     layout: 'blank',
     white: true,
   },
-  {
-    title: 'Tab 详情',
-    path: 'function/tab-detail',
-    icon: 'function-tab',
-    activeMenu: '/function/tab',
-    unsafeRoot: true,
-  },
 ]

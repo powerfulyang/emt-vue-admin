@@ -14,7 +14,7 @@ function handleSearch() {
 <template>
   <hover-container
     class="w-10 h-full text-xl"
-    :tooltip-content="$translate('layout.header.search.tooltip')"
+    :tooltip-content="$t('layout.header.search.tooltip')"
     :inverted="theme.header.inverted"
     @click="handleSearch"
   >

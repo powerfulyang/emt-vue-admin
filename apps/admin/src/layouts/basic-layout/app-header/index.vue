@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Logo from '../components/logo.vue'
 import { useMobile } from '../hooks'
 import Breadcrumb from './breadcrumb/index.vue'
 import HeaderMenu from './header-menu.vue'
 import Search from './search/index.vue'
 import ThemeMode from './theme-mode.vue'
+import Logo from '@/layouts/basic-layout/app-logo/index.vue'
 import GitHubSite from '@/layouts/basic-layout/app-header/github/index.vue'
 import Fullscreen from '@/layouts/basic-layout/app-header/fullscreen/index.vue'
 import MenuCollapse from '@/layouts/basic-layout/app-header/collapse/index.vue'

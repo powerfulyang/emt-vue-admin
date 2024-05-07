@@ -4,7 +4,6 @@ import { defineStore } from 'pinia'
 import { fetchUserInfo, login as postLogin } from './service'
 import { useUserStore } from '@/store/modules/user.ts'
 import { useRouteStore } from '@/store'
-import { $translate } from '@/locales'
 import { localStg } from '@/utils'
 
 export const useAuthStore = defineStore('auth-store', () => {
@@ -42,8 +41,8 @@ export const useAuthStore = defineStore('auth-store', () => {
       await routeStore.init()
       loginLoading.value = false
       window.$notification.success({
-        title: $translate('login.loginSuccess'),
-        content: $translate('login.welcomeBack', {
+        title: window.$t('login.loginSuccess'),
+        content: window.$t('login.welcomeBack', {
           userName: userInfo.value?.userName,
         }),
         duration: 3000,

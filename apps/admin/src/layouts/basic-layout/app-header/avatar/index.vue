@@ -9,7 +9,7 @@ const { theme } = storeToRefs(useThemeStore())
 
 const options = computed<DropdownOption[]>(() => [
   {
-    label: $translate('layout.header.user.dropdown.accountSettings'),
+    label: $t('layout.header.user.dropdown.accountSettings'),
     key: 'user-center',
     icon: () => (
       <n-icon size="18">
@@ -19,7 +19,7 @@ const options = computed<DropdownOption[]>(() => [
   },
   { type: 'divider', key: 'divider' },
   {
-    label: $translate('layout.header.user.dropdown.logout'),
+    label: $t('layout.header.user.dropdown.logout'),
     key: 'logout',
     icon: () => (
       <n-icon size="18">
@@ -33,10 +33,10 @@ const options = computed<DropdownOption[]>(() => [
 function handleDropdown(optionKey: string) {
   if (optionKey === 'logout') {
     window.$dialog.info({
-      title: $translate('layout.header.user.logoutDialog.title'),
-      content: $translate('layout.header.user.logoutDialog.content'),
-      positiveText: $translate('layout.header.user.logoutDialog.action.confirm'),
-      negativeText: $translate('layout.header.user.logoutDialog.action.cancel'),
+      title: $t('layout.header.user.logoutDialog.title'),
+      content: $t('layout.header.user.logoutDialog.content'),
+      positiveText: $t('layout.header.user.logoutDialog.action.confirm'),
+      negativeText: $t('layout.header.user.logoutDialog.action.cancel'),
       onPositiveClick: () => {
         authStore.logout()
       },

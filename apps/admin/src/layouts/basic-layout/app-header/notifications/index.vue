@@ -13,7 +13,7 @@ const { isMobile } = useMobile()
 const tabData = ref<MessageTab[]>([
   {
     key: 1,
-    name: $translate('layout.header.notifications.tabs.title.notice'),
+    name: $t('layout.header.notifications.tabs.title.notice'),
     badgeProps: { type: 'warning' },
     list: Array.from({ length: 5 }).map(() => {
       return {
@@ -26,7 +26,7 @@ const tabData = ref<MessageTab[]>([
   },
   {
     key: 2,
-    name: $translate('layout.header.notifications.tabs.title.message'),
+    name: $t('layout.header.notifications.tabs.title.message'),
     badgeProps: { type: 'error' },
     list: Array.from({ length: 5 }).map(() => {
       return {
@@ -40,7 +40,7 @@ const tabData = ref<MessageTab[]>([
   },
   {
     key: 3,
-    name: $translate('layout.header.notifications.tabs.title.todo'),
+    name: $t('layout.header.notifications.tabs.title.todo'),
     badgeProps: { type: 'info' },
     list: [
       {

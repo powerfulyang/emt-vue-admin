@@ -1,4 +1,4 @@
-import { defineComponent, type PropType } from 'vue'
+import { type PropType, defineComponent } from 'vue'
 import { NButton, NDropdown, NTooltip } from 'naive-ui'
 import type { TableSize } from '../../typings'
 import { tableSizeOptions } from './constants'
@@ -8,12 +8,12 @@ export default defineComponent({
   props: {
     size: {
       type: String as PropType<TableSize>,
-      required: true
+      required: true,
     },
     onUpdateSize: {
       type: Function as PropType<(size: TableSize) => void>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
     return () => (
@@ -26,15 +26,15 @@ export default defineComponent({
       >
         <NTooltip>
           {{
-            default: () => $translate('proTable.action.size'),
+            default: () => $t('proTable.action.size'),
             trigger: () => (
               <NButton text class="flex-shrink-0">
                 <IconSize class="font-size-18px cursor-pointer" />
               </NButton>
-            )
+            ),
           }}
         </NTooltip>
       </NDropdown>
     )
-  }
+  },
 })

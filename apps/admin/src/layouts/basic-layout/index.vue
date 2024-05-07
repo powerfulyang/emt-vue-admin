@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import AppContent from '../components/app-content/index.vue'
 import { useLayout, useMobile } from './hooks'
 import AppLayout from './app-layout/index.vue'
 import AppHeader from './app-header/index.vue'
@@ -8,6 +7,7 @@ import AppSider from './app-sider/index.vue'
 import AppTab from './app-tab/index.vue'
 import AppFooter from './app-footer/index.vue'
 import AppSettings from './app-settings/index.vue'
+import AppContent from '@/layouts/basic-layout/app-content/index.vue'
 import { useAppStore, useThemeStore } from '@/store'
 
 defineOptions({ name: 'BasicLayout' })

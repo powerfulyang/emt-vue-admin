@@ -21,7 +21,7 @@ const { theme } = storeToRefs(useThemeStore())
         v-show="showTitle"
         class="text-16px font-bold transition duration-300 ease-in-out"
       >
-        {{ $translate('system.title') }}
+        {{ $t('system.title') }}
       </h2>
     </router-link>
   </dark-mode-container>

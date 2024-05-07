@@ -1,37 +1,37 @@
 import {
+  type CSSProperties,
+  type PropType,
+  type Ref,
   computed,
   defineComponent,
   onMounted,
   ref,
   watch,
-  type CSSProperties,
-  type PropType,
-  type Ref
 } from 'vue'
 import {
+  type DataTableColumnKey,
   NButton,
   NCard,
   NCascader,
   NDatePicker,
   NForm,
+  NFormItem,
   NGrid,
+  NGridItem,
   NInput,
   NInputNumber,
   NSelect,
   NSpace,
   NTooltip,
   NTreeSelect,
-  NGridItem,
-  NFormItem,
-  type DataTableColumnKey
 } from 'naive-ui'
 import { useResizeObserver } from '@vueuse/core'
-import { removeInvalidValues } from '@/utils'
 import type { SearchAction, SearchColumn } from '../typings'
 import { COLS, DATE_PICKER_TYPES, SIZE } from './constants'
 import { useForm } from './hooks'
-import { IconDown, IconArrowRight } from './icons'
+import { IconArrowRight, IconDown } from './icons'
 import styles from './index.module.scss'
+import { removeInvalidValues } from '@/utils'
 
 export interface Exposed {
   reload: () => void
@@ -47,41 +47,41 @@ export interface Exposed {
 const Search = defineComponent({
   props: {
     contentStyle: {
-      type: [String, Object] as PropType<CSSProperties>
+      type: [String, Object] as PropType<CSSProperties>,
     },
     columns: {
       type: Array as PropType<SearchColumn[]>,
-      required: true
+      required: true,
     },
     cols: {
-      type: Number as PropType<number>
+      type: Number as PropType<number>,
     },
     labelWidth: {
       type: [String, Number] as PropType<string | number | 'auto'>,
-      default: 105
+      default: 105,
     },
     clearable: {
       type: Boolean as PropType<boolean>,
-      default: true
+      default: true,
     },
     disabled: {
       type: Boolean as PropType<boolean>,
-      default: false
+      default: false,
     },
     action: {
       type: [Boolean, Function] as PropType<SearchAction>,
-      default: true
+      default: true,
     },
     showActionCollapse: {
       type: Boolean as PropType<boolean>,
-      default: true
+      default: true,
     },
     onSearch: {
-      type: Function as PropType<(form: any) => void>
+      type: Function as PropType<(form: any) => void>,
     },
     onReset: {
-      type: Function as PropType<() => void>
-    }
+      type: Function as PropType<() => void>,
+    },
   },
   setup(props, { expose }) {
     const { form, getForm, setForm, setDefaultForm, resetForm } = useForm(props.columns)
@@ -92,7 +92,7 @@ const Search = defineComponent({
 
     watch(
       () => props.showActionCollapse,
-      (newVal) => (collapsed.value = newVal)
+      newVal => (collapsed.value = newVal),
     )
 
     const gridRef = ref<InstanceType<typeof NGrid>>()
@@ -107,14 +107,15 @@ const Search = defineComponent({
     const handleUpdateValue = (key: DataTableColumnKey, newVal: any) => {
       const oldVal = form.value[key]
       form.value[key] = newVal
-      const column = props.columns.find((column) => column.key === key)
+      const column = props.columns.find(column => column.key === key)
       if (column?.onChange) {
         const { onChange } = column
         if (typeof onChange === 'function') {
           onChange(newVal, oldVal)
-        } else {
+        }
+        else {
           const { watch, handler } = onChange
-          if (!watch) handler(newVal, oldVal)
+          if (!watch) { handler(newVal, oldVal) }
         }
       }
     }
@@ -127,17 +128,17 @@ const Search = defineComponent({
 
     const renderField = (
       form: Ref<any>,
-      { key, renderField, type, clearable, disabled, options }: SearchColumn
+      { key, renderField, type, clearable, disabled, options }: SearchColumn,
     ) => {
       const _clearable = clearable ?? props.clearable
-      const _disabled =
-        typeof disabled === 'function' ? disabled(form.value) : disabled ?? props.disabled
+      const _disabled
+        = typeof disabled === 'function' ? disabled(form.value) : disabled ?? props.disabled
       const _options: any = typeof options === 'function' ? options() : options
       if (renderField) {
         return renderField(form.value, key, {
           clearable: _clearable,
           disabled: _disabled,
-          options: _options
+          options: _options,
         })
       }
       if (type === 'input') {
@@ -147,10 +148,11 @@ const Search = defineComponent({
             clearable={_clearable}
             disabled={_disabled}
             onUpdateValue={handleUpdateValue.bind(null, key)}
-            onKeyup={(e) => e.code === 'Enter' && handleSearch()}
+            onKeyup={e => e.code === 'Enter' && handleSearch()}
           />
         )
-      } else if (type === 'input-number') {
+      }
+      else if (type === 'input-number') {
         return (
           <NInputNumber
             value={form.value[key]}
@@ -159,7 +161,8 @@ const Search = defineComponent({
             onUpdateValue={handleUpdateValue.bind(null, key)}
           />
         )
-      } else if (type === 'select' || type === 'multiple-select') {
+      }
+      else if (type === 'select' || type === 'multiple-select') {
         return (
           <NSelect
             value={form.value[key]}
@@ -172,7 +175,8 @@ const Search = defineComponent({
             onUpdateValue={handleUpdateValue.bind(null, key)}
           />
         )
-      } else if (type === 'tree-select') {
+      }
+      else if (type === 'tree-select') {
         return (
           <NTreeSelect
             value={form.value[key]}
@@ -184,7 +188,8 @@ const Search = defineComponent({
             onUpdateValue={handleUpdateValue.bind(null, key)}
           />
         )
-      } else if (type === 'cascader') {
+      }
+      else if (type === 'cascader') {
         return (
           <NCascader
             value={form.value[key]}
@@ -196,7 +201,8 @@ const Search = defineComponent({
             onUpdateValue={handleUpdateValue.bind(null, key)}
           />
         )
-      } else if (DATE_PICKER_TYPES.includes(type)) {
+      }
+      else if (DATE_PICKER_TYPES.includes(type)) {
         const DatePicker = (
           <NDatePicker
             formattedValue={form.value[key]}
@@ -204,7 +210,7 @@ const Search = defineComponent({
             clearable={_clearable}
             disabled={_disabled}
             onUpdateFormattedValue={handleUpdateValue.bind(null, key)}
-            // @ts-ignore
+            // @ts-expect-error
             onMouseenter={setShowToolTips.bind(null, key, true)}
             onMouseleave={setShowToolTips.bind(null, key, false)}
           />
@@ -221,21 +227,23 @@ const Search = defineComponent({
                       {form.value[key][1]}
                     </NSpace>
                   ),
-                trigger: () => DatePicker
+                trigger: () => DatePicker,
               }}
             </NTooltip>
           )
-        } else {
+        }
+        else {
           return DatePicker
         }
-      } else {
+      }
+      else {
         return (
           <NInput
             value={form.value[key]}
             clearable={_clearable}
             disabled={_disabled}
             onUpdateValue={handleUpdateValue.bind(null, key)}
-            onKeyup={(e) => e.code === 'Enter' && handleSearch()}
+            onKeyup={e => e.code === 'Enter' && handleSearch()}
           />
         )
       }
@@ -243,13 +251,13 @@ const Search = defineComponent({
 
     const handleSearch = () => {
       const { onSearch } = props
-      if (onSearch) onSearch(removeInvalidValues(form.value))
+      if (onSearch) { onSearch(removeInvalidValues(form.value)) }
     }
 
     const handleReset = () => {
       resetForm()
       const { onReset } = props
-      if (onReset) onReset()
+      if (onReset) { onReset() }
       handleSearch()
     }
 
@@ -282,7 +290,7 @@ const Search = defineComponent({
       getValue: getForm,
       getValues,
       setValue: setForm,
-      setValues
+      setValues,
     }
 
     expose(exposed)
@@ -290,10 +298,10 @@ const Search = defineComponent({
     onMounted(handleSearch)
 
     const renderSearchAction = () => [
-      <NButton onClick={handleReset}>{$translate('proTable.searchAction.reset')}</NButton>,
+      <NButton onClick={handleReset}>{$t('proTable.searchAction.reset')}</NButton>,
       <NButton type="primary" onClick={handleSearch}>
-        {$translate('proTable.searchAction.query')}
-      </NButton>
+        {$t('proTable.searchAction.query')}
+      </NButton>,
     ]
 
     return () => (
@@ -312,7 +320,7 @@ const Search = defineComponent({
             xGap={24}
             yGap={20}
           >
-            {props.columns.map((column) => (
+            {props.columns.map(column => (
               <NGridItem key={column.key} span={column.span}>
                 <NFormItem>
                   {{
@@ -321,8 +329,8 @@ const Search = defineComponent({
                       typeof column.label === 'function'
                         ? column.label()
                         : column.renderLabel
-                        ? column.renderLabel(column.label)
-                        : column.label
+                          ? column.renderLabel(column.label)
+                          : column.label,
                   }}
                 </NFormItem>
               </NGridItem>
@@ -339,28 +347,30 @@ const Search = defineComponent({
                               ? props.action({ vnodes: renderSearchAction() })
                               : renderSearchAction()
                             : undefined}
-                          {props.showActionCollapse && (overflow || !collapsed.value) ? (
-                            <NButton
-                              type="primary"
-                              text
-                              icon-placement="right"
-                              onClick={() => (collapsed.value = !collapsed.value)}
-                            >
-                              {{
-                                default: () =>
-                                  collapsed.value
-                                    ? $translate('proTable.searchAction.expand')
-                                    : $translate('proTable.searchAction.collapse'),
-                                icon: () => (
-                                  <IconDown class={{ 'rotate-180deg': !collapsed.value }} />
-                                )
-                              }}
-                            </NButton>
-                          ) : undefined}
+                          {props.showActionCollapse && (overflow || !collapsed.value)
+                            ? (
+                              <NButton
+                                type="primary"
+                                text
+                                icon-placement="right"
+                                onClick={() => (collapsed.value = !collapsed.value)}
+                              >
+                                {{
+                                  default: () =>
+                                    collapsed.value
+                                      ? $t('proTable.searchAction.expand')
+                                      : $t('proTable.searchAction.collapse'),
+                                  icon: () => (
+                                    <IconDown class={{ 'rotate-180deg': !collapsed.value }} />
+                                  ),
+                                }}
+                              </NButton>
+                              )
+                            : undefined}
                         </NSpace>
                       </NFormItem>
                     )
-                  }
+                  },
                 }}
               </NGridItem>
             )}
@@ -368,7 +378,7 @@ const Search = defineComponent({
         </NForm>
       </NCard>
     )
-  }
+  },
 })
 
 export default Search as typeof Search & { new (): Exposed }

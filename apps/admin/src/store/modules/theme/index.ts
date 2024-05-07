@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { type GlobalThemeOverrides, darkTheme } from 'naive-ui'
 import { getThemeColors, initTheme } from './utils'
 import type { Settings } from '@/settings'
-import { BORDER_RADIUS, FONT_WEIGHT_STRONG } from '@/constants'
 
 export const useThemeStore = defineStore('theme-store', () => {
   const theme = ref<Settings>(initTheme())
@@ -18,14 +17,19 @@ export const useThemeStore = defineStore('theme-store', () => {
       primary: primaryColor,
       ...otherColor,
     })
+    const buttonColors = {
+      textColorPrimary: theme.value.darkMode ? '#ddd' : undefined,
+      textColorHoverPrimary: theme.value.darkMode ? '#ddd' : undefined,
+      textColorPressedPrimary: theme.value.darkMode ? '#ddd' : undefined,
+      textColorFocusPrimary: theme.value.darkMode ? '#ddd' : undefined,
+      textColorDisabledPrimary: theme.value.darkMode ? '#ddd' : undefined,
+    }
     return {
       common: {
-        fontWeightStrong: FONT_WEIGHT_STRONG,
-        borderRadius: BORDER_RADIUS,
         ...themeColors,
       },
       Button: {
-        textColorPrimary: 'white',
+        ...buttonColors,
       },
     }
   })

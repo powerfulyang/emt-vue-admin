@@ -1,22 +1,22 @@
 import {
-  computed,
-  defineComponent,
-  ref,
-  toRef,
-  onMounted,
   type CSSProperties,
   type DefineComponent,
   type PropType,
-  type VNodeChild
+  type VNodeChild,
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
+  toRef,
 } from 'vue'
 import {
+  type DataTableColumnKey,
+  type DataTableRowKey,
   NCard,
   NDataTable,
   NH4,
   NSpace,
-  type DataTableColumnKey,
-  type DataTableRowKey,
-  type PaginationProps
+  type PaginationProps,
 } from 'naive-ui'
 import Search, { type Exposed as SearchExposed } from './search'
 import type {
@@ -29,7 +29,7 @@ import type {
   TableAttrs,
   TableLoading,
   TablePagination,
-  TableSize
+  TableSize,
 } from './typings'
 import { tableExcludeAttrsKeys } from './constants'
 import { useColumns } from './hooks'
@@ -38,7 +38,7 @@ import styles from './index.module.scss'
 
 type Data = Record<string, any>
 
-type Exposed = {
+interface Exposed {
   tableData: Data[]
   $elTable: HTMLDivElement
   reload: SearchExposed['reload']
@@ -55,13 +55,13 @@ type Search =
   | boolean
   | ((searchParams: RenderSearchParams) => VNodeChild)
   | {
-      cols?: number
-      labelWidth?: string | number | 'auto'
-      clearable?: boolean
-      disabled?: boolean
-      action?: SearchAction
-      showActionCollapse?: boolean
-    }
+    cols?: number
+    labelWidth?: string | number | 'auto'
+    clearable?: boolean
+    disabled?: boolean
+    action?: SearchAction
+    showActionCollapse?: boolean
+  }
 
 type Action = boolean | ((actionParams: RenderActionParams) => VNodeChild)
 
@@ -77,64 +77,64 @@ const ProTable = defineComponent({
      */
     search: {
       type: [Boolean, Function, Object] as PropType<Search>,
-      default: true
+      default: true,
     },
     /**
      * 查询条件和表格内容是否分段
      */
     segmented: {
       type: Boolean as PropType<boolean>,
-      default: true
+      default: true,
     },
     searchStyle: {
-      type: [String, Object] as PropType<CSSProperties>
+      type: [String, Object] as PropType<CSSProperties>,
     },
     contentStyle: {
-      type: [String, Object] as PropType<CSSProperties>
+      type: [String, Object] as PropType<CSSProperties>,
     },
     /**
      * 表格头部标题
      */
     headerTitle: {
-      type: [Boolean, String] as PropType<boolean | string>
+      type: [Boolean, String] as PropType<boolean | string>,
     },
     /**
      * 自定义渲染表格操作栏，false 为不显示
      */
     action: {
       type: [Boolean, Function] as PropType<Action>,
-      default: true
+      default: true,
     },
     /**
      * 自定义渲染表格内容
      */
     renderContent: {
-      type: Function as PropType<RenderContent>
+      type: Function as PropType<RenderContent>,
     },
     /**
      * 自定义渲染 toolbar
      */
     renderToolbar: {
-      type: Function as PropType<() => VNodeChild>
+      type: Function as PropType<() => VNodeChild>,
     },
     /**
      * 表格默认大小
      */
     defaultTableSize: {
-      type: String as PropType<TableSize>
+      type: String as PropType<TableSize>,
     },
     /**
      * 表格默认 loading 状态
      */
     defaultTableLoading: {
-      type: Boolean as PropType<TableLoading>
+      type: Boolean as PropType<TableLoading>,
     },
     /**
      * 表格默认分页信息
      */
     defaultPagination: {
       type: [Boolean, Object] as PropType<TablePagination>,
-      default: () => ({})
+      default: () => ({}),
     },
     /**
      * 列、搜索表单配置相关
@@ -154,7 +154,7 @@ const ProTable = defineComponent({
      */
     columns: {
       type: Array as PropType<ProTableColumn<any>[]>,
-      default: () => []
+      default: () => [],
     },
     request: {
       type: Function as PropType<
@@ -162,17 +162,17 @@ const ProTable = defineComponent({
           itemCount?: number
           data?: Data[]
         } | void>
-      >
+      >,
     },
     onAfterRequest: {
-      type: Function as PropType<(data: Record<DataTableRowKey, any>[]) => void>
+      type: Function as PropType<(data: Record<DataTableRowKey, any>[]) => void>,
     },
     onSearch: {
-      type: Function as PropType<(params?: Record<DataTableRowKey, any>) => void>
+      type: Function as PropType<(params?: Record<DataTableRowKey, any>) => void>,
     },
     onReset: {
-      type: Function as PropType<() => void>
-    }
+      type: Function as PropType<() => void>,
+    },
   },
   setup(props, { attrs, expose }) {
     const columns = toRef(props, 'columns')
@@ -183,7 +183,7 @@ const ProTable = defineComponent({
       updateColumnsVisible,
       updateColumnsFixed,
       updateColumnsOrder,
-      resetColumns
+      resetColumns,
     } = useColumns(columns)
 
     const restAttrs = computed(() => {
@@ -215,19 +215,19 @@ const ProTable = defineComponent({
         pageSize: 20,
         itemCount: 0,
         prefix: ({ startIndex, endIndex, itemCount }) => {
-          const strs = [$translate('proTable.pagination.total', { total: itemCount })]
+          const strs = [$t('proTable.pagination.total', { total: itemCount })]
           if (endIndex > startIndex) {
             strs.unshift(
-              $translate('proTable.pagination.startEnd', {
+              $t('proTable.pagination.startEnd', {
                 start: startIndex + 1,
-                end: endIndex + 1
-              })
+                end: endIndex + 1,
+              }),
             )
           }
-          return strs.join($translate('proTable.pagination.separator'))
+          return strs.join($t('proTable.pagination.separator'))
         },
         showSizePicker: true,
-        pageSizes: [10, 20, 50, 100]
+        pageSizes: [10, 20, 50, 100],
       }
       return typeof _pagination === 'boolean' ? _pagination : { ...pagination, ..._pagination }
     }
@@ -258,7 +258,8 @@ const ProTable = defineComponent({
           if (props.onAfterRequest) {
             props.onAfterRequest(data.value)
           }
-        } catch (e) {
+        }
+        catch (e) {
           loading.value = false
         }
       }
@@ -285,7 +286,7 @@ const ProTable = defineComponent({
 
     const handleSearch = (_params?: Record<DataTableColumnKey, any>) => {
       const { onSearch } = props
-      if (onSearch) onSearch(_params)
+      if (onSearch) { onSearch(_params) }
       setPage(1)
       params.value = _params
       fetch()
@@ -295,7 +296,8 @@ const ProTable = defineComponent({
       setPage(1)
       if (searchRef.value) {
         searchRef.value.reload()
-      } else {
+      }
+      else {
         fetch()
       }
     }
@@ -303,7 +305,8 @@ const ProTable = defineComponent({
     const reset = () => {
       if (searchRef.value) {
         searchRef.value.reset()
-      } else {
+      }
+      else {
         reload()
       }
     }
@@ -318,7 +321,7 @@ const ProTable = defineComponent({
       getSearchValue: (...args) => searchRef.value?.getValue(...args),
       getSearchValues: (...args) => searchRef.value?.getValues(...args)!,
       setSearchValue: (...args) => searchRef.value?.setValue(...args),
-      setSearchValues: (...args) => searchRef.value?.setValues(...args)
+      setSearchValues: (...args) => searchRef.value?.setValues(...args),
     }
 
     expose(exposed)
@@ -338,11 +341,11 @@ const ProTable = defineComponent({
         onUpdateColumnsFixed={updateColumnsFixed}
         onUpdateColumnsOrder={updateColumnsOrder}
         onResetColumns={resetColumns}
-      />
+      />,
     ]
 
     const renderTable = () => (
-      // @ts-ignore
+      // @ts-expect-error
       <NDataTable
         ref={tableRef}
         flexHeight
@@ -350,11 +353,11 @@ const ProTable = defineComponent({
         bordered={false}
         size={tableSize.value}
         loading={loading.value}
-        // @ts-ignore
-        rowKey={(row) => row.id}
+        // @ts-expect-error
+        rowKey={row => row.id}
         columns={tableColumns.value}
         data={data.value}
-        // @ts-ignore
+        // @ts-expect-error
         pagination={pagination.value}
         onUpdatePage={handleUpatePage}
         onUpdatePageSize={handleUpatePageSize}
@@ -371,28 +374,32 @@ const ProTable = defineComponent({
         class={['h-full', styles['pro-table'], attrs.class]}
         style={attrs.style}
       >
-        {props.search ? (
-          typeof props.search === 'function' ? (
-            props.search({ onSearch: handleSearch })
-          ) : (
-            <Search
-              ref={searchRef}
-              columns={searchColumns.value}
-              cols={typeof props.search === 'object' ? props.search.cols : undefined}
-              labelWidth={typeof props.search === 'object' ? props.search.labelWidth : undefined}
-              clearable={typeof props.search === 'object' ? props.search.clearable : undefined}
-              disabled={typeof props.search === 'object' ? props.search.disabled : undefined}
-              action={typeof props.search === 'object' ? props.search.action : undefined}
-              showActionCollapse={
+        {props.search
+          ? (
+              typeof props.search === 'function'
+                ? (
+                    props.search({ onSearch: handleSearch })
+                  )
+                : (
+                  <Search
+                    ref={searchRef}
+                    columns={searchColumns.value}
+                    cols={typeof props.search === 'object' ? props.search.cols : undefined}
+                    labelWidth={typeof props.search === 'object' ? props.search.labelWidth : undefined}
+                    clearable={typeof props.search === 'object' ? props.search.clearable : undefined}
+                    disabled={typeof props.search === 'object' ? props.search.disabled : undefined}
+                    action={typeof props.search === 'object' ? props.search.action : undefined}
+                    showActionCollapse={
                 typeof props.search === 'object' ? props.search.showActionCollapse : undefined
               }
-              onSearch={handleSearch}
-              onReset={props.onReset}
-              class="flex-shrink-0"
-              contentStyle={props.searchStyle}
-            />
-          )
-        ) : undefined}
+                    onSearch={handleSearch}
+                    onReset={props.onReset}
+                    class="flex-shrink-0"
+                    contentStyle={props.searchStyle}
+                  />
+                  )
+            )
+          : undefined}
         <NCard
           bordered={false}
           class="flex-grow"
@@ -400,29 +407,33 @@ const ProTable = defineComponent({
             display: 'flex',
             flexDirection: 'column',
             paddingTop: props.segmented ? '20px' : '10px',
-            ...props.contentStyle
+            ...props.contentStyle,
           }}
         >
-          {props.headerTitle || props.renderToolbar || props.action ? (
-            <NSpace size={20} wrapItem={false} align="center" class="flex-shrink-0 mb-16px">
-              {props.headerTitle ? (
-                <NH4 class="flex-shrink-0 m-0">{props.headerTitle}</NH4>
-              ) : undefined}
-              <NSpace wrapItem={false} justify="end" class="flex-grow w-0">
-                {props.renderToolbar ? props.renderToolbar() : undefined}
-                {props.action
-                  ? typeof props.action === 'function'
-                    ? props.action({ vnodes: renderAction() })
-                    : renderAction()
+          {props.headerTitle || props.renderToolbar || props.action
+            ? (
+              <NSpace size={20} wrapItem={false} align="center" class="flex-shrink-0 mb-16px">
+                {props.headerTitle
+                  ? (
+                    <NH4 class="flex-shrink-0 m-0">{props.headerTitle}</NH4>
+                    )
                   : undefined}
+                <NSpace wrapItem={false} justify="end" class="flex-grow w-0">
+                  {props.renderToolbar ? props.renderToolbar() : undefined}
+                  {props.action
+                    ? typeof props.action === 'function'
+                      ? props.action({ vnodes: renderAction() })
+                      : renderAction()
+                    : undefined}
+                </NSpace>
               </NSpace>
-            </NSpace>
-          ) : undefined}
+              )
+            : undefined}
           {props.renderContent ? props.renderContent({ vnode: renderTable() }) : renderTable()}
         </NCard>
       </NSpace>
     )
-  }
+  },
 })
 
 export default ProTable as typeof ProTable & { new (): Exposed } & DefineComponent<TableAttrs>

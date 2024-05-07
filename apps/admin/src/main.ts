@@ -16,6 +16,8 @@ async function bootstrap() {
   // vue-query
   app.use(VueQueryPlugin)
 
+  // i18n 需要在 store 之前挂载
+  setupI18n(app)
   // 挂载状态管理
   setupStore(app)
 
@@ -29,9 +31,6 @@ async function bootstrap() {
 
   // 挂载路由
   await setupRouter(app)
-
-  // i18n
-  setupI18n(app)
 
   app.mount('#app', true)
 }

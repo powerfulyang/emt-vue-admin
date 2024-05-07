@@ -1,57 +1,14 @@
-<template>
-  <div
-    class="relative h-full transition-width duration-300 ease-in-out"
-    :style="{
-      '--primary-color': themeVars.primaryColor,
-      width: appStore.mixSiderFixed ? `${theme.sider.mixChildMenuWidth}px` : '0px'
-    }"
-  >
-    <dark-mode-container
-      class="drawer-shadow absolute left-0 top-0 flex flex-col items-stretch h-full whitespace-nowrap overflow-hidden"
-      :inverted="theme.sider.inverted"
-      :style="{
-        width: visible || appStore.mixSiderFixed ? `${theme.sider.mixChildMenuWidth}px` : '0px'
-      }"
-    >
-      <header
-        class="flex justify-between items-center"
-        :style="{ height: `${theme.header.height}px` }"
-      >
-        <h2 class="text-[var(--primary-color)] pl-8px text-16px font-bold">
-          {{ $translate('system.title') }}
-        </h2>
-        <div
-          class="px-8px text-16px text-gray-600 cursor-pointer"
-          @click="appStore.toggleMixSiderFixed"
-        >
-          <icon-pin-off v-if="appStore.mixSiderFixed" />
-          <icon-pin v-else />
-        </div>
-      </header>
-      <n-scrollbar class="flex-1 overflow-hidden">
-        <n-menu
-          :value="activeKey"
-          :options="menus"
-          :expanded-keys="expandedKeys"
-          @update:value="handleUpdateMenu"
-          @update:expanded-keys="handleUpdateExpandedKeys"
-        />
-      </n-scrollbar>
-    </dark-mode-container>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useThemeVars, type MenuOption as NaiveMenuOption } from 'naive-ui'
-import { isExternal } from '@/utils'
-import { useAppStore, useThemeStore, type MenuOption } from '@/store'
-import { DarkModeContainer } from '@/components'
+import { type MenuOption as NaiveMenuOption, useThemeVars } from 'naive-ui'
 import { getActiveKeyPathsOfMenus } from '../../hepler'
 import IconPinOff from './icon-pin-off.vue'
 import IconPin from './icon-pin.vue'
+import { isExternal } from '@/utils'
+import { type MenuOption, useAppStore, useThemeStore } from '@/store'
+import { DarkModeContainer } from '@/components'
 
 const themeVars = useThemeVars()
 
@@ -67,7 +24,7 @@ const visible = ref(false)
 
 const menus = ref<MenuOption[]>()
 
-const setMenus = (_menus: MenuOption[]) => {
+function setMenus(_menus: MenuOption[]) {
   menus.value = _menus
 }
 
@@ -75,30 +32,31 @@ const activeKey = computed(() => (route.meta.activeMenu ?? route.name) as string
 
 const expandedKeys = ref<string[]>()
 
-const setExpandKeys = (menus: MenuOption[]) => {
+function setExpandKeys(menus: MenuOption[]) {
   expandedKeys.value = getActiveKeyPathsOfMenus(activeKey.value, menus)
 }
 
-const handleUpdateMenu = (key: string, item: NaiveMenuOption) => {
+function handleUpdateMenu(key: string, item: NaiveMenuOption) {
   const { routePath } = item as MenuOption
   if (isExternal(routePath)) {
     window.open(routePath, '_blank')
-  } else {
+  }
+  else {
     router.push({ name: key })
   }
 }
 
-const handleUpdateExpandedKeys = (keys: string[]) => {
+function handleUpdateExpandedKeys(keys: string[]) {
   expandedKeys.value = keys
 }
 
-const show = (menus: MenuOption[]) => {
+function show(menus: MenuOption[]) {
   setMenus(menus)
   setExpandKeys(menus)
   visible.value = true
 }
 
-const hide = () => {
+function hide() {
   visible.value = false
   setTimeout(() => {
     if (!appStore.mixSiderFixed) {
@@ -109,6 +67,49 @@ const hide = () => {
 
 defineExpose({ show, hide, setMenus, setExpandKeys })
 </script>
+
+<template>
+  <div
+    class="relative h-full transition-width duration-300 ease-in-out"
+    :style="{
+      '--primary-color': themeVars.primaryColor,
+      'width': appStore.mixSiderFixed ? `${theme.sider.mixChildMenuWidth}px` : '0px',
+    }"
+  >
+    <DarkModeContainer
+      class="drawer-shadow absolute left-0 top-0 flex flex-col items-stretch h-full whitespace-nowrap overflow-hidden"
+      :inverted="theme.sider.inverted"
+      :style="{
+        width: visible || appStore.mixSiderFixed ? `${theme.sider.mixChildMenuWidth}px` : '0px',
+      }"
+    >
+      <header
+        class="flex justify-between items-center"
+        :style="{ height: `${theme.header.height}px` }"
+      >
+        <h2 class="text-[var(--primary-color)] pl-8px text-16px font-bold">
+          {{ $t('system.title') }}
+        </h2>
+        <div
+          class="px-8px text-16px text-gray-600 cursor-pointer"
+          @click="appStore.toggleMixSiderFixed"
+        >
+          <IconPinOff v-if="appStore.mixSiderFixed" />
+          <IconPin v-else />
+        </div>
+      </header>
+      <n-scrollbar class="flex-1 overflow-hidden">
+        <n-menu
+          :value="activeKey"
+          :options="menus"
+          :expanded-keys="expandedKeys"
+          @update:value="handleUpdateMenu"
+          @update:expanded-keys="handleUpdateExpandedKeys"
+        />
+      </n-scrollbar>
+    </DarkModeContainer>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .drawer-shadow {

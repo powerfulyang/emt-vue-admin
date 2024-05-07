@@ -15,8 +15,8 @@ const i18n = createI18n({
 
 export function setupI18n(app: App) {
   app.use(i18n)
-  window.$translate = i18n.global.t
-  app.config.globalProperties.$translate = i18n.global.t
+  window.$t = i18n.global.t
+  app.config.globalProperties.$t = i18n.global.t
 }
 
 export const $translate = i18n.global.t

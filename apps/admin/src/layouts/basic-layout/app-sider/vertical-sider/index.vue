@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import Logo from '../../components/logo.vue'
 import VerticalMenu from './vertical-menu.vue'
+import Logo from '@/layouts/basic-layout/app-logo/index.vue'
 import { useLayout } from '@/layouts/basic-layout/hooks.ts'
 import { useAppStore, useThemeStore } from '@/store'
 

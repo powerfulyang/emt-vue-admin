@@ -27,26 +27,31 @@ function handleDropdownSelect(key: string) {
         :options="breadcrumb.children"
         @select="handleDropdownSelect"
       >
-        <span>
+        <div class="flex gap-4px items-center">
           <component
             :is="breadcrumb.icon"
             v-if="theme.header.crumb.showIcon && breadcrumb.icon"
-            class="inline-block mr-4px text-lg"
+            class="text-lg"
           />
-          <span class="align-bottom">{{ breadcrumb.label }}</span>
-        </span>
+          <span>
+            {{ $tt(breadcrumb.label) }}
+          </span>
+        </div>
       </n-dropdown>
       <template v-else>
-        <component
-          :is="breadcrumb.icon"
-          v-if="theme.header.crumb.showIcon && breadcrumb.icon"
-          class="inline-block mr-4px text-lg" :class="[
-            { 'text-#BBBBBB': theme.header.inverted },
-          ]"
-        />
-        <span class="align-bottom" :class="{ 'text-#BBBBBB': theme.header.inverted }">
-          {{ breadcrumb.label }}
-        </span>
+        <div class="flex gap-4px items-center">
+          <component
+            :is="breadcrumb.icon"
+            v-if="theme.header.crumb.showIcon && breadcrumb.icon"
+            :class="[
+              { 'text-#BBBBBB': theme.header.inverted },
+            ]"
+            class="text-lg"
+          />
+          <span :class="{ 'text-#BBBBBB': theme.header.inverted }">
+            {{ $tt(breadcrumb.label) }}
+          </span>
+        </div>
       </template>
     </n-breadcrumb-item>
   </n-breadcrumb>

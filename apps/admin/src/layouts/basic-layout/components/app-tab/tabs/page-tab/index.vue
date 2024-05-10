@@ -64,15 +64,17 @@ const cssVars = computed(() => {
     @close="emit('close')"
   >
     <template #icon>
-      <component :is="Icons[icon]" v-if="icon" class="inline-block align-text-bottom" />
+      <n-icon class="text-lg">
+        <component :is="Icons[icon]" v-if="icon" />
+      </n-icon>
     </template>
     <slot>
-      {{ title }}
+      {{ $tt(title) }}
     </slot>
     <template #close>
       <div
         v-if="closeable"
-        class="relative inline-flex justify-center items-center w-16px h-16px text-14px rd-50% icon-close"
+        class="relative inline-flex justify-center items-center w-4 h-4 rd-50% icon-close"
         @click.stop="emit('close')"
       >
         <i-mdi-close />

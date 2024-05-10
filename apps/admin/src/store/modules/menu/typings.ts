@@ -1,11 +1,13 @@
+import type { VNode } from 'vue'
+
 /**
  * 菜单
  */
-export type MenuOption = import('naive-ui').MenuOption & {
+export interface MenuOption {
   key: string
   label: string
   routePath: string
-  icon?: () => import('vue').Component
+  icon?: () => VNode
   children?: MenuOption[]
 }
 

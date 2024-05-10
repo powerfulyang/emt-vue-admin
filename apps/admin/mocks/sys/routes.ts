@@ -2,29 +2,29 @@ import { HttpResponse, http } from 'msw'
 
 const routes = [
   {
-    title: '仪表盘',
+    title: 'menu.dashboard',
     path: 'dashboard',
     icon: 'dashboard',
     children: [
       {
-        title: '分析页',
+        title: 'menu.analysis',
         path: 'analysis',
         icon: 'dashboard-analysis',
       },
       {
-        title: '工作台',
+        title: 'menu.workbench',
         path: 'workbench',
         icon: 'dashboard-workbench',
       },
     ],
   },
   {
-    title: '表格',
+    title: 'menu.table',
     path: 'table',
     icon: 'table',
     children: [
       {
-        title: '查询表格',
+        title: 'menu.advanced-table',
         path: 'search-table',
         icon: 'search-table',
       },

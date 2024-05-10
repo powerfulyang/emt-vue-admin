@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -17,7 +17,7 @@ const activeKey = computed(() => (route.meta.activeMenu ?? route.name) as string
 const expandedKeys = ref<string[]>()
 
 function handleUpdateMenu(key: string, item: NaiveMenuOption) {
-  const { routePath } = item as MenuOption
+  const { routePath } = item as unknown as MenuOption
   if (isExternal(routePath)) {
     window.open(routePath, '_blank')
   }
@@ -36,6 +36,10 @@ watch(
     expandedKeys.value = getActiveKeyPathsOfMenus(activeKey.value, menuStore.menus)
   },
 )
+
+function renderMenuLabel(item: MenuOption) {
+  return $tt(item.label)
+}
 </script>
 
 <template>
@@ -47,6 +51,7 @@ watch(
       :collapsed-width="theme.sider.collapsedWidth"
       :collapsed-icon-size="20"
       :expanded-keys="expandedKeys"
+      :render-label="renderMenuLabel"
       :indent="15"
       :inverted="theme.sider.inverted || theme.darkMode"
       @update:value="handleUpdateMenu"

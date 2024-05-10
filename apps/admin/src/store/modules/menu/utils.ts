@@ -17,7 +17,7 @@ export function parsePathToName(path: string) {
  * @param routeData
  * @param prefix
  */
-export function transformMenus(routeData: RouteData[], prefix: string = '/') {
+export function transformMenus(routeData: RouteData[], prefix: string = '/'): MenuOption[] {
   const menus: MenuOption[] = []
   for (const { title, path, icon, children } of routeData) {
     const routePath = isExternal(path) ? path : `/${combineURL(prefix, path)}`
@@ -45,9 +45,8 @@ export function transformMenus(routeData: RouteData[], prefix: string = '/') {
 
 /**
  * 将权限路由转换为搜索菜单
- * @param authRoutes
  */
-export function transformSearchMenus(menus: MenuOption[]) {
+export function transformSearchMenus(menus: MenuOption[]): MenuOption[] {
   const searchMenus: SearchMenuOption[] = []
   for (const menu of menus) {
     const { children, ...rest } = menu

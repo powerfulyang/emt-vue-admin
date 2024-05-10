@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { LAYOUT_MAX_Z_INDEX, LAYOUT_SCROLL_EL_ID } from './constants'
+import { LAYOUT_MAX_Z_INDEX } from './constants'
 import { createLayoutCssVars } from './utils'
 import type { LayoutProps } from './typings'
 
 const props = withDefaults(defineProps<LayoutProps>(), {
   mode: 'vertical',
-  scrollMode: 'content',
-  scrollElId: LAYOUT_SCROLL_EL_ID,
   siderVisible: true,
   siderWidth: 220,
   siderCollapsedWidth: 64,
@@ -60,34 +58,6 @@ const fixedHeaderAndTab = computed(
   () => props.fixedTop || (isHorizontal.value && isWrapperScroll.value),
 )
 
-const siderClass = computed(() => {
-  if (props.mode === 'horizontal') {
-    return 'sider-padding-top'
-  }
-  return ''
-})
-
-const headerClass = computed(() => {
-  if (isVertical.value && showSider.value) {
-    return props.siderCollapse ? 'left-gap_collapsed' : 'left-gap'
-  }
-  return ''
-})
-
-const tabClass = computed(() => {
-  if (showSider.value) {
-    return props.siderCollapse ? 'left-gap_collapsed' : 'left-gap'
-  }
-  return ''
-})
-
-const _contentClass = computed(() => {
-  if (showSider.value) {
-    return props.siderCollapse ? 'left-gap_collapsed' : 'left-gap'
-  }
-  return ''
-})
-
 const footerClass = computed(() => {
   if (showSider.value) {
     return props.siderCollapse ? 'left-gap_collapsed' : 'left-gap'
@@ -102,98 +72,63 @@ function handleClickMask() {
 
 <template>
   <n-layout class="relative h-full transition-all-300" :style="cssVars" has-sider>
-    <div
-      :id="isWrapperScroll ? scrollElId : undefined"
-      class="flex flex-col h-full transition-all-300 w-full" :class="[
-        {
-          'overflow-y-auto': isWrapperScroll,
-        },
-      ]"
-    >
-      <aside
-        v-if="showSider"
-        class="absolute left-0 top-0 h-full transition-all-300 layout-sider" :class="[
-          siderClass,
-          {
-            collapsed: siderCollapse,
-          },
+    <slot v-if="showSider" name="sider" />
+    <template v-if="showMobileSider">
+      <div
+        class="absolute w-0 h-full transition-all-300 layout-mobile-sider" :class="[
+          siderCollapse ? 'overflow-hidden' : 'layout-sider',
         ]"
       >
         <slot name="sider" />
-      </aside>
-
-      <template v-if="showMobileSider">
-        <aside
-          class="absolute left-0 top-0 w-0 h-full bg-white transition-all-300 layout-mobile-sider" :class="[
-            siderCollapse ? 'overflow-hidden' : 'layout-sider',
-          ]"
-        >
-          <slot name="sider" />
-        </aside>
-        <div
-          v-show="!siderCollapse"
-          class="absolute left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.2)] layout-mobile-sider-mask"
-          @click="handleClickMask"
-        />
-      </template>
-
+      </div>
+      <div
+        v-show="!siderCollapse"
+        class="absolute inset-0 bg-[rgba(0,0,0,0.2)] layout-mobile-sider-mask"
+        @click="handleClickMask"
+      />
+    </template>
+    <n-layout
+      class="relative"
+    >
       <template v-if="showHeader">
-        <header
-          class="flex-shrink-0 layout-header transition-all-300" :class="[
-            headerClass,
-            { 'absolute top-0 left-0 w-full': fixedHeaderAndTab },
-          ]"
-        >
+        <div class="layout-header relative">
           <slot name="header" />
-        </header>
-        <div
-          v-show="fixedHeaderAndTab"
-          class="flex-shrink-0 overflow-hidden layout-header-placement"
-        />
+        </div>
       </template>
 
       <template v-if="showTab">
         <div
-          class="flex-shrink-0 transition-all-300 layout-tab" :class="[
-            { 'top-0!': !showHeader },
-            tabClass,
-            { 'absolute left-0 w-full': fixedHeaderAndTab },
-          ]"
+          class="layout-tab relative"
         >
           <slot name="tab" />
         </div>
-        <div
-          v-show="fixedHeaderAndTab"
-          class="flex-shrink-0 overflow-hidden layout-tab-placement"
-        />
       </template>
 
-      <main
-        :id="isContentScroll ? scrollElId : undefined"
-        class="flex flex-col flex-grow transition-all-300" :class="[
-          contentClass,
-          _contentClass,
-          { 'overflow-y-auto': isContentScroll },
-        ]"
+      <n-layout-content
+        :native-scrollbar="false"
       >
-        <slot />
-      </main>
-
-      <template v-if="showFooter">
-        <footer
-          class="flex-shrink-0 transition-all-300 layout-footer" :class="[
-            footerClass,
-            { 'absolute left-0 bottom-0 w-full': fixedFooter },
-          ]"
+        <main
+          class="transition-all-300"
+          :style="{
+            height: 'calc(100vh - var(--header-height) - var(--tab-height) - var(--footer-height))',
+          }"
         >
-          <slot name="footer" />
-        </footer>
-        <div
-          v-show="fixedFooter"
-          class="flex-shrink-0 overflow-hidden layout-footer-placement"
-        />
-      </template>
-    </div>
+          <slot />
+        </main>
+
+        <template v-if="showFooter">
+          <footer
+            class="flex-shrink-0 transition-all-300 layout-footer" :class="[
+              footerClass,
+              { 'absolute left-0 bottom-0 w-full': fixedFooter },
+            ]"
+          >
+            <slot name="footer" />
+          </footer>
+        </template>
+      </n-layout-content>
+      <n-back-top class="z-100" />
+    </n-layout>
   </n-layout>
 </template>
 
@@ -201,9 +136,6 @@ function handleClickMask() {
 .layout-sider {
   z-index: var(--sider-z-index);
   width: var(--sider-width);
-  &.collapsed {
-    width: var(--sider-collapsed-width);
-  }
 }
 .sider-padding-top {
   padding-top: var(--header-height);
@@ -216,13 +148,6 @@ function handleClickMask() {
   z-index: var(--mobile-sider-z-index);
 }
 
-.left-gap {
-  padding-left: var(--sider-width);
-}
-.left-gap_collapsed {
-  padding-left: var(--sider-collapsed-width);
-}
-
 .layout-header {
   z-index: var(--header-z-index);
   height: var(--header-height);
@@ -232,7 +157,6 @@ function handleClickMask() {
 }
 
 .layout-tab {
-  top: var(--header-height);
   height: var(--tab-height);
   z-index: var(--tab-z-index);
 }

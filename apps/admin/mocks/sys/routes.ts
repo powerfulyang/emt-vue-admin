@@ -19,14 +19,14 @@ const routes = [
     ],
   },
   {
-    title: '列表',
-    path: 'list',
-    icon: 'list',
+    title: '表格',
+    path: 'table',
+    icon: 'table',
     children: [
       {
         title: '查询表格',
-        path: 'table',
-        icon: 'list-table',
+        path: 'search-table',
+        icon: 'search-table',
       },
     ],
   },

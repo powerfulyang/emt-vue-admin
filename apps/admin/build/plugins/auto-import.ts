@@ -15,7 +15,10 @@ export function AutoImportPlugin() {
         'pinia',
       ],
       dts: 'src/auto-typings/auto-imports.d.ts',
-      dirs: ['src/composables'],
+      dirs: [
+        'src/composables',
+        'src/hooks',
+      ],
     }),
     Components({
       dirs: [

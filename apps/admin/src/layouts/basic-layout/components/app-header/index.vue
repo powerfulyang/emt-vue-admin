@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useMobile } from '@/hooks'
 import { useThemeStore } from '@/store'
 
 defineOptions({ name: 'AppHeader' })

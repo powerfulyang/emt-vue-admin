@@ -33,7 +33,7 @@ const cacheStore = useCacheStore()
           :is="Component"
           v-if="app.reloadFlag"
           :key="route.fullPath"
-          class="flex-grow bg-#f6f9f8 dark:bg-#101014 transition duration-300 ease-in-out" :class="[
+          class="flex-grow h-full bg-#f6f9f8 dark:bg-#101014 transition duration-300 ease-in-out" :class="[
             { 'p-16px': showPadding },
           ]"
         />

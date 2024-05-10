@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useLayout, useMobile } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
 defineOptions({ name: 'BasicLayout' })
@@ -18,7 +17,6 @@ const settingsAble = import.meta.env.DEV || import.meta.env.VITE_PROD_APP_SETTIN
     :mode="mode"
     :is-mobile="isMobile"
     :scroll-mode="theme.scrollMode"
-    :scroll-el-id="appStore.scrollElId"
     :sider-visible="siderVisible"
     :sider-collapse="appStore.siderCollapse"
     :sider-width="siderWidth"
@@ -47,7 +45,6 @@ const settingsAble = import.meta.env.DEV || import.meta.env.VITE_PROD_APP_SETTIN
       <app-footer />
     </template>
   </app-layout>
-  <n-back-top :key="theme.scrollMode" :listen-to="`#${appStore.scrollElId}`" class="z-100" />
   <app-settings v-if="settingsAble" />
 </template>
 

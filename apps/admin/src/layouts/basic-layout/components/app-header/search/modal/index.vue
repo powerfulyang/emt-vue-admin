@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import { onKeyStroke, useDebounceFn } from '@vueuse/core'
 import Result from './result/index.vue'
 import SearchFooter from './footer/index.vue'
-import { useMobile } from '@/hooks'
 import { type SearchMenuOption, useMenuStore } from '@/store'
 import { isExternal } from '@/utils'
 

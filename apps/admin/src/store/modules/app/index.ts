@@ -1,15 +1,9 @@
 import { nextTick, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useCacheStore } from '@/store'
-import { scrollTo } from '@/utils'
 
 export const useAppStore = defineStore('app-store', () => {
   const cacheStore = useCacheStore()
-
-  /**
-   * 滚动元素的 id
-   */
-  const scrollElId = ref('__SCROLL_EL_ID__')
 
   /**
    * 主体内容是否全屏
@@ -47,15 +41,6 @@ export const useAppStore = defineStore('app-store', () => {
   }
 
   /**
-   * 获取滚动区域的滚动位置信息
-   */
-  const getScrollInfo = () => {
-    const scrollEl = document.querySelector(`#${scrollElId.value}`)
-    const { scrollLeft = 0, scrollTop = 0 } = scrollEl ?? {}
-    return { scrollEl, scrollLeft, scrollTop }
-  }
-
-  /**
    * 重载页面（控制页面的显示）
    */
   const reloadFlag = ref(true)
@@ -65,15 +50,10 @@ export const useAppStore = defineStore('app-store', () => {
     nextTick(() => {
       reloadFlag.value = true
       cacheStore.addCache(key)
-      setTimeout(() => {
-        const { scrollEl } = getScrollInfo()
-        scrollEl && scrollTo(scrollEl)
-      }, 600)
     })
   }
 
   return {
-    scrollElId,
 
     contentFull,
     setContentFull,
@@ -87,8 +67,6 @@ export const useAppStore = defineStore('app-store', () => {
 
     disableMainXScroll,
     setDisableMainXScroll,
-
-    getScrollInfo,
 
     reloadFlag,
     reloadPage,

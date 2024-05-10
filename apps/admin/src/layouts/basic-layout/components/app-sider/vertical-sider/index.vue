@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import VerticalMenu from './vertical-menu.vue'
-import { useLayout } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
 const appStore = useAppStore()
@@ -17,7 +16,7 @@ const { siderWidth, siderCollapsedWidth } = useLayout()
   <n-layout-sider
     v-model:collapsed="appStore.siderCollapse"
     show-trigger="bar"
-    class="flex flex-col h-full"
+    class="flex flex-col h-full relative z-100"
     collapse-mode="width"
     :collapsed-width="siderCollapsedWidth"
     :width="siderWidth"

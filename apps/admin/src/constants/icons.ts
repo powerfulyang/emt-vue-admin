@@ -8,6 +8,6 @@ export const Icons = {
   'dashboard': Dashboard,
   'dashboard-analysis': DashboardAnalysis,
   'dashboard-workbench': DashboardWorkbench,
-  'list': List,
-  'list-table': ListTable,
+  'table': List,
+  'search-table': ListTable,
 }

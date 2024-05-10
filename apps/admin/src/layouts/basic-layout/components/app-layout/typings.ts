@@ -8,10 +8,6 @@ export interface LayoutProps {
   mode?: LayoutMode
   isMobile?: boolean
   scrollMode?: ScrollMode
-  /**
-   * 滚动元素的 id
-   */
-  scrollElId?: string
 
   siderVisible?: boolean
   siderCollapse?: boolean

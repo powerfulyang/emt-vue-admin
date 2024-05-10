@@ -8,7 +8,7 @@ export const enUS = {
         followSystemTheme: 'Follow the system',
         siderInverted: 'Dark sidebar',
         headerInverted: 'Dark header',
-        footerInverted: 'Dark footer'
+        footerInverted: 'Dark footer',
       },
       layoutMode: {
         title: 'Layout mode',
@@ -16,26 +16,26 @@ export const enUS = {
           vertical: 'Left menu mode',
           verticalMix: 'Left menu mix mode',
           horizontal: 'Top menu mode',
-          horizontalMix: 'Top menu Mix mode'
-        }
+          horizontalMix: 'Top menu Mix mode',
+        },
       },
       colorSelect: {
         title: 'System theme',
-        moreButton: '更多颜色'
+        moreButton: '更多颜色',
       },
       pageFunc: {
         title: 'Page functions',
         scrollMode: {
           title: 'Scroll mode',
           wrapper: 'Outer layer scroll',
-          content: 'Main body scroll'
+          content: 'Main body scroll',
         },
         fixedHeaderAndTab: 'Fixed header and multiple tabs',
         menuHorizontalPosition: {
           title: 'Top menu position',
           flexStart: 'Left',
           center: 'Center',
-          flexEnd: 'Right'
+          flexEnd: 'Right',
         },
         headerHeight: 'Head Height',
         tabHeight: 'Multiple tab height',
@@ -43,7 +43,7 @@ export const enUS = {
         siderWidth: 'Sidebar expanded width',
         siderMixWidth: 'Left hybrid sidebar expanded width',
         footerVisible: 'Show footer',
-        footerFixed: 'Fixed footer'
+        footerFixed: 'Fixed footer',
       },
       pageView: {
         title: 'Page view',
@@ -53,7 +53,7 @@ export const enUS = {
         tabMode: {
           title: 'Multi tab style',
           chrome: 'Google style',
-          button: 'Button style'
+          button: 'Button style',
         },
         pageAnimate: 'Page switch animation',
         pageAnimateMode: {
@@ -63,8 +63,8 @@ export const enUS = {
           fadeBottom: 'Fade bottom',
           fadeScale: 'Fade scale',
           zoomFade: 'Zoom fade',
-          zoomOut: 'Zoom out'
-        }
+          zoomOut: 'Zoom out',
+        },
       },
       themeConfig: {
         title: 'Theme configuration',
@@ -73,8 +73,8 @@ export const enUS = {
         resetSuccess: 'The configuration has been reset, please copy it again!',
         operateSuccess: 'Successful operation',
         copySuccess: 'Copy success, please replace the content of src/settings/theme.json!',
-        confirmCopy: 'Confirm'
-      }
-    }
-  }
+        confirmCopy: 'Confirm',
+      },
+    },
+  },
 }

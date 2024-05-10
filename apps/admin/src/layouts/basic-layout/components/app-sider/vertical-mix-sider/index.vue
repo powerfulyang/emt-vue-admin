@@ -7,7 +7,6 @@ import MixMenuDrawer from './mix-menu-drawer/index.vue'
 import MixMenuCollapse from './mix-menu-collapse/index.vue'
 import { type MenuOption, useAppStore, useMenuStore, useThemeStore } from '@/store'
 import { DarkModeContainer } from '@/components'
-import Logo from '@/layouts/basic-layout/app-logo/index.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -61,7 +60,7 @@ watch(() => route.name, setActiveKeyByRoute, { immediate: true })
     @mouseleave="handleMouseLeave"
   >
     <div class="flex flex-col items-stretch flex-1 h-full overflow-hidden">
-      <Logo :style="{ height: `${theme.header.height}px` }" />
+      <app-logo :style="{ height: `${theme.header.height}px` }" />
       <n-scrollbar class="flex-1 overflow-hidden">
         <MixMenuItem
           v-for="menu of menuStore.menus"

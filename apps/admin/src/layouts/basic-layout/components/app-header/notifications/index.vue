@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
-import { useMobile } from '../../hooks'
 import type { MessageTab } from './typings'
 import MessageList from './message-list/index.vue'
+import { useMobile } from '@/hooks'
 import { useThemeStore } from '@/store'
 
 const { theme } = storeToRefs(useThemeStore())

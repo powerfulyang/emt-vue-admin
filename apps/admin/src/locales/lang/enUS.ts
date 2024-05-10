@@ -1,5 +1,5 @@
 export const enUS = {
   system: {
-    title: 'EMT Admin',
+    title: 'EMT AdminAdminAdminAdminAdmin',
   },
 }

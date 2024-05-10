@@ -39,15 +39,15 @@ watch(
 </script>
 
 <template>
-  <n-scrollbar class="flex-1 overflow-hidden">
+  <n-scrollbar class="overflow-hidden">
     <n-menu
       :value="activeKey"
       :options="menuStore.menus"
       :collapsed="appStore.siderCollapse"
       :collapsed-width="theme.sider.collapsedWidth"
-      :collapsed-icon-size="22"
+      :collapsed-icon-size="20"
       :expanded-keys="expandedKeys"
-      :indent="18"
+      :indent="15"
       :inverted="theme.sider.inverted || theme.darkMode"
       @update:value="handleUpdateMenu"
       @update:expanded-keys="handleUpdateExpandedKeys"

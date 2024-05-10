@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { storeToRefs } from 'pinia'
 import VerticalMenu from './vertical-menu.vue'
-import Logo from '@/layouts/basic-layout/app-logo/index.vue'
-import { useLayout } from '@/layouts/basic-layout/hooks.ts'
+import { useLayout } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
 const appStore = useAppStore()
@@ -27,7 +24,7 @@ const { siderWidth, siderCollapsedWidth } = useLayout()
     :native-scrollbar="false"
     :inverted="theme.sider.inverted"
   >
-    <Logo
+    <app-logo
       v-if="!isHorizontalMix"
       :show-title="showTitle"
       :style="{ height: `${theme.header.height}px` }"

@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useLayout, useMobile } from './hooks'
-import AppLayout from './app-layout/index.vue'
-import AppHeader from './app-header/index.vue'
-import AppSider from './app-sider/index.vue'
-import AppTab from './app-tab/index.vue'
-import AppFooter from './app-footer/index.vue'
-import AppSettings from './app-settings/index.vue'
-import AppContent from '@/layouts/basic-layout/app-content/index.vue'
+import { useLayout, useMobile } from '@/hooks'
 import { useAppStore, useThemeStore } from '@/store'
 
 defineOptions({ name: 'BasicLayout' })
@@ -22,7 +14,7 @@ const settingsAble = import.meta.env.DEV || import.meta.env.VITE_PROD_APP_SETTIN
 </script>
 
 <template>
-  <AppLayout
+  <app-layout
     :mode="mode"
     :is-mobile="isMobile"
     :scroll-mode="theme.scrollMode"
@@ -42,21 +34,21 @@ const settingsAble = import.meta.env.DEV || import.meta.env.VITE_PROD_APP_SETTIN
     @click-mobile-sider-mask="appStore.setSiderCollapse(true)"
   >
     <template #sider>
-      <AppSider />
+      <app-sider />
     </template>
     <template #header>
-      <AppHeader />
+      <app-header />
     </template>
     <template #tab>
-      <AppTab />
+      <app-tab />
     </template>
     <AppContent />
     <template #footer>
-      <AppFooter />
+      <app-footer />
     </template>
-  </AppLayout>
+  </app-layout>
   <n-back-top :key="theme.scrollMode" :listen-to="`#${appStore.scrollElId}`" class="z-100" />
-  <AppSettings v-if="settingsAble" />
+  <app-settings v-if="settingsAble" />
 </template>
 
 <style lang="scss">

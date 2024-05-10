@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { type PopoverPlacement, useThemeVars } from 'naive-ui'
-import { useMobile } from '@/layouts/basic-layout/hooks.ts'
+import { useMobile } from '@/hooks'
 
 defineOptions({ name: 'HoverContainer' })
 

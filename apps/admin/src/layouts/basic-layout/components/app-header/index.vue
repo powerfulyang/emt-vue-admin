@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import { useMobile } from '../hooks'
-import Breadcrumb from './breadcrumb/index.vue'
-import HeaderMenu from './header-menu.vue'
-import Search from './search/index.vue'
-import ThemeMode from './theme-mode.vue'
-import Logo from '@/layouts/basic-layout/app-logo/index.vue'
-import GitHubSite from '@/layouts/basic-layout/app-header/github/index.vue'
-import Fullscreen from '@/layouts/basic-layout/app-header/fullscreen/index.vue'
-import MenuCollapse from '@/layouts/basic-layout/app-header/collapse/index.vue'
-import SystemMessage from '@/layouts/basic-layout/app-header/notifications/index.vue'
-import UserAvatar from '@/layouts/basic-layout/app-header/avatar/index.vue'
+import { useMobile } from '@/hooks'
 import { useThemeStore } from '@/store'
 
 defineOptions({ name: 'AppHeader' })
@@ -49,25 +39,24 @@ const headerProps = computed(() => LAYOUT_HEADER_PROPS[theme.value.layout.mode])
     class="app-header flex items-center h-full"
     :inverted="theme.header.inverted"
   >
-    <Logo
+    <app-logo
       v-if="headerProps.showLogo"
       show-title
-      class="h-full"
-      :style="{ width: `${theme.sider.width}px` }"
+      class="h-full pl-2"
     />
     <div v-if="!headerProps.showHeaderMenu" class="flex items-center h-full">
-      <MenuCollapse v-if="headerProps.showMenuCollapse || isMobile" />
-      <Breadcrumb v-if="theme.header.crumb.visible && !isMobile" />
+      <app-header-collapse v-if="headerProps.showMenuCollapse || isMobile" />
+      <app-header-breadcrumb v-if="theme.header.crumb.visible && !isMobile" />
     </div>
-    <HeaderMenu v-else />
+    <app-header-menu v-else />
     <div class="flex ml-auto h-full">
-      <Search />
-      <GitHubSite />
-      <Fullscreen />
-      <ThemeMode />
-      <LangSelect with-hover-container />
-      <SystemMessage />
-      <UserAvatar />
+      <app-header-search />
+      <app-header-github />
+      <app-header-fullscreen />
+      <app-header-theme-mode />
+      <lang-select with-hover-container />
+      <app-header-notifications />
+      <app-header-avatar />
     </div>
   </n-layout-header>
 </template>

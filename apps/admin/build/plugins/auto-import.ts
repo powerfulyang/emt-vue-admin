@@ -20,9 +20,10 @@ export function AutoImportPlugin() {
     Components({
       dirs: [
         'src/components',
-        'src/layout',
+        'src/layouts/basic-layout/components',
         'src/application',
       ],
+      directoryAsNamespace: true,
       dts: 'src/auto-typings/components.d.ts',
       resolvers: [
         // auto import icons

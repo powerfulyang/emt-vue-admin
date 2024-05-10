@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { storeToRefs } from 'pinia'
 import VerticalSider from './vertical-sider/index.vue'
 import VerticalMixSider from './vertical-mix-sider/index.vue'
 import { useThemeStore } from '@/store'

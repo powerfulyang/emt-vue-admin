@@ -25,8 +25,8 @@ function handleUpdateMenu(key: string, item: NaiveMenuOption) {
 </script>
 
 <template>
-  <div class="flex-1 overflow-hidden h-full px-10px">
-    <n-scrollbar :x-scrollable="true" class="flex-1 overflow-hidden h-full" content-class="h-full">
+  <div class="flex-1">
+    <n-scrollbar :x-scrollable="true" content-class="h-full">
       <div
         class="flex items-center h-full"
         :style="{ justifyContent: theme.menu.horizontalPosition }"
@@ -34,8 +34,9 @@ function handleUpdateMenu(key: string, item: NaiveMenuOption) {
         <n-menu
           :value="activeKey"
           :options="menuStore.menus"
-          :inverted="theme.header.inverted"
+          :inverted="theme.header.inverted || theme.darkMode"
           mode="horizontal"
+          class="!w-auto"
           @update:value="handleUpdateMenu"
         />
       </div>

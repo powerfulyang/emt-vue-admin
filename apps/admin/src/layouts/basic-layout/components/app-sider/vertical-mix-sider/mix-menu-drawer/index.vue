@@ -88,7 +88,7 @@ defineExpose({ show, hide, setMenus, setExpandKeys })
         :style="{ height: `${theme.header.height}px` }"
       >
         <h2 class="text-[var(--primary-color)] pl-8px text-16px font-bold">
-          {{ $t('system.title') }}
+          {{ $tt('system.title') }}
         </h2>
         <div
           class="px-8px text-16px text-gray-600 cursor-pointer"

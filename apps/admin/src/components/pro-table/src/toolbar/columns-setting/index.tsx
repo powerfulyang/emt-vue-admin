@@ -92,7 +92,7 @@ export default defineComponent({
         ? (
           <NTooltip contentStyle={{ padding: 0 }}>
             {{
-              default: () => $t('proTable.action.columnsSetting.popover.action.unpin'),
+              default: () => $tt('proTable.action.columnsSetting.popover.action.unpin'),
               trigger: () => (
                 <span
                   class="p-4px color-[var(--icon-color)] font-size-14px hover:color-[var(--primary-color)]"
@@ -107,7 +107,7 @@ export default defineComponent({
         : (
           <NTooltip contentStyle={{ padding: 0 }}>
             {{
-              default: () => $t('proTable.action.columnsSetting.popover.action.pinLeft'),
+              default: () => $tt('proTable.action.columnsSetting.popover.action.pinLeft'),
               trigger: () => (
                 <span
                   class="p-4px color-[var(--icon-color)] font-size-14px hover:color-[var(--primary-color)]"
@@ -126,7 +126,7 @@ export default defineComponent({
         ? (
           <NTooltip contentStyle={{ padding: 0 }}>
             {{
-              default: () => $t('proTable.action.columnsSetting.popover.action.unpin'),
+              default: () => $tt('proTable.action.columnsSetting.popover.action.unpin'),
               trigger: () => (
                 <span
                   class="p-4px color-[var(--icon-color)] font-size-14px hover:color-[var(--primary-color)]"
@@ -141,7 +141,7 @@ export default defineComponent({
         : (
           <NTooltip contentStyle={{ padding: 0 }}>
             {{
-              default: () => $t('proTable.action.columnsSetting.popover.action.pinRight'),
+              default: () => $tt('proTable.action.columnsSetting.popover.action.pinRight'),
               trigger: () => (
                 <span
                   class="p-4px color-[var(--icon-color)] font-size-14px hover:color-[var(--primary-color)]"
@@ -177,11 +177,11 @@ export default defineComponent({
               onUpdateChecked={handleUpdateCheckedAll}
             >
               <NText strong depth="1">
-                {$t('proTable.action.columnsSetting.popover.title')}
+                {$tt('proTable.action.columnsSetting.popover.title')}
               </NText>
             </NCheckbox>,
             <NButton type="primary" text class="flex-shrink-0" onClick={props.onResetColumns}>
-              {$t('proTable.action.columnsSetting.popover.action.reset')}
+              {$tt('proTable.action.columnsSetting.popover.action.reset')}
             </NButton>,
           ],
           default: () => (
@@ -232,7 +232,7 @@ export default defineComponent({
           trigger: () => (
             <NTooltip>
               {{
-                default: () => $t('proTable.action.columnsSetting.tooltip'),
+                default: () => $tt('proTable.action.columnsSetting.tooltip'),
                 trigger: () => (
                   <NButton text class="flex-shrink-0">
                     <IconSetting class="font-size-18px cursor-pointer" />

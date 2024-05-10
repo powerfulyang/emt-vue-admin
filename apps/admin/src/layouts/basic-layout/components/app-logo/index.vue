@@ -18,7 +18,7 @@ defineProps<Props>()
         class="text-4 font-bold transition duration-300 ease-in-out max-w-150px"
       >
         <n-ellipsis>
-          {{ $t('system.title') }}
+          {{ $tt('system.title') }}
         </n-ellipsis>
       </n-h2>
     </router-link>

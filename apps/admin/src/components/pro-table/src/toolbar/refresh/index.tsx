@@ -13,7 +13,7 @@ export default defineComponent({
     return () => (
       <NTooltip>
         {{
-          default: () => $t('proTable.action.refresh'),
+          default: () => $tt('proTable.action.refresh'),
           trigger: () => (
             <NButton text class="flex-shrink-0" onClick={props.onRefresh}>
               <IconRefresh class="font-size-18px cursor-pointer" />

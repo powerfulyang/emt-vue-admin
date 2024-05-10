@@ -215,16 +215,16 @@ const ProTable = defineComponent({
         pageSize: 20,
         itemCount: 0,
         prefix: ({ startIndex, endIndex, itemCount }) => {
-          const strs = [$t('proTable.pagination.total', { total: itemCount })]
+          const strs = [$tt('proTable.pagination.total', { total: itemCount })]
           if (endIndex > startIndex) {
             strs.unshift(
-              $t('proTable.pagination.startEnd', {
+              $tt('proTable.pagination.startEnd', {
                 start: startIndex + 1,
                 end: endIndex + 1,
               }),
             )
           }
-          return strs.join($t('proTable.pagination.separator'))
+          return strs.join($tt('proTable.pagination.separator'))
         },
         showSizePicker: true,
         pageSizes: [10, 20, 50, 100],

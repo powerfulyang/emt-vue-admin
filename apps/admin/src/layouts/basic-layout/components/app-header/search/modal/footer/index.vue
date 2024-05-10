@@ -9,16 +9,16 @@ import IconEsc from './icon-esc.vue'
   <div class="flex items-center px-24px h-44px">
     <span class="flex items-center mr-14px">
       <IconReturn class="icon text-20px p-2px mr-6px" />
-      <span>{{ $t('layout.header.search.modal.action.return') }}</span>
+      <span>{{ $tt('layout.header.search.modal.action.return') }}</span>
     </span>
     <span class="flex items-center mr-14px">
       <IconUp class="icon text-20px p-2px mr-5px" />
       <IconDown class="icon text-20px p-2px mr-6px" />
-      <span>{{ $t('layout.header.search.modal.action.arrow') }}</span>
+      <span>{{ $tt('layout.header.search.modal.action.arrow') }}</span>
     </span>
     <span class="flex items-center">
       <IconEsc class="icon text-20px p-2px mr-6px" />
-      <span>{{ $t('layout.header.search.modal.action.esc') }}</span>
+      <span>{{ $tt('layout.header.search.modal.action.esc') }}</span>
     </span>
   </div>
 </template>

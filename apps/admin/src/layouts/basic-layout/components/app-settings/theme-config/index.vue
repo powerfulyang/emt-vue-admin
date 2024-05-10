@@ -16,29 +16,29 @@ async function handleCopy() {
   }
   await copy(JSON.stringify(theme.value, null, '\t'))
   window.$dialog.info({
-    title: window.$t('layout.settings.themeConfig.operateSuccess'),
-    content: window.$t('layout.settings.themeConfig.copySuccess'),
-    positiveText: window.$t('layout.settings.themeConfig.confirmCopy'),
+    title: window.$tt('layout.settings.themeConfig.operateSuccess'),
+    content: window.$tt('layout.settings.themeConfig.copySuccess'),
+    positiveText: window.$tt('layout.settings.themeConfig.confirmCopy'),
     icon: () => h(IconSuccess),
   })
 }
 
 function handleResetConfig() {
   themeStore.reset()
-  window.$message.success(window.$t('layout.settings.themeConfig.resetSuccess'))
+  window.$message.success(window.$tt('layout.settings.themeConfig.resetSuccess'))
 }
 </script>
 
 <template>
   <n-divider title-placement="center">
-    {{ $t('layout.settings.themeConfig.title') }}
+    {{ $tt('layout.settings.themeConfig.title') }}
   </n-divider>
   <n-space vertical>
     <n-button type="primary" block @click="handleCopy">
-      {{ $t('layout.settings.themeConfig.copy') }}
+      {{ $tt('layout.settings.themeConfig.copy') }}
     </n-button>
     <n-button type="warning" block @click="handleResetConfig">
-      {{ $t('layout.settings.themeConfig.reset') }}
+      {{ $tt('layout.settings.themeConfig.reset') }}
     </n-button>
   </n-space>
 </template>

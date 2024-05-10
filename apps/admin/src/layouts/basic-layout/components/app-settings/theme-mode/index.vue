@@ -12,11 +12,11 @@ const { theme } = storeToRefs(themeStore)
 
 <template>
   <n-divider title-placement="center">
-    {{ $t('layout.settings.themeMode.title') }}
+    {{ $tt('layout.settings.themeMode.title') }}
   </n-divider>
   <n-space vertical size="large">
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.themeMode.darkMode') }}</span>
+      <span>{{ $tt('layout.settings.themeMode.darkMode') }}</span>
       <n-switch :value="theme.darkMode" @update:value="themeStore.setDarkMode">
         <template #checked>
           <IconSunny class="text-14px text-white" />
@@ -27,7 +27,7 @@ const { theme } = storeToRefs(themeStore)
       </n-switch>
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.themeMode.followSystemTheme') }}</span>
+      <span>{{ $tt('layout.settings.themeMode.followSystemTheme') }}</span>
       <n-switch :value="theme.followSystemTheme" @update:value="themeStore.setFollowSystemTheme">
         <template #checked>
           <IconNotDisturb class="text-14px text-white" />
@@ -38,15 +38,15 @@ const { theme } = storeToRefs(themeStore)
       </n-switch>
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.themeMode.siderInverted') }}</span>
+      <span>{{ $tt('layout.settings.themeMode.siderInverted') }}</span>
       <n-switch :value="theme.sider.inverted" @update:value="themeStore.setSiderInverted" />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.themeMode.headerInverted') }}</span>
+      <span>{{ $tt('layout.settings.themeMode.headerInverted') }}</span>
       <n-switch :value="theme.header.inverted" @update:value="themeStore.setHeaderInverted" />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.themeMode.footerInverted') }}</span>
+      <span>{{ $tt('layout.settings.themeMode.footerInverted') }}</span>
       <n-switch :value="theme.footer.inverted" @update:value="themeStore.setFooterInverted" />
     </div>
   </n-space>

@@ -8,7 +8,7 @@ const { theme } = storeToRefs(themeStore)
 <template>
   <hover-container
     class="w-10 h-full text-xl"
-    :tooltip-content="$t('layout.header.themeMode.tooltip')"
+    :tooltip-content="$tt('layout.header.themeMode.tooltip')"
     :inverted="theme.header.inverted"
   >
     <dark-mode-switch

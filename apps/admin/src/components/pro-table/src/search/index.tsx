@@ -298,9 +298,9 @@ const Search = defineComponent({
     onMounted(handleSearch)
 
     const renderSearchAction = () => [
-      <NButton onClick={handleReset}>{$t('proTable.searchAction.reset')}</NButton>,
+      <NButton onClick={handleReset}>{$tt('proTable.searchAction.reset')}</NButton>,
       <NButton type="primary" onClick={handleSearch}>
-        {$t('proTable.searchAction.query')}
+        {$tt('proTable.searchAction.query')}
       </NButton>,
     ]
 
@@ -358,8 +358,8 @@ const Search = defineComponent({
                                 {{
                                   default: () =>
                                     collapsed.value
-                                      ? $t('proTable.searchAction.expand')
-                                      : $t('proTable.searchAction.collapse'),
+                                      ? $tt('proTable.searchAction.expand')
+                                      : $tt('proTable.searchAction.collapse'),
                                   icon: () => (
                                     <IconDown class={{ 'rotate-180deg': !collapsed.value }} />
                                   ),

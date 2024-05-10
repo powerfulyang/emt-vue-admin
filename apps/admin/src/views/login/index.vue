@@ -71,7 +71,7 @@ function handleSubmit(e: Event) {
           </span>
         </div>
         <n-p depth="3" class="mt-4 text-center">
-          {{ $t('login.welcome') }}
+          {{ $tt('login.welcome') }}
         </n-p>
       </div>
       <div>
@@ -108,27 +108,27 @@ function handleSubmit(e: Event) {
             <div class="flex justify-between">
               <div>
                 <n-checkbox v-model:checked="formInline.remember">
-                  {{ $t('login.remember') }}
+                  {{ $tt('login.remember') }}
                 </n-checkbox>
               </div>
             </div>
           </n-form-item>
           <n-form-item>
             <n-button type="primary" size="large" :loading="loading" block @click="handleSubmit">
-              {{ $t('login.login') }}
+              {{ $tt('login.login') }}
             </n-button>
           </n-form-item>
           <n-form-item>
             <div class="flex w-full items-center gap-2">
               <span>
-                {{ $t('login.otherLogin') }}
+                {{ $tt('login.otherLogin') }}
               </span>
-              <n-icon size="24" class="cursor-pointer" @click="message.info($t('login.notImplemented'))">
+              <n-icon size="24" class="cursor-pointer" @click="message.info($tt('login.notImplemented'))">
                 <i-mdi-github />
               </n-icon>
               <div class="ml-auto">
-                <a class="cursor-pointer" @click="message.info($t('login.notImplemented'))">
-                  {{ $t('login.register') }}
+                <a class="cursor-pointer" @click="message.info($tt('login.notImplemented'))">
+                  {{ $tt('login.register') }}
                 </a>
               </div>
             </div>

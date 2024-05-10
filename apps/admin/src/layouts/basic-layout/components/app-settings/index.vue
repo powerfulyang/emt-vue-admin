@@ -27,7 +27,7 @@ const visible = ref(false)
     <IconSetting v-else class="text-24px" />
   </n-button>
   <n-drawer display-directive="show" :show="visible" :width="330" @mask-click="visible = false">
-    <n-drawer-content :title="$t('layout.settings.title')" :native-scrollbar="false">
+    <n-drawer-content :title="$tt('layout.settings.title')" :native-scrollbar="false">
       <ThemeMode />
       <LayoutMode />
       <ColorSelect />

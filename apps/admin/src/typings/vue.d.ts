@@ -1,7 +1,10 @@
-import 'vue'
+import type { Translate } from '@/locales'
+
+export {}
 
 declare module 'vue' {
-  interface ComponentCustomProperties {
-    $t: typeof import('@/locales').$t
+
+  export interface ComponentCustomProperties {
+    $tt: Translate
   }
 }

@@ -10,7 +10,7 @@ const { theme } = storeToRefs(themeStore)
 
 <template>
   <n-divider title-placement="center">
-    {{ $t('layout.settings.colorSelect.title') }}
+    {{ $tt('layout.settings.colorSelect.title') }}
   </n-divider>
   <n-grid :cols="8" :x-gap="8" :y-gap="12">
     <n-grid-item v-for="color in colors" :key="color" class="flex justify-center">

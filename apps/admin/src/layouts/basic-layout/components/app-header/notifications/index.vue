@@ -12,7 +12,7 @@ const { isMobile } = useMobile()
 const tabData = ref<MessageTab[]>([
   {
     key: 1,
-    name: $t('layout.header.notifications.tabs.title.notice'),
+    name: $tt('layout.header.notifications.tabs.title.notice'),
     badgeProps: { type: 'warning' },
     list: Array.from({ length: 5 }).map(() => {
       return {
@@ -25,7 +25,7 @@ const tabData = ref<MessageTab[]>([
   },
   {
     key: 2,
-    name: $t('layout.header.notifications.tabs.title.message'),
+    name: $tt('layout.header.notifications.tabs.title.message'),
     badgeProps: { type: 'error' },
     list: Array.from({ length: 5 }).map(() => {
       return {
@@ -39,7 +39,7 @@ const tabData = ref<MessageTab[]>([
   },
   {
     key: 3,
-    name: $t('layout.header.notifications.tabs.title.todo'),
+    name: $tt('layout.header.notifications.tabs.title.todo'),
     badgeProps: { type: 'info' },
     list: [
       {
@@ -104,7 +104,7 @@ function handleLoadMore() {
     <template #trigger>
       <hover-container
         class="relative w-10 h-full text-xl"
-        :tooltip-content="$t('layout.header.notifications.tooltip')"
+        :tooltip-content="$tt('layout.header.notifications.tooltip')"
         :inverted="theme.header.inverted"
       >
         <i-mdi-notifications />
@@ -145,19 +145,19 @@ function handleLoadMore() {
     </n-tabs>
     <div v-if="showAction" class="flex border-t border-$n-divider-color cursor-pointer">
       <div class="flex-1 text-center py-10px" @click="handleClear">
-        {{ $t('layout.header.notifications.tabs.action.clear') }}
+        {{ $tt('layout.header.notifications.tabs.action.clear') }}
       </div>
       <div
         class="flex-1 text-center py-10px border-l border-$n-divider-color"
         @click="handleAllRead"
       >
-        {{ $t('layout.header.notifications.tabs.action.allRead') }}
+        {{ $tt('layout.header.notifications.tabs.action.allRead') }}
       </div>
       <div
         class="flex-1 text-center py-10px border-l border-$n-divider-color"
         @click="handleLoadMore"
       >
-        {{ $t('layout.header.notifications.tabs.action.loadMore') }}
+        {{ $tt('layout.header.notifications.tabs.action.loadMore') }}
       </div>
     </div>
   </n-popover>

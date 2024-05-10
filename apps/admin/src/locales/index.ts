@@ -6,7 +6,7 @@ import { localStg } from '@/utils'
 const locale: Lang = localStg.get('lang') ?? 'zhCN'
 const fallbackLocale: Lang = 'enUS'
 
-const i18n = createI18n({
+export const i18n = createI18n({
   locale,
   fallbackLocale,
   messages: { ...messages },
@@ -15,11 +15,13 @@ const i18n = createI18n({
 
 export function setupI18n(app: App) {
   app.use(i18n)
-  window.$t = i18n.global.t
-  app.config.globalProperties.$t = i18n.global.t
+  window.$tt = i18n.global.t
+  app.config.globalProperties.$tt = i18n.global.t
 }
 
-export const $translate = i18n.global.t
+const $translate = i18n.global.t
+
+export type Translate = typeof $translate
 
 export function setLocale(locale: Lang) {
   i18n.global.locale.value = locale

@@ -4,5 +4,5 @@ interface Window {
   $notification: import('naive-ui').NotificationApi
   $loadingBar: import('naive-ui').LoadingBarApi
 
-  $t: typeof import('@/locales').$translate
+  $tt: import('@/locales').Translate
 }

@@ -109,7 +109,7 @@ defineExpose({ show, hide })
       <n-input
         v-model:value="keyword"
         clearable
-        :placeholder="$t('layout.header.search.modal.keywordPlaceholder')"
+        :placeholder="$tt('layout.header.search.modal.keywordPlaceholder')"
         @input="handleSearch"
       >
         <template #prefix>
@@ -117,13 +117,13 @@ defineExpose({ show, hide })
         </template>
       </n-input>
       <n-button v-if="isMobile" type="primary" ghost @click="hide">
-        {{ $t('layout.header.search.modal.cancelButton') }}
+        {{ $tt('layout.header.search.modal.cancelButton') }}
       </n-button>
     </n-input-group>
     <div class="mt-20px">
       <n-empty
         v-if="!resultOptions?.length"
-        :description="$t('layout.header.search.modal.empty')"
+        :description="$tt('layout.header.search.modal.empty')"
       />
       <Result v-else v-model:value="activeKey" :options="resultOptions" @enter="handleEnter" />
     </div>

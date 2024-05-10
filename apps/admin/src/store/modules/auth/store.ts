@@ -41,8 +41,8 @@ export const useAuthStore = defineStore('auth-store', () => {
       await routeStore.init()
       loginLoading.value = false
       window.$notification.success({
-        title: window.$t('login.loginSuccess'),
-        content: window.$t('login.welcomeBack', {
+        title: window.$tt('login.loginSuccess'),
+        content: window.$tt('login.welcomeBack', {
           userName: userInfo.value?.userName,
         }),
         duration: 3000,

@@ -11,7 +11,7 @@ function handleClickLink() {
 <template>
   <hover-container
     class="w-10 h-full text-xl"
-    :tooltip-content="$t('layout.header.github.tooltip')"
+    :tooltip-content="$tt('layout.header.github.tooltip')"
     :inverted="theme.header.inverted"
     @click="handleClickLink"
   >

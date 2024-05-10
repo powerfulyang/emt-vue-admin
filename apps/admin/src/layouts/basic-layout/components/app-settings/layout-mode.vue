@@ -26,26 +26,26 @@ const placement: Placement = {
 const modeList = computed<OptionWithKey<LayoutMode>[]>(() => [
   {
     value: 'vertical',
-    label: $t('layout.settings.layoutMode.mode.vertical'),
+    label: $tt('layout.settings.layoutMode.mode.vertical'),
   },
   {
     value: 'vertical-mix',
-    label: $t('layout.settings.layoutMode.mode.verticalMix'),
+    label: $tt('layout.settings.layoutMode.mode.verticalMix'),
   },
   {
     value: 'horizontal',
-    label: $t('layout.settings.layoutMode.mode.horizontal'),
+    label: $tt('layout.settings.layoutMode.mode.horizontal'),
   },
   {
     value: 'horizontal-mix',
-    label: $t('layout.settings.layoutMode.mode.horizontalMix'),
+    label: $tt('layout.settings.layoutMode.mode.horizontalMix'),
   },
 ])
 </script>
 
 <template>
   <n-divider title-placement="center">
-    {{ $t('layout.settings.layoutMode.title') }}
+    {{ $tt('layout.settings.layoutMode.title') }}
   </n-divider>
   <n-space
     justify="space-around"

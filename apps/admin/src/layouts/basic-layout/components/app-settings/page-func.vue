@@ -15,37 +15,37 @@ const { theme } = storeToRefs(themeStore)
 const scrollModeList = computed<OptionWithKey<ScrollMode>[]>(() => [
   {
     value: 'wrapper',
-    label: $t('layout.settings.pageFunc.scrollMode.wrapper'),
+    label: $tt('layout.settings.pageFunc.scrollMode.wrapper'),
   },
   {
     value: 'content',
-    label: $t('layout.settings.pageFunc.scrollMode.content'),
+    label: $tt('layout.settings.pageFunc.scrollMode.content'),
   },
 ])
 
 const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition>[]>(() => [
   {
     value: 'flex-start',
-    label: $t('layout.settings.pageFunc.menuHorizontalPosition.flexStart'),
+    label: $tt('layout.settings.pageFunc.menuHorizontalPosition.flexStart'),
   },
   {
     value: 'center',
-    label: $t('layout.settings.pageFunc.menuHorizontalPosition.center'),
+    label: $tt('layout.settings.pageFunc.menuHorizontalPosition.center'),
   },
   {
     value: 'flex-end',
-    label: $t('layout.settings.pageFunc.menuHorizontalPosition.flexEnd'),
+    label: $tt('layout.settings.pageFunc.menuHorizontalPosition.flexEnd'),
   },
 ])
 </script>
 
 <template>
   <n-divider title-placement="center">
-    {{ $t('layout.settings.pageFunc.title') }}
+    {{ $tt('layout.settings.pageFunc.title') }}
   </n-divider>
   <n-space vertical size="large">
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.scrollMode.title') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.scrollMode.title') }}</span>
       <n-select
         class="w-120px"
         size="small"
@@ -55,14 +55,14 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.fixedHeaderAndTab') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.fixedHeaderAndTab') }}</span>
       <n-switch
         :value="theme.fixedHeaderAndTab"
         @update:value="themeStore.setIsFixedHeaderAndTab"
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.menuHorizontalPosition.title') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.menuHorizontalPosition.title') }}</span>
       <n-select
         class="w-120px"
         size="small"
@@ -72,7 +72,7 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.headerHeight') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.headerHeight') }}</span>
       <n-input-number
         class="w-120px"
         size="small"
@@ -82,7 +82,7 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.tabHeight') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.tabHeight') }}</span>
       <n-input-number
         class="w-120px"
         size="small"
@@ -92,11 +92,11 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.tabIsCache') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.tabIsCache') }}</span>
       <n-switch :value="theme.tab.isCache" @update:value="themeStore.setTabIsCache" />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.siderWidth') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.siderWidth') }}</span>
       <n-input-number
         class="w-120px"
         size="small"
@@ -106,7 +106,7 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.siderMixWidth') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.siderMixWidth') }}</span>
       <n-input-number
         class="w-120px"
         size="small"
@@ -116,11 +116,11 @@ const menuHorizontalPositionList = computed<OptionWithKey<HorizontalMenuPosition
       />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.footerVisible') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.footerVisible') }}</span>
       <n-switch :value="theme.footer.visible" @update:value="themeStore.setFooterVisible" />
     </div>
     <div class="flex justify-between items-center">
-      <span>{{ $t('layout.settings.pageFunc.footerFixed') }}</span>
+      <span>{{ $tt('layout.settings.pageFunc.footerFixed') }}</span>
       <n-switch :value="theme.footer.fixed" @update:value="themeStore.setFooterIsFixed" />
     </div>
   </n-space>

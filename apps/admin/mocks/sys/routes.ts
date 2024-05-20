@@ -30,6 +30,18 @@ const routes = [
       },
     ],
   },
+  {
+    title: 'menu.image-manage',
+    path: 'image',
+    icon: 'image',
+    children: [
+      {
+        title: 'menu.image-list',
+        path: 'list',
+        icon: 'image-list',
+      },
+    ],
+  },
 ]
 
 export default [

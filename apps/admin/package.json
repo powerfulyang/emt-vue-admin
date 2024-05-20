@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env VITE_APP_NAME=\"EMT Admin\" vite --host",
+    "dev": "cross-env vite --host",
     "debug": "vite --debug hmr",
     "build": "vite build",
     "preview": "vite preview",

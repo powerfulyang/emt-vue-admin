@@ -1,6 +1,7 @@
 import type { Router } from 'vue-router'
 import { useTitle } from '@vueuse/core'
 import { createPermissionGuard } from './permission'
+import { websiteConfig } from '@/config/website.config.ts'
 
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to) => {
@@ -8,7 +9,10 @@ export function createRouterGuard(router: Router) {
     return await createPermissionGuard(to)
   })
   router.afterEach((to) => {
-    useTitle(`${to.meta.title} - ${import.meta.env.VITE_APP_NAME}`)
+    const title = computed(() => {
+      return `${$tt(to.meta.title as string)} - ${websiteConfig.siteName}`
+    })
+    useTitle(title)
     window.$loadingBar.finish()
   })
 }

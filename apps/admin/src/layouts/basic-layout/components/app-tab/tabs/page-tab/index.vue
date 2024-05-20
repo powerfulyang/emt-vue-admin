@@ -3,7 +3,7 @@ import { type Component, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import ChromeTab from './chrome-tab.vue'
 import ButtonTab from './button-tab.vue'
-import { Icons } from '@/constants'
+import { MenuIcons } from '@/constants'
 import type { Settings } from '@/settings'
 import { addColorAlpha, transformColorWithOpacity } from '@/utils'
 import { useThemeStore } from '@/store'
@@ -65,7 +65,7 @@ const cssVars = computed(() => {
   >
     <template #icon>
       <n-icon class="text-lg">
-        <component :is="Icons[icon]" v-if="icon" />
+        <component :is="MenuIcons[icon]" v-if="icon" />
       </n-icon>
     </template>
     <slot>

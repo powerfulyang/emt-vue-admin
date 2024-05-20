@@ -1,4 +1,4 @@
-import { colord, extend, type AnyColor, type HsvColor, type RgbColor } from 'colord'
+import { type AnyColor, type HsvColor, type RgbColor, colord, extend } from 'colord'
 import mixPlugin from 'colord/plugins/mix'
 
 extend([mixPlugin])
@@ -31,13 +31,15 @@ function getHue(hsv: HsvColor, i: number, isLight: boolean) {
 
   if (hsvH >= 60 && hsvH <= 240) {
     hue = isLight ? hsvH - hueStep * i : hsvH + hueStep * 1
-  } else {
+  }
+  else {
     hue = isLight ? hsvH + hueStep * 1 : hsvH - hueStep * 1
   }
 
   if (hue < 0) {
     hue += 360
-  } else if (hue >= 360) {
+  }
+  else if (hue >= 360) {
     hue -= 360
   }
 
@@ -60,9 +62,11 @@ function getSaturation(hsv: HsvColor, i: number, isLight: boolean) {
 
   if (isLight) {
     saturation = hsv.s - saturationStep * 1
-  } else if (i === darkColorCount) {
+  }
+  else if (i === darkColorCount) {
     saturation = hsv.s + saturationStep
-  } else {
+  }
+  else {
     saturation = hsv.s + saturationStep2 * i
   }
 
@@ -84,17 +88,16 @@ function getSaturation(hsv: HsvColor, i: number, isLight: boolean) {
 /**
  * 获取明度渐变
  * @param hsv
- * @param i
  * @param isLight
- * @returns
  */
-function getValue(hsv: HsvColor, i: number, isLight: boolean) {
+function getValue(hsv: HsvColor, isLight: boolean) {
   let value: number
 
   if (isLight) {
-    value = hsv.v + brightnessStep1 * 1
-  } else {
-    value = hsv.v - brightnessStep2 * 1
+    value = hsv.v + brightnessStep1
+  }
+  else {
+    value = hsv.v - brightnessStep2
   }
 
   if (value > 100) {
@@ -122,7 +125,7 @@ export function getColorPalette(color: AnyColor, index: ColorIndex): string {
   const newHsv: HsvColor = {
     h: getHue(hsv, i, isLight),
     s: getSaturation(hsv, i, isLight),
-    v: getValue(hsv, i, isLight)
+    v: getValue(hsv, isLight),
   }
 
   return colord(newHsv).toHex()
@@ -138,7 +141,7 @@ const darkColorMap = [
   { index: 4, opacity: 0.9 },
   { index: 3, opacity: 0.95 },
   { index: 2, opacity: 0.97 },
-  { index: 1, opacity: 0.98 }
+  { index: 1, opacity: 0.98 },
 ]
 
 /**
@@ -150,20 +153,20 @@ const darkColorMap = [
 export function getColorPalettes(
   color: AnyColor,
   darkTheme = false,
-  darkThemeMixColor = '#141414'
+  darkThemeMixColor = '#141414',
 ): string[] {
   const indexes: ColorIndex[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-  const patterns = indexes.map((index) => getColorPalette(color, index))
+  const patterns = indexes.map(index => getColorPalette(color, index))
 
   if (darkTheme) {
     const darkPatterns = darkColorMap.map(({ index, opacity }) => {
-      const darkColor = colord(darkThemeMixColor).mix(patterns[index], opacity)
+      const darkColor = colord(darkThemeMixColor).mix(patterns[index]!, opacity)
 
       return darkColor
     })
 
-    return darkPatterns.map((item) => colord(item).toHex())
+    return darkPatterns.map(item => colord(item).toHex())
   }
 
   return patterns
@@ -218,7 +221,7 @@ export function transformColorWithOpacity(color: string, alpha: number, bgColor 
   const resultRgb: RgbColor = {
     r: calRgb(oR, bgR, alpha),
     g: calRgb(oG, bgG, alpha),
-    b: calRgb(oB, bgB, alpha)
+    b: calRgb(oB, bgB, alpha),
   }
 
   return colord(resultRgb).toHex()

@@ -1,5 +1,5 @@
 export const zhCN = {
   system: {
-    title: 'EMT AdminAdminAdminAdminAdmin',
+    title: 'EMT Admin',
   },
 }

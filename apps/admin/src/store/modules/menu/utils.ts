@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import type { MenuOption, RouteData, SearchMenuOption } from '@/store'
 import { camelize, combineURL, isExternal } from '@/utils'
-import { Icons } from '@/constants'
+import { MenuIcons } from '@/constants'
 
 /**
  * 通过路径获取组件名称
@@ -28,8 +28,8 @@ export function transformMenus(routeData: RouteData[], prefix: string = '/'): Me
       routePath,
     }
     if (icon) {
-      if (Icons[icon]) {
-        menu.icon = () => h(Icons[icon])
+      if (MenuIcons[icon]) {
+        menu.icon = () => h(MenuIcons[icon])
       }
       else {
         console.warn(`图标 ${icon} 不存在！`)

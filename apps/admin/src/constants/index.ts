@@ -1,3 +1,3 @@
 export * from './regexp'
 export * from './theme'
-export * from './icons'
+export * from '@/constants/menu-icons.ts'

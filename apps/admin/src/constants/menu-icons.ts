@@ -4,7 +4,7 @@ import DashboardWorkbench from '~icons/icon-park-outline/workbench'
 import List from '~icons/icon-park-outline/list-view'
 import ListTable from '~icons/icon-park-outline/table-file'
 
-export const Icons = {
+export const MenuIcons = {
   'dashboard': Dashboard,
   'dashboard-analysis': DashboardAnalysis,
   'dashboard-workbench': DashboardWorkbench,

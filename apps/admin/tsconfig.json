@@ -31,12 +31,12 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "useUnknownInCatchVariables": false,
     "noEmit": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
-		"useUnknownInCatchVariables": false
-	},
-	"references": [
+    "skipLibCheck": true
+  },
+  "references": [
     {
       "path": "./tsconfig.node.json"
     }

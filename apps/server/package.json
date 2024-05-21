@@ -1,0 +1,33 @@
+{
+  "name": "@powerfulyang/server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "prepare": "prisma generate",
+    "db:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/adapter-d1": "^5.14.0",
+    "@prisma/client": "^5.14.0",
+    "@trpc/client": "11.0.0-rc.374",
+    "@trpc/server": "11.0.0-rc.374",
+    "hono": "^4.3.9",
+    "superjson": "^2.2.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.2.11",
+    "@cloudflare/workers-types": "^4.20240512.0",
+    "prisma": "^5.14.0",
+    "typescript": "^5.4.5",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "1.5.0",
+    "wrangler": "^3.57.0"
+  }
+}

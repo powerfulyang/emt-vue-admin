@@ -31,21 +31,19 @@ export class BucketService {
         name: this.ctx.env.BUCKET_NAME,
       },
     })
-    return this.ctx.prisma.$transaction(async (tx) => {
-      const result = await tx.asset.create({
-        data: {
-          hash,
-          name,
-          mime,
-          bucketId: bucket.id,
-        },
-      })
-      // upload to r2
-      const uploaded = await this.ctx.env.BUCKET.put(name, file.stream())
-      if (!uploaded) {
-        throw new Error('Failed to upload file')
-      }
-      return result
+    const result = await this.ctx.prisma.asset.create({
+      data: {
+        hash,
+        name,
+        mime,
+        bucketId: bucket.id,
+      },
     })
+    // upload to r2
+    const uploaded = await this.ctx.env.BUCKET.put(name, file.stream())
+    if (!uploaded) {
+      throw new Error('Failed to upload file')
+    }
+    return result
   }
 }

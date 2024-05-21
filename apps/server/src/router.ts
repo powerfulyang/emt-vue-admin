@@ -1,14 +1,11 @@
 import { initTRPC } from '@trpc/server'
-import superjson from 'superjson'
 import type { Context } from './context'
 import { createBucketInput, uploadAssetInput } from '@/inputs'
 import { reindex } from '@/services/bucket/reindex'
 
 export const t = initTRPC
   .context<Context>()
-  .create({
-    transformer: superjson,
-  })
+  .create()
 
 export const appRouter = t.router({
   createBucket: t.procedure.input(

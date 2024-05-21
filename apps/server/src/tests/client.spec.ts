@@ -10,8 +10,15 @@ describe('client', () => {
     expect(res?.id).toBeDefined()
   })
 
+  it('uploadAsset', async () => {
+    const formData = new FormData()
+    formData.append('asset', new File(['plain text'], 'test.txt'))
+    const res = await proxy.uploadAsset.mutate(formData)
+    expect(res?.id).toBeDefined()
+  })
+
   it('reindex', async () => {
     const res = await proxy.reindex.mutate()
-    expect(res).toBe('reindexed')
+    expect(res).toBe('reindex')
   })
 })

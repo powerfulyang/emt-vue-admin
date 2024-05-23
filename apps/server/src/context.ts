@@ -9,6 +9,7 @@ export function createContext(
 ) {
   const prisma = getPrismaInstance(env.DB)
   const bucketService = new BucketService({ env, prisma })
+  ctx.resHeaders.set('Access-Control-Allow-Origin', '*')
   return {
     ...ctx,
     env,

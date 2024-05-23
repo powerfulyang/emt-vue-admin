@@ -28,7 +28,7 @@ model Bucket {
 
 model Asset {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   hash      String   @unique
   mime      String
   bucket    Bucket   @relation(fields: [bucketId], references: [id])

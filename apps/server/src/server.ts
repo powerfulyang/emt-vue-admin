@@ -5,6 +5,16 @@ import type { Bindings } from '@/types'
 
 export default {
   async fetch(request: Request, env: Bindings): Promise<Response> {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+      })
+    }
     return fetchRequestHandler({
       endpoint: '/trpc',
       req: request,

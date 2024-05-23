@@ -1,2 +1,4 @@
 .wrangler
-prisma/dev.db
+dist
+prisma
+!prisma/schema.prisma

@@ -1,14 +1,20 @@
-import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client'
-// import superjson from 'superjson'
+import type { AppRouter } from '@powerfulyang/server'
+import { createTRPCClient, httpBatchLink, httpLink, isNonJsonSerializable, splitLink } from '@trpc/client'
+import { isProd } from '@/constants'
 
-const url = '/trpc'
+const prefix = isProd ? 'https://api.us4ever.com' : 'https://api.us4ever.com'
+const url = `${prefix}/trpc`
 
-export const proxy = createTRPCProxyClient({
+export const proxy = createTRPCClient<AppRouter>({
   links: [
-    loggerLink(),
-    httpBatchLink({
-      url,
-      // transformer: superjson,
+    splitLink({
+      condition: op => isNonJsonSerializable(op.input),
+      false: httpBatchLink({
+        url,
+      }),
+      true: httpLink({
+        url,
+      }),
     }),
   ],
 })

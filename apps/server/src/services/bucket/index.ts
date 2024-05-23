@@ -76,4 +76,8 @@ export class BucketService {
     })
     return 'truncated'
   }
+
+  async listAssets() {
+    return this.ctx.prisma.asset.findMany()
+  }
 }

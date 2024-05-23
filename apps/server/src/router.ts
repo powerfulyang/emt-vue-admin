@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server'
-import type { Context } from './context'
+import type { Context } from '@/context'
 import { createBucketInput, uploadAssetInput } from '@/inputs'
 
 export const t = initTRPC
@@ -12,6 +12,9 @@ export const appRouter = t.router({
   ).mutation((opts) => {
     const input = opts.input
     return opts.ctx.bucketService.createBucket(input)
+  }),
+  listAssets: t.procedure.query(async (opts) => {
+    return opts.ctx.bucketService.listAssets()
   }),
   uploadAsset: t.procedure.input(
     uploadAssetInput,

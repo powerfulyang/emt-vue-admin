@@ -6,11 +6,15 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
+  "typings": "dist/shared/index.d.ts",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "prepare": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "migrate": "prisma migrate dev",
+    "tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "d1:push": "wrangler d1 execute static --remote --file ./prisma/migrations/20240523085106_init/migration.sql"
   },
   "dependencies": {
     "@prisma/adapter-d1": "^5.14.0",
@@ -26,6 +30,7 @@
     "@cloudflare/vitest-pool-workers": "^0.2.11",
     "@cloudflare/workers-types": "^4.20240512.0",
     "prisma": "^5.14.0",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.4.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "1.5.0",

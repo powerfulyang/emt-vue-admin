@@ -8,6 +8,7 @@ crons = []
 
 [[d1_databases]]
 binding = "DB"
+database_name = "static"
 database_id = "5a563d4c-6838-48e2-877e-5fcce505a028"
 preview_database_id = "41bee6fa-aa39-4e58-9530-f818356f8337"
 

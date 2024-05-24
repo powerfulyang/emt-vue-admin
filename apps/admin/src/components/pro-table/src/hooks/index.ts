@@ -1,4 +1,4 @@
-import { computed, type Ref } from 'vue'
+import { type Ref, computed } from 'vue'
 import type { DataTableColumn, DataTableColumnKey } from 'naive-ui'
 import type { ProTableColumn } from '../typings'
 import { filterSearchColumns, filterSettingColumns, filterTableColumns } from './utils'
@@ -45,7 +45,7 @@ export function useColumns(originColumns: Ref<ProTableColumn[]>) {
 
   const updateColumnsFixed = (key: DataTableColumnKey, fixed: ProTableColumn['fixed']) => {
     const column = columns.value.find(
-      (column) => !column.hideInTable && (column as any).key === key
+      column => !column.hideInTable && (column as any).key === key,
     )
     column && (column._fixed = fixed)
   }
@@ -58,7 +58,8 @@ export function useColumns(originColumns: Ref<ProTableColumn[]>) {
           column._order = column._order! - 1
         }
       }
-    } else {
+    }
+    else {
       for (const column of columns.value) {
         if (column._order! >= newOrder && column._order! < oldOrder) {
           column._order = column._order! + 1
@@ -83,6 +84,6 @@ export function useColumns(originColumns: Ref<ProTableColumn[]>) {
     updateColumnsVisible,
     updateColumnsFixed,
     updateColumnsOrder,
-    resetColumns
+    resetColumns,
   }
 }

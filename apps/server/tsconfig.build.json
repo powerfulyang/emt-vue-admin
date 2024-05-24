@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "sourceMap": true
   },
   "exclude": [
     "vitest.wrangler.config.ts",

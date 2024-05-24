@@ -20,9 +20,18 @@ export class BucketService {
 
   async uploadAsset(input: z.infer<typeof uploadAssetInput>) {
     const file = input.asset
-    const hash = await sha1(file.stream())
+    const hash = await sha1(new Uint8Array(await file.arrayBuffer()))
     if (!hash) {
       throw new Error('Failed to hash file')
+    }
+    // check if hash is already in db
+    const existing = await this.ctx.prisma.asset.findFirst({
+      where: {
+        hash,
+      },
+    })
+    if (existing) {
+      return existing
     }
     const mime = file.type
     const ext = getExtension(mime)

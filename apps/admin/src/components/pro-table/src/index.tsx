@@ -1,6 +1,5 @@
 import {
   type CSSProperties,
-  type DefineComponent,
   type PropType,
   type VNodeChild,
   computed,
@@ -26,7 +25,6 @@ import type {
   RenderSearchParams,
   RequestParams,
   SearchAction,
-  TableAttrs,
   TableLoading,
   TablePagination,
   TableSize,
@@ -368,7 +366,7 @@ const ProTable = defineComponent({
         vertical
         size={props.segmented ? 10 : 0}
         wrapItem={false}
-        class={['h-full', styles['pro-table'], attrs.class]}
+        class={['h-[65vh]', styles['pro-table'], attrs.class]}
         style={attrs.style}
       >
         {props.search
@@ -433,4 +431,4 @@ const ProTable = defineComponent({
   },
 })
 
-export default ProTable as typeof ProTable & { new (): Exposed } & DefineComponent<TableAttrs>
+export default ProTable

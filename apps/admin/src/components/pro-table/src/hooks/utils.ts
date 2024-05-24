@@ -1,13 +1,14 @@
+import dayjs from 'dayjs'
 import type { DataTableColumn } from 'naive-ui'
 import type {
   ProTableColumn,
   ProTableColumnSpecific,
   SearchColumn,
-  SettingColumn
+  SettingColumn,
 } from '../typings'
 
 export function filterSearchColumns(columns: ProTableColumn[]) {
-  const _columns = columns.filter((column) => !column.type && !column.hideInSearch)
+  const _columns = columns.filter(column => !column.type && !column.hideInSearch)
   return _columns.map((column) => {
     const result: SearchColumn = {
       key: (column as any).key,
@@ -20,14 +21,14 @@ export function filterSearchColumns(columns: ProTableColumn[]) {
       disabled: column.searchDisabled,
       onChange: column.onSearchChange,
       renderLabel: column.renderSearchLabel,
-      renderField: column.renderSearchField
+      renderField: column.renderSearchField,
     }
     return result
   })
 }
 
 export function filterSettingColumns(columns: ProTableColumn[]) {
-  const _columns = columns.filter((column) => !column.type && !column.hideInTable)
+  const _columns = columns.filter(column => !column.type && !column.hideInTable)
   return _columns
     .map((column) => {
       const result: SettingColumn = {
@@ -36,7 +37,7 @@ export function filterSettingColumns(columns: ProTableColumn[]) {
         visible: column._visible,
         fixed: column._fixed,
         order: column._order,
-        renderLabel: column.renderSettingLabel
+        renderLabel: column.renderSettingLabel,
       }
       return result
     })
@@ -62,15 +63,27 @@ const PROTABLE_COLUMN_SPECIFIC: Record<ProTableColumnSpecificKey, undefined> = {
   fixed: undefined,
   _fixed: undefined,
   order: undefined,
-  _order: undefined
+  _order: undefined,
+  valueType: undefined,
 }
 const PROTABLE_COLUMN_SPECIFIC_KEYS = Object.keys(
-  PROTABLE_COLUMN_SPECIFIC
+  PROTABLE_COLUMN_SPECIFIC,
 ) as ProTableColumnSpecificKey[]
 
 export function filterTableColumns(columns: ProTableColumn[]): DataTableColumn[] {
-  const _columns = columns.filter((column) => !column.hideInTable && column._visible)
+  const _columns = columns.filter(column => !column.hideInTable && column._visible)
   return _columns
+    .map((column) => {
+      const valueType = column.valueType
+      if (valueType && !('render' in column)) {
+        if (valueType === 'datetime') {
+          column.render = (rowData) => {
+            return dayjs(rowData[column.key!]).format('YYYY-MM-DD HH:mm:ss')
+          }
+        }
+      }
+      return column
+    })
     .map((column) => {
       const _column = { ...column }
       for (const key of PROTABLE_COLUMN_SPECIFIC_KEYS) {

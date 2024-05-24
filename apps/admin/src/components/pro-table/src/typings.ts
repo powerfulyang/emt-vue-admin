@@ -6,59 +6,59 @@ import type {
   DataTableProps,
   DatePickerProps,
   SelectOption,
-  TreeSelectOption
+  TreeSelectOption,
 } from 'naive-ui'
 
-export type RenderSearchParams = {
+export interface RenderSearchParams {
   onSearch: (params?: any) => void
 }
 
-export type RenderSearchActionParams = {
+export interface RenderSearchActionParams {
   vnodes: VNodeChild[]
 }
 
 export type SearchAction = boolean | ((actionParams: RenderSearchActionParams) => VNodeChild)
 
-export type RenderActionParams = {
+export interface RenderActionParams {
   vnodes: VNodeChild[]
 }
 
-export type RenderContentParams = {
+export interface RenderContentParams {
   vnode: VNodeChild
 }
 
 export type DatePickerType = DatePickerProps['type']
-type CommonInputColumn = {
+interface CommonInputColumn {
   type?: 'input'
   options?: never
   searchType?: 'input'
   searchOptions?: never
 }
-type CommonInputNumberColumn = {
+interface CommonInputNumberColumn {
   type?: 'input-number'
   options?: never
   searchType?: 'input-number'
   searchOptions?: never
 }
-type CommonSelectColumn = {
+interface CommonSelectColumn {
   type?: 'select' | 'multiple-select'
   options?: SelectOption[] | (() => SelectOption[] | undefined)
   searchType?: 'select' | 'multiple-select'
   searchOptions?: SelectOption[] | (() => SelectOption[] | undefined)
 }
-type CommonTreeSelectColumn = {
+interface CommonTreeSelectColumn {
   type?: 'tree-select'
   options?: TreeSelectOption[] | (() => TreeSelectOption[] | undefined)
   searchType?: 'tree-select'
   searchOptions?: TreeSelectOption[] | (() => TreeSelectOption[] | undefined)
 }
-type CommonCascaderColumn = {
+interface CommonCascaderColumn {
   type?: 'cascader'
   options?: CascaderOption[] | (() => CascaderOption[] | undefined)
   searchType?: 'cascader'
   searchOptions?: CascaderOption[] | (() => CascaderOption[] | undefined)
 }
-type CommonDatePickerColumn = {
+interface CommonDatePickerColumn {
   type?: DatePickerType
   options?: never
   searchType?: DatePickerType
@@ -80,7 +80,7 @@ export type SearchColumn = FieldColumn & {
   defaultValue?: unknown
   clearable?: boolean
   disabled?: boolean | ((params: any) => boolean)
-  onChange?: OnSearchChange | { watch?: boolean; immediate?: boolean; handler: OnSearchChange }
+  onChange?: OnSearchChange | { watch?: boolean, immediate?: boolean, handler: OnSearchChange }
   renderLabel?: (label?: string) => VNodeChild
   renderField?: (
     params: any,
@@ -93,7 +93,7 @@ export type SearchColumn = FieldColumn & {
   ) => VNodeChild
 }
 
-export type SettingColumn = {
+export interface SettingColumn {
   key: DataTableColumnKey
   label?: string | (() => VNodeChild)
   visible?: boolean
@@ -135,9 +135,16 @@ export type ProTableColumnSpecific = SearchFieldColumn & {
   _fixed?: SettingColumn['fixed']
   order?: SettingColumn['order']
   _order?: SettingColumn['order']
+
+  // valueType
+  valueType?: 'datetime' | 'date' | 'time' | 'number' | 'string' | 'boolean' | 'json' | 'array' | 'object'
 }
-export type ProTableColumn<T = Record<string, unknown>> = DataTableColumn<T> &
-  ProTableColumnSpecific
+export type ProTableColumn<T = Record<string, unknown>> =
+  DataTableColumn<T> &
+  ProTableColumnSpecific &
+  {
+    key?: keyof T
+  }
 
 export type RequestParams = Record<DataTableColumnKey, any> & {
   page?: number

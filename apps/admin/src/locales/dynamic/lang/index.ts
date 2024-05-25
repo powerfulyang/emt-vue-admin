@@ -5,6 +5,8 @@ export const zhCN = {
     'workbench': '工作台',
     'table': '表格',
     'advanced-table': '高级表格',
+    'bucket-manage': '桶管理',
+    'bucket-list': '桶列表',
   },
 }
 
@@ -15,5 +17,7 @@ export const enUS = {
     'workbench': 'Workbench',
     'table': 'Table',
     'advanced-table': 'Advanced Table',
+    'bucket-manage': 'Bucket Manage',
+    'bucket-list': 'Bucket List',
   },
 }

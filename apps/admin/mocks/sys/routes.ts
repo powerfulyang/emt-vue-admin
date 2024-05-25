@@ -31,14 +31,14 @@ const routes = [
     ],
   },
   {
-    title: 'menu.image-manage',
-    path: 'image',
-    icon: 'image',
+    title: 'menu.bucket-manage',
+    path: 'bucket',
+    icon: 'bucket',
     children: [
       {
-        title: 'menu.image-list',
+        title: 'menu.bucket-list',
         path: 'list',
-        icon: 'image-list',
+        icon: 'bucket-list',
       },
     ],
   },
